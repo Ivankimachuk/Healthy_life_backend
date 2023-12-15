@@ -22,7 +22,7 @@ const signup = async (req, res) => {
     id: newUser._id,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '10 years' });
 
   await User.findByIdAndUpdate(newUser._id, { token });
 
@@ -51,7 +51,7 @@ const signin = async (req, res) => {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '10 years' });
 
   await User.findByIdAndUpdate(user._id, { token });
 
