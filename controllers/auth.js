@@ -18,11 +18,20 @@ const signup = async (req, res) => {
 
   const newUser = await User.create({ ...req.body, password: hashPassword });
 
+  const payload = {
+    id: newUser._id,
+  };
+
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
+
+  await User.findByIdAndUpdate(newUser._id, { token });
+
   res.status(201).json({
     name: newUser.name,
     email: newUser.email,
     password: newUser.password,
     age: newUser.age,
+    token,
   });
 };
 
@@ -51,8 +60,6 @@ const signin = async (req, res) => {
   });
 };
 
-
-
 const signout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
@@ -62,11 +69,8 @@ const signout = async (req, res) => {
   });
 };
 
-
-
 module.exports = {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
-  
   signout: ctrlWrapper(signout),
 };
