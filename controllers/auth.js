@@ -7,7 +7,7 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 
 const { SECRET_KEY } = process.env;
 
-const register = async (req, res) => {
+const signup = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (user) {
@@ -19,12 +19,14 @@ const register = async (req, res) => {
   const newUser = await User.create({ ...req.body, password: hashPassword });
 
   res.status(201).json({
-    password: newUser.password,
+    name: newUser.name,
     email: newUser.email,
+    password: newUser.password,
+    age: newUser.age,
   });
 };
 
-const login = async (req, res) => {
+const signin = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -41,7 +43,7 @@ const login = async (req, res) => {
   };
 
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "23h" });
-  console.log('Generated Token:', token); // Додайте цей рядок
+
   await User.findByIdAndUpdate(user._id, { token });
 
   res.json({
@@ -49,16 +51,9 @@ const login = async (req, res) => {
   });
 };
 
-const getCurrent = async (req, res) => {
-  const { email, subscription } = req.user;
 
-  res.json({
-    email,
-    subscription,
-  });
-};
 
-const Logout = async (req, res) => {
+const signout = async (req, res) => {
   const { _id } = req.user;
   await User.findByIdAndUpdate(_id, { token: "" });
 
@@ -67,9 +62,11 @@ const Logout = async (req, res) => {
   });
 };
 
+
+
 module.exports = {
-  register: ctrlWrapper(register),
-  login: ctrlWrapper(login),
-  getCurrent: ctrlWrapper(getCurrent),
-  Logout: ctrlWrapper(Logout),
+  signup: ctrlWrapper(signup),
+  signin: ctrlWrapper(signin),
+  
+  signout: ctrlWrapper(signout),
 };

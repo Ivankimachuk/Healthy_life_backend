@@ -4,9 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRouter = require("./routes/api/auth");
-const contactsRouter = require("./routes/api/contacts");
 const recommendedFoodsRouter = require("./routes/api/recommendedFoods");
-
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -16,7 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
-app.use("/api/contacts", contactsRouter);
 
 app.use("/api/recommended-food", recommendedFoodsRouter);
 
