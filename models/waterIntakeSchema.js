@@ -16,6 +16,10 @@ const { handleMongooseError } = require("../helpers");
     amount: {
         type: Number,
         required: true
+    },
+    weight: {
+        type: Number, // зберігаю вагу користувача у моделі
+        required: true
     }
 });
 
@@ -25,6 +29,7 @@ const addSchema = Joi.object({
   id: Joi.string().required(),
   date: Joi.date().required(),
   amount: Joi.number().required(),
+  weight: Joi.number().required(),
 })
 
 
@@ -33,11 +38,10 @@ const schemas = {
 };
 
 
-// Модель для збереження інформації про споживання води
+// модель для збереження інформації про споживання води
 const WaterIntake = model('waterIntake', waterIntakeSchema);
 
 module.exports = {
     WaterIntake,
-    schemas,
-    
+    schemas,    
 }
