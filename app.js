@@ -4,8 +4,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRouter = require("./routes/api/auth");
-
-
+const recommendedFoodsRouter = require("./routes/api/recommendedFoods");
 const app = express();
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -16,6 +15,7 @@ app.use(express.json());
 
 app.use("/api/auth", authRouter);
 
+app.use("/api/recommended-food", recommendedFoodsRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
