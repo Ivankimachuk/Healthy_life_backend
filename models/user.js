@@ -7,6 +7,10 @@ const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     password: {
       type: String,
       minLength: 6,
@@ -18,35 +22,66 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
-    subscription: {
-      type: String,
-      enum: ["starter", "pro", "business"],
-      default: "starter",
-    },
     token: {
       type: String,
       default: "",
     },
+    goal: {
+      type: String,
+      // required: true
+      // default:
+    },
+    gender: {
+      type: String,
+      enum: ["male", "female"],
+      default: null,
+      // required:true,
+    },
+    age: {
+      type: Number,
+      // required: true,
+    },
+    height: {
+      type: Number,
+      // required: true
+    },
+    weight: {
+      type: Number,
+      // required: true
+    },
+    activity: {
+      type: String,
+    },
+    // avatarUrl: {
+    //   type: String,
+    //   required: true,
+    // },
   },
   { versionKey: false, timestamps: true }
 );
 
 userSchema.post("save", handleMongooseError);
 
-const registerSchema = Joi.object({
+const signupSchema = Joi.object({
+  name: Joi.string().required(),
   password: Joi.string().min(6).required(),
   email: Joi.string().pattern(emailRegexp).required(),
-  subscription: Joi.string(),
+  goal: Joi.string(),
+  gender: Joi.string(),
+  age: Joi.number(),
+  height: Joi.number(),
+  weight: Joi.number(),
+  activity: Joi.string(),
 });
 
-const loginSchema = Joi.object({
+const signinSchema = Joi.object({
   password: Joi.string().min(6).required(),
   email: Joi.string().pattern(emailRegexp).required(),
 });
 
 const schemas = {
-  registerSchema,
-  loginSchema,
+  signupSchema,
+  signinSchema,
 };
 
 const User = model("user", userSchema);
