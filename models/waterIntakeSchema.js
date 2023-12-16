@@ -3,6 +3,10 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
+const currentDate = Date.now();
+        const today = new Date(currentDate);
+        const todayDate = today.toISOString().slice(0,10)
+
 const waterIntakeSchema = Schema({
     value: {
         type: Number,
@@ -15,28 +19,33 @@ const waterIntakeSchema = Schema({
     },
     date: {
         type: String,
-        default: Date.now,
+        default: todayDate,
     }
 }, { versionKey: false, timestamps: true });
 
-waterIntakeSchema.post("save", handleMongooseError);
+// waterIntakeSchema.post("save", handleMongooseError);
+const WaterIntake = model("WaterIntake", waterIntakeSchema); // Creating the model
 
-const addSchema = Joi.object({
+
+const addWater = Joi.object({
+    value: Joi.number().required(), 
+    token: Joi.string(),
+});
+
+const updateWaterIntake = Joi.object({
     value: Joi.number().required(),
-    date: Joi.date().required(),
-})
-   
+    date: Joi.string(),
+});
 
-waterIntakeSchema.post("save", handleMongooseError);
-
-const schemas = {
-  addSchema,  
-};
-
-// модель для збереження інформації про споживання води
-const WaterIntake = model('waterIntake', waterIntakeSchema);
+const getWater = Joi.object({
+    value: Joi.number(),
+    date: Joi.string(),
+});
 
 module.exports = {
     WaterIntake,
-    schemas,    
-}
+    addWater,
+    updateWaterIntake,
+    getWater,
+    waterIntakeSchema,
+};

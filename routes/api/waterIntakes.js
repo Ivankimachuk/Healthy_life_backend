@@ -1,17 +1,38 @@
 const express = require("express");
-
 const router = express.Router();
 
-const ctrl = require("../../controllers/intakesWater");
-const { isValidIdWater, authenticate, isValidId } = require("../../middlewares");
+const {
+    getWaterIntake,
+    addWaterIntake,
+    // saveWaterIntake,
+    // deleteByIdWater
+} = require("../../controllers/intakesWater");
 
-const { schemas } = require("../../models/waterIntakeSchema")
+const {
+    validateBody,
+    authenticate,    
+} = require("../../middlewares");
 
+const { getWater, addWater } = require("../../models/waterIntakeSchema"); // Updated schema references
 
-router.get("/", authenticate, ctrl.getwaterIntake);
+const isValidWater = require("../../middlewares/isValidWater");
+const { ctrlWrapper } = require("../../helpers");
 
-router.post('/', authenticate, ctrl.addWaterIntake);
+// Routes for handling requests
 
-router.delete('/:id', authenticate, isValidId, ctrl.deleteByIdWater);
+router.get("/",
+    authenticate,
+    // Updated validation reference
+    getWaterIntake);
+
+router.post('/',
+    authenticate,
+    validateBody(addWater), // Updated validation reference
+    ctrlWrapper(addWaterIntake));
+
+// router.delete('/:id',
+//     authenticate,
+//     isValidWater,
+//     ctrlWrapper(deleteByIdWater));
 
 module.exports = router;

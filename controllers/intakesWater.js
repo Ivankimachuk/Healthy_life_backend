@@ -1,101 +1,116 @@
-const { WaterIntake } = require("../models/waterIntakeSchema");
+const { User } = require("../models/user");
+const { WaterIntake, waterIntakeSchema } = require("../models/waterIntakeSchema");
 
-// const calculateWaterIntake = (weight, activityLevel) => {
-//     const waterIntake = weight * 0.03; // базова потреба у воді
 
-//     switch (activityLevel) {
-//         case "low":
-//             waterIntake += 0.35; // легка активність
-//             break;
-//         case "medium":
-//             waterIntake += 0.35; // середня активність
-//             break;
-//         case "high":
-//             waterIntake += 0.35; // висока активність
-//             break;
-//         case "very_high":
-//             waterIntake += 0.7; // дуже висока активність
-//             break;
-//         default:
-//             break;
-//     }
-//     return waterIntake;
-// };
-
-const getWaterConsumption = async (req, res) => {
+const getWaterIntake = async (req, res) => {
     try {
-        const waterIntakeRecords = await WaterIntake.find();
-        res.status(200).json({ data: waterIntakeRecords });
-        // отримую поточну вагу користувача
-        // const weight = req.user.weight;
-        // const today = new Date().toDateString();
- 
-        // фільтрую записи для поточної дати
-        // const todayWaterIntakes = waterIntakeRecords.filter(intake => intake.date.toDateString() === today);
- 
-        // обчислюю спожиту воду за сьогодні
-        // const todayWaterConsumed = todayWaterIntakes.reduce((total, intake) => total + intake.amount, 0);
+        console.log("get")
+        const userId = req.user.id;
+        const waterIntakeRecord = await WaterIntake.find({ owner: userId });
+        console.log(waterIntakeRecord);
 
-        // отримую рівень активності користувача
-        // const activityLevel = req.user.activityLevel;
-
-        // обчислюю залишок води до норми 
-        // const dailyWaterIntake = calculateWaterIntake(weight, activityLevel);
-        // const waterLeft = dailyWaterIntake - todayWaterConsumed;
-        // res.json({
-        //     message: "Water consumption",
-        //     waterConsumed: todayWaterConsumed,
-        //     left: waterLeft > 0 ? waterLeft : 0
-        // })
-    } catch (error) {
-        res.satus(500).json({ message: "Server error" });
-    }
-};
-
-// повертає всі записи про спожиту воду користувачем
-const getwaterIntake = async (req, res) => {
-    try {
-        const result = await WaterIntake.find();
-        res.json(result);
-    } catch (error) {
-        res.status(500).json({ message: "Server error" });
-    }
-};
-
-const addWaterIntake = async (req, res) => {
-    try {
-        const { value, date } = req.body;
-        console.log(req.body)
-        // const date = Date.now();
-
-        const newWaterIntake = new WaterIntake({
-            value,
-            date, 
-            owner: req.user._id,
-        });
-
-   console.log(newWaterIntake)
-        await newWaterIntake.save();
-        res.json({ status: "success" });
+        res.status(200).json({ status: "success", waterIntakeRecord });
+            
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Failed to add water intake" });
+        res.status(500).json({ message: "Failed to get water intake for date" });
     }
 };
 
-const deleteByIdWater = async (req, res) => {
-    try {
-        const { id } = req.params;
-        await WaterIntake.findByIdAndDelete(id);
-        res.json({ status: "success" });
+const addWaterIntake = async (req, res, next) => {
+    try {    
+        const { value, token } = req.body;
+           
+        const user = await User.findOne({ token });
+        // console.log(user)
+        const { _id: owner } = user;
+        // console.log(owner)
+        const currentDate = Date.now();
+        const today = new Date(currentDate);
+        const todayDate = today.toISOString().slice(0,10)
+        
+        const water = await WaterIntake.findOne({ owner, date: todayDate})
+        console.log(water)
+
+        if (!water) {
+            const result = await WaterIntake.create({ owner, value });   
+            return res.json({ message: "success", result});
+        }
+        
+        water.value += Number(value);
+        water.save()
+        res.json({ message: "success", water});
+    
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: "Failed to delete water intake" });
     }
 };
 
-module.exports = {
-    getwaterIntake,
-    addWaterIntake,
-    deleteByIdWater,
-    getWaterConsumption,
+// const saveWaterIntake = async (req, res) => {
+//     try {
+//         const { value } = req.body;
+//         console.log(req.body)
+//         const currentDate = Date.now();
+//         const userId = req.user.id;
+
+//         if (!WaterIntake) {
+//             return res.status(500).json({
+//                 message: "WaterIntake model is not defined.",
+//             });
+//         }
+//         const waterIntakeRecord = await WaterIntake.findOne({ owner: userId, date: currentDate });
+            
+//         if (!waterIntakeRecord) {
+//             const newWaterIntake = await WaterIntake.create({
+//                 value,
+//                 date: currentDate,
+//                 owner: userId,
+//             });
+//             res.status(201).json({
+//                 status: "success",
+//                 code: 201,
+//                 date: {
+//                     date: currentDate,
+//                     value: newWaterIntake.value,
+//                 }
+//             });
+//         } else {
+//             waterIntakeRecord.value += value;
+//             await waterIntakeRecord.save();
+//             res.status(200).json({
+//                 status: "success",
+//                 code: 200,
+//                 date: {
+//                     date: currentDate,
+//                     value: waterIntakeRecord.value,
+//                 }
+//             });
+//         }
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             message: "Failed to update water intake",
+//         });
+//     };
+// };
+
+const deleteByIdWater = async (req, res) => {
+    try {
+        const currentDate = Date.now();
+        const userId = req.user.id;
+
+        await WaterIntake.findByIdAndDelete({owner: userId, date: currentDate});
+        
+        res.json({ status: "success" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Failed to delete water intake" });
+    }
 };
+
+        module.exports = {
+            getWaterIntake,
+            addWaterIntake,
+            deleteByIdWater,
+        }
