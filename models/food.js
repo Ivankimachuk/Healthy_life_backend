@@ -8,6 +8,7 @@ const ProductSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "user",
     },
+    breakfast: [{
         name: {
             type: String,
             required: true
@@ -34,43 +35,250 @@ const ProductSchema = new Schema({
             },
 
         },
-    }
-);
+        date: {
+            type: Date,
+            default: Date.now
+        }
+    }],
+    dinner: [{
+        name: {
+            type: String,
+            required: true
+        },
+        calories: {
+            type: Number,
+            default: 0,
+        },
+        nutrition: {
+            carbogidrate: {
+                type: Number,
+                default: 0,
+            },
+            protein: {
+                type: Number,
+                require: true,
+                default: 0,
+            },
+            fat: {
+                type: Number,
+                require: true,
+                default: 0,
 
-
-const foodSchema = new Schema(
-    {
-        owner: {
-            type: Schema.Types.ObjectId,
-            ref: "user",
-            // required: true,
+            },
         },
         date: {
             type: Date,
             default: Date.now
-        },
-        totalCalories: {
-            type: Number,
-            default: 0,
-        },
-        diary: {
-            breakfast: [{
-                ProductSchema
-
-            }],
-            dinner: [{
-                ProductSchema
-            }],
-            lunch: [
-                { ProductSchema }
-            ],
         }
+    }],
+    lunch: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            calories: {
+                type: Number,
+                default: 0,
+            },
+            nutrition: {
+                carbogidrate: {
+                    type: Number,
+                    default: 0,
+                },
+                protein: {
+                    type: Number,
+                    require: true,
+                    default: 0,
+                },
+                fat: {
+                    type: Number,
+                    require: true,
+                    default: 0,
+
+                },
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
+    snack: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            calories: {
+                type: Number,
+                default: 0,
+            },
+            nutrition: {
+                carbogidrate: {
+                    type: Number,
+                    default: 0,
+                },
+                protein: {
+                    type: Number,
+                    require: true,
+                    default: 0,
+                },
+                fat: {
+                    type: Number,
+                    require: true,
+                    default: 0,
+
+                },
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
+
+
     }
-)
+);
+
+
+
+// const foodSchema = new Schema(
+//     {
+//         owner: {
+//             type: Schema.Types.ObjectId,
+//             ref: "user",
+//             // required: true,
+//         },
+//         date: {
+//             type: Date,
+//             default: Date.now
+//         },
+//         totalCalories: {
+//             type: Number,
+//             default: 0,
+//         },
+//         {
+//             breakfast: [{
+
+//                 name: {
+//                     type: String,
+//                     required: true
+//                 },
+//                 calories: {
+//                     type: Number,
+//                     default: 0,
+//                 },
+//                 nutrition: {
+//                     carbogidrate: {
+//                         type: Number,
+//                         default: 0,
+//                     },
+//                     protein: {
+//                         type: Number,
+//                         require: true,
+//                         default: 0,
+//                     },
+//                     fat: {
+//                         type: Number,
+//                         require: true,
+//                         default: 0,
+
+//                     },
+
+//                 }],
+//         }
+//             dinner: [{
+//                 name: {
+//                     type: String,
+//                     required: true
+//                 },
+//                 calories: {
+//                     type: Number,
+//                     default: 0,
+//                 },
+//                 nutrition: {
+//                     carbogidrate: {
+//                         type: Number,
+//                         default: 0,
+//                     },
+//                     protein: {
+//                         type: Number,
+//                         require: true,
+//                         default: 0,
+//                     },
+//                     fat: {
+//                         type: Number,
+//                         require: true,
+//                         default: 0,
+
+//                     },
+//                 }],
+//         }
+//             lunch: [
+//                 {
+//                     name: {
+//                         type: String,
+//                         required: true
+//                     },
+//                     calories: {
+//                         type: Number,
+//                         default: 0,
+//                     },
+//                     nutrition: {
+//                         carbogidrate: {
+//                             type: Number,
+//                             default: 0,
+//                         },
+//                         protein: {
+//                             type: Number,
+//                             require: true,
+//                             default: 0,
+//                         },
+//                         fat: {
+//                             type: Number,
+//                             require: true,
+//                             default: 0,
+
+//                         },
+// }
+//             ],
+        
+//         snack: [
+//             {
+//                 name: {
+//                     type: String,
+//                     required: true
+//                 },
+//                 calories: {
+//                     type: Number,
+//                     default: 0,
+//                 },
+//                 nutrition: {
+//                     carbogidrate: {
+//                         type: Number,
+//                         default: 0,
+//                     },
+//                     protein: {
+//                         type: Number,
+//                         require: true,
+//                         default: 0,
+//                     },
+//                     fat: {
+//                         type: Number,
+//                         require: true,
+//                         default: 0,
+
+//                     },
+//                 }
+//             ],
+//     }
+// )
         
               
 
-foodSchema.post("save", handleMongooseError);
+// foodSchema.post("save", handleMongooseError);
 ProductSchema.post("save", handleMongooseError)
 const FoodIntakeSchema = Joi.object({
     id: Joi.string().required(),
@@ -84,20 +292,24 @@ const FoodIntakeSchema = Joi.object({
 
 const ProductMongooseSchema = Joi.object({
     id: Joi.string().required(),
-    name: Joi.date().required(),
-    calories: Joi.number().required(),
-    fat: Joi.number().required(),
-    proteine: Joi.number().required(),
-    carbogidrate: Joi.number().required(),
+    typeFood: Joi.string().required(),
+    userFood: Joi.object({
+        name: Joi.date().required(),
+        calories: Joi.number().required(),
+        fat: Joi.number().required(),
+        proteine: Joi.number().required(),
+        carbogidrate: Joi.number().required(),  
+    }).required()
+    
     
 
 })
 
-const FoodIntake = model("FoodIntake", foodSchema);
+// const FoodIntake = model("FoodIntake", foodSchema);
 const ProductIntake = model("ProductIntake", ProductSchema);
 
 module.exports = {
-    FoodIntake,
+    
     FoodIntakeSchema,
     ProductMongooseSchema,
     ProductIntake,
