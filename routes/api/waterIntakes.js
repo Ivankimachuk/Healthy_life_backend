@@ -12,7 +12,7 @@ const {
     authenticate,    
 } = require("../../middlewares");
 
-const { getWater, addWater } = require("../../models/waterIntakeSchema"); // Updated schema references
+const { addWater, deleteWater } = require("../../models/waterIntakeSchema"); 
 
 const isValidWater = require("../../middlewares/isValidWater");
 const { ctrlWrapper } = require("../../helpers");
@@ -27,8 +27,10 @@ router.post('/',
     validateBody(addWater), 
     ctrlWrapper(addWaterIntake));
 
-router.delete('/:id',
+router.delete('/',
     authenticate,
+    validateBody(deleteWater), 
+    isValidWater,
     deleteByIdWater);
 
 module.exports = router;

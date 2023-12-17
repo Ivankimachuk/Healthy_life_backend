@@ -1,7 +1,6 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
-
-// const { handleMongooseError } = require("../helpers");
+Joi.objectId = require('joi-objectid')(Joi);
 
 const currentDate = Date.now();
         const today = new Date(currentDate);
@@ -23,8 +22,8 @@ const waterIntakeSchema = Schema({
     }
 }, { versionKey: false, timestamps: true });
 
-// waterIntakeSchema.post("save", handleMongooseError);
-const WaterIntake = model("WaterIntake", waterIntakeSchema); // Creating the model
+
+const WaterIntake = model("WaterIntake", waterIntakeSchema); 
 
 
 const addWater = Joi.object({
@@ -32,9 +31,8 @@ const addWater = Joi.object({
     token: Joi.string(),
 });
 
-const updateWaterIntake = Joi.object({
-    value: Joi.number().required(),
-    date: Joi.string(),
+const deleteWater = Joi.object({
+    _id: Joi.objectId().required(),    
 });
 
 const getWater = Joi.object({
@@ -45,7 +43,7 @@ const getWater = Joi.object({
 module.exports = {
     WaterIntake,
     addWater,
-    updateWaterIntake,
+    deleteWater,
     getWater,
     waterIntakeSchema,
 };

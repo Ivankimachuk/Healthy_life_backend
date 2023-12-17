@@ -48,11 +48,10 @@ const addWaterIntake = async (req, res, next) => {
 
 const deleteByIdWater = async (req, res) => {
     try {
-        const { id } = req.params;
-        const userId = id; 
+        const { _id } = req.body;    
 
-        const result = await WaterIntake.findOneAndDelete({ owner: userId });
-        console.log(result);
+        const result = await WaterIntake.findOneAndDelete({ _id });
+        // console.log(result);
         if (!result) {
             return res.status(404).json({ message: "No water intake record found for today" });
         }
@@ -65,8 +64,8 @@ const deleteByIdWater = async (req, res) => {
     }
 };
 
-        module.exports = {
-            getWaterIntake,
-            addWaterIntake,
-            deleteByIdWater,
-        }
+module.exports = {
+    getWaterIntake,
+    addWaterIntake,
+    deleteByIdWater,
+}
