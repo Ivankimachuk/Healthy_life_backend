@@ -4,8 +4,7 @@ const router = express.Router();
 const {
     getWaterIntake,
     addWaterIntake,
-    // saveWaterIntake,
-    // deleteByIdWater
+    deleteByIdWater
 } = require("../../controllers/intakesWater");
 
 const {
@@ -18,21 +17,18 @@ const { getWater, addWater } = require("../../models/waterIntakeSchema"); // Upd
 const isValidWater = require("../../middlewares/isValidWater");
 const { ctrlWrapper } = require("../../helpers");
 
-// Routes for handling requests
-
+// Маршрути для обробки запитів
 router.get("/",
     authenticate,
-    // Updated validation reference
     getWaterIntake);
 
 router.post('/',
     authenticate,
-    validateBody(addWater), // Updated validation reference
+    validateBody(addWater), 
     ctrlWrapper(addWaterIntake));
 
-// router.delete('/:id',
-//     authenticate,
-//     isValidWater,
-//     ctrlWrapper(deleteByIdWater));
+router.delete('/:id',
+    authenticate,
+    deleteByIdWater);
 
 module.exports = router;

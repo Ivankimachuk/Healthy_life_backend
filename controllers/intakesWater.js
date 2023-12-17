@@ -1,5 +1,5 @@
 const { User } = require("../models/user");
-const { WaterIntake, waterIntakeSchema } = require("../models/waterIntakeSchema");
+const { WaterIntake } = require("../models/waterIntakeSchema");
 
 
 const getWaterIntake = async (req, res) => {
@@ -20,7 +20,6 @@ const getWaterIntake = async (req, res) => {
 const addWaterIntake = async (req, res, next) => {
     try {    
         const { value, token } = req.body;
-           
         const user = await User.findOne({ token });
         // console.log(user)
         const { _id: owner } = user;
@@ -47,63 +46,20 @@ const addWaterIntake = async (req, res, next) => {
     }
 };
 
-// const saveWaterIntake = async (req, res) => {
-//     try {
-//         const { value } = req.body;
-//         console.log(req.body)
-//         const currentDate = Date.now();
-//         const userId = req.user.id;
-
-//         if (!WaterIntake) {
-//             return res.status(500).json({
-//                 message: "WaterIntake model is not defined.",
-//             });
-//         }
-//         const waterIntakeRecord = await WaterIntake.findOne({ owner: userId, date: currentDate });
-            
-//         if (!waterIntakeRecord) {
-//             const newWaterIntake = await WaterIntake.create({
-//                 value,
-//                 date: currentDate,
-//                 owner: userId,
-//             });
-//             res.status(201).json({
-//                 status: "success",
-//                 code: 201,
-//                 date: {
-//                     date: currentDate,
-//                     value: newWaterIntake.value,
-//                 }
-//             });
-//         } else {
-//             waterIntakeRecord.value += value;
-//             await waterIntakeRecord.save();
-//             res.status(200).json({
-//                 status: "success",
-//                 code: 200,
-//                 date: {
-//                     date: currentDate,
-//                     value: waterIntakeRecord.value,
-//                 }
-//             });
-//         }
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({
-//             message: "Failed to update water intake",
-//         });
-//     };
-// };
-
 const deleteByIdWater = async (req, res) => {
     try {
-        const currentDate = Date.now();
-        const userId = req.user.id;
+        const { id } = req.params;
+        const userId = id; 
 
-        await WaterIntake.findByIdAndDelete({owner: userId, date: currentDate});
-        
-        res.json({ status: "success" });
-    } catch (error) {
+        const result = await WaterIntake.findOneAndDelete({ owner: userId });
+        console.log(result);
+        if (!result) {
+            return res.status(404).json({ message: "No water intake record found for today" });
+        }
+
+        res.status(200).json({ message: "Water intake record deleted successfully" });
+    }
+    catch (error) {
         console.error(error);
         res.status(500).json({ message: "Failed to delete water intake" });
     }
