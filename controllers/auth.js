@@ -2,81 +2,104 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const { User } = require("../models/user");
-const { calculateMacros } = require("../user-datails/calculateMacros");
+// const { calculateMacros } = require("../user-datails/calculateMacros");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
 
 const { SECRET_KEY } = process.env;
 
 const signup = async (req, res) => {
-  const {
-    name,
-    email,
-    password,
-    goal,
-    gender,
-    age,
-    height,
-    weight,
-    activityLevel,
-  } = req.body;
-
-  
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    throw HttpError(409, "Email already in use");
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+  if (user) {
+    throw HttpError(409, "Email alreade in use");
   }
 
-  
-  const isMale = gender === "male";
-  const bmr =
-    isMale
-      ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
-      : 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
-
-  
-  const calories = Math.round(bmr);
-  const { protein, fat, carbs } = calculateMacros(calories, goal);
-
-  
   const hashPassword = await bcrypt.hash(password, 10);
 
-  
-  const newUser = await User.create({
-    name,
-    email,
-    password: hashPassword,
-    goal,
-    gender,
-    age,
-    height,
-    weight,
-    activityLevel,
-    calories,
-    protein,
-    fat,
-    carbs,
-  });
+  const newUser = await User.create({ ...req.body, password: hashPassword });
 
-  
   const payload = {
     id: newUser._id,
   };
+
   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
 
-  
   await User.findByIdAndUpdate(newUser._id, { token });
 
-  
   res.status(201).json({
-    user: {
-      name: newUser.name,
-      email: newUser.email,
-    },
+    name: newUser.name,
+    email: newUser.email,
+    password: newUser.password,
+    // goal: newUser.goal,
+    // gender: newUser.gender,
+    // age: newUser.age,
+    // height: newUser.height,
+    // weight: newUser.weight,
     token,
   });
 };
 
+// const signup = async (req, res) => {
+//   const {
+//     name,
+//     email,
+//     password,
+//     goal,
+//     gender,
+//     age,
+//     height,
+//     weight,
+//     activityLevel,
+//   } = req.body;
+
+//   const existingUser = await User.findOne({ email });
+//   if (existingUser) {
+//     throw HttpError(409, "Email already in use");
+//   }
+
+//   const isMale = gender === "male";
+//   const bmr =
+//     isMale
+//       ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
+//       : 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
+
+//   const calories = Math.round(bmr);
+//   const { protein, fat, carbs } = calculateMacros(calories, goal);
+
+//   const hashPassword = await bcrypt.hash(password, 10);
+
+//   const newUser = await User.create({
+//     name,
+//     email,
+//     password: hashPassword,
+//     goal,
+//     gender,
+//     age,
+//     height,
+//     weight,
+//     activityLevel,
+//     calories,
+//     protein,
+//     fat,
+//     carbs,
+//   });
+
+//   const payload = {
+//     id: newUser._id,
+//   };
+//   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
+
+//   await User.findByIdAndUpdate(newUser._id, { token });
+
+//   res.status(201).json({
+//     user: {
+//       name: newUser.name,
+//       email: newUser.email,
+//     },
+//     token,
+//   });
+// };
 
 // const signup = async (req, res) => {
 //   const { email, password } = req.body;
@@ -144,8 +167,6 @@ const signup = async (req, res) => {
 //     },
 //   });
 // };
-
-
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
