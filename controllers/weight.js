@@ -5,14 +5,14 @@ const { Weight } = require("../models/weightModel");
 const updateWeight = async (req, res, next) => {
   const { newValue, token } = req.body;
   const user = await User.findOne({ token });
-  //   console.log(user);
+  console.log(user);
   const { _id: owner } = user;
-  //   console.log({ owner });
+  console.log({ owner });
 
   const currentDate = Date.now();
   const today = new Date(currentDate);
   const todayDate = today.toISOString().slice(0, 10);
-  //   console.log(newValue);
+  console.log(newValue);
   //   console.log(todayDate);
   try {
     const existingWeight = await Weight.findOne({ owner, date: todayDate });
@@ -30,7 +30,7 @@ const updateWeight = async (req, res, next) => {
       });
       await User.findByIdAndUpdate(
         owner,
-        { value: newWeight },
+        { weight: newValue },
         { new: true }
       ).exec();
     } else {
@@ -44,14 +44,14 @@ const updateWeight = async (req, res, next) => {
         code: 200,
         data: {
           date: todayDate,
-          value: existingWeight.value,
+          value: existingWeight.newValue,
         },
       });
     }
-    // меняем значение весы в колекции users
+    // меняем значение веса в колекции users
     await User.findByIdAndUpdate(
       owner,
-      { weight: existingWeight.value },
+      { weight: newValue },
       { new: true }
     ).exec();
   } catch (error) {
