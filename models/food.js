@@ -2,6 +2,11 @@ const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
+
+const currentDate = Date.now();
+const today = new Date(currentDate);
+const todayDate = today.toISOString().slice(0, 10)
+
 const ProductSchema = new Schema({
      
     owner: {
@@ -37,7 +42,7 @@ const ProductSchema = new Schema({
         },
         date: {
             type: Date,
-            default: Date.now
+            default: todayDate,
         }
     }],
     dinner: [{
@@ -67,8 +72,8 @@ const ProductSchema = new Schema({
             },
         },
         date: {
-            type: Date,
-            default: Date.now
+            type: String,
+            default: todayDate,
         }
     }],
     lunch: [
@@ -99,8 +104,8 @@ const ProductSchema = new Schema({
                 },
             },
             date: {
-                type: Date,
-                default: Date.now
+                type: String,
+                default: todayDate,
             }
         }
     ],
@@ -130,13 +135,34 @@ const ProductSchema = new Schema({
                     default: 0,
 
                 },
-            },
-            date: {
-                type: Date,
-                default: Date.now
             }
-        }
-    ],
+            ,
+            date: {
+                type: String,
+                default: todayDate,
+            }
+        } ]
+            
+           
+
+
+    ,
+    totalProteins: {
+        type: Number,
+        default: 0,
+    },
+    totalFats: {
+        type: Number,
+        default: 0,
+    },
+    totalCarbs: {
+        type: Number,
+        default: 0,
+    },
+    totalCalories: {
+        type: Number,
+        default: 0,
+    }
 
 
     }
@@ -290,15 +316,15 @@ const FoodIntakeSchema = Joi.object({
 
 
 
-const ProductMongooseSchema = Joi.object({
-    id: Joi.string().required(),
+const ProductJoiSchema = Joi.object({
+    
     typeFood: Joi.string().required(),
     userFood: Joi.object({
         name: Joi.date().required(),
         calories: Joi.number().required(),
         fat: Joi.number().required(),
         proteine: Joi.number().required(),
-        carbogidrate: Joi.number().required(),  
+        carbogidrate: Joi.number().required(), 
     }).required()
     
     
@@ -311,6 +337,6 @@ const ProductIntake = model("ProductIntake", ProductSchema);
 module.exports = {
     
     FoodIntakeSchema,
-    ProductMongooseSchema,
+    ProductJoiSchema,
     ProductIntake,
 }

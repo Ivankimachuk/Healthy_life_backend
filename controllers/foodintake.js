@@ -4,9 +4,11 @@ const { HttpError } = require("../helpers/index");
 
 const { ProductIntake } = require("../models/food");
 const { User } = require("../models/user");
+ const { updateTotalFood } = require("../helpers/totalFood");
 
-
-
+const currentDate = Date.now();
+const today = new Date(currentDate);
+const todayDate = today.toISOString().slice(0, 10)
 
 
 const addFoodIntake = async (req, res, next) => {
@@ -16,6 +18,8 @@ const addFoodIntake = async (req, res, next) => {
         const user = await User.findOne({ token });
         
         const { _id: owner } = user;
+        const { _id } = user;
+
         const food = await ProductIntake.findOne({ owner })
 
         if (!food) {
@@ -24,11 +28,21 @@ const addFoodIntake = async (req, res, next) => {
         }
         if (typeFood === "breakfast") {
             const userProducts = await ProductIntake.findOne({ owner })
-            
-            userProducts.breakfast.push(userFood)
-            const result = await userProducts.save()
+            userFood.map(item => userProducts.breakfast.push(item))
+           
+            const result = await userProducts.save().then(saveDoc => {console.log(saveDoc)})
 
-            if (!result) {
+            // const data = await ProductIntake.findOneAndUpdate({owner}, {
+            //     $push: {breakfast: {...userFood}}
+            // },{new:true})
+
+            const allFood = await ProductIntake.findOne({ owner, todayDate });
+            const { breakfast, dinner, lunch, snack } = allFood;
+            
+            const total = updateTotalFood(breakfast, dinner, snack, lunch)
+            const updateTotal = await ProductIntake.findOneAndUpdate({owner, todayDate}, total, {new: true})
+            
+            if (!result && !updateTotal) {
                 throw HttpError(404, "Not found");
             }
 
@@ -75,6 +89,27 @@ const addFoodIntake = async (req, res, next) => {
 
             res.json(result);
         }
+              
+             {
+                const newFoodIntake = new ProductIntake({
+             
+                    breakfast: typeFood.breakfast || { foodintakes: [] },
+                    lunch: typeFood.lunch || { foodintakes: [] },
+                    dinner: typeFood.dinner || { foodintakes: [] },
+                    snack: typeFood.snack || {foodintakes: [] },
+                    owner,
+                });
+                await newFoodIntake.save();
+                await updateTotalFood(newFoodIntake);
+
+                const createdIntake = await ProductIntake.findOne({
+            
+                    owner,
+                });
+                res.status(201)(console.log(createdIntake));
+            
+    
+        }
     }
     catch (error) {
         next(error);
@@ -88,12 +123,13 @@ const removeFood = async (req, res) => {
     if (!result) {
         throw HttpError(404, "Not found");
     }
-    res.json({ message: "contact deleted" });
+    res.json({ message: "food deleted" });
 };
 
 const updateFood = async (req, res) => {
     const { id } = req.params;
-    const result = await ProductIntake.findOneByIdAndUpdate({ id }, req.body, { new: true });
+    
+    const result = await ProductIntake.findByIdAndUpdate( {id} , req.body, { new: true });
     if (!result) {
         throw HttpError(404, "Not found");
     }
