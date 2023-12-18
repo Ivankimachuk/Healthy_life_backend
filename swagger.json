@@ -15,7 +15,7 @@
                         "$ref": "#/components/schemas/WaterIntake"
                     }
                  }
-               }
+              }
             },
              "500": {
               "description": "Не вдалося отримати інформацію про споживання води за поточну дату"
@@ -32,20 +32,20 @@
                 "in": "body",
                 "required": true,
                 "schema": {
-                    "$ref": "#/components/models/addWater"
-                }
+                    "$ref": "#/components/schemas/WaterIntake"}
               }
-            ],
-            "security": [{ "Bearer": [] }],
-            "requestBody": {
-                "required": true,
-                "content": {
+            }
+        ],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+            "required": true,
+            "content": {
                 "application/json": {
                     "schema": {
                         "$ref": "#/components/schemas/WaterIntake"
                     },
                     "example": {
-                        "value": 500,
+                        "value": "500",
                         "token": ""
                     }
                 }
@@ -58,25 +58,25 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WaterIntake"
-            },
-            "example": [
-                  { 
-                    "value": "500",
-                    "token": ""
-                  }
-                ]
-                }
-            }
+                },
+                  "example": [
+                    {
+                        "value": "500",
+                        "token": ""
+                    }
+                  ]
+              }
+          }
         },               
             "500": {
             "description": "Не вдалося додати запис про прийом води"
             }
         }
     },
-    "delete": {
-         "summary": "Видалити запи про прийом води", 
-         "description": "Видаляє запис про прийом води для зареєстрованого користувача",
-         "tags": ["Water Intake"],
+        "delete": {
+            "tags": ["Water Intake"],
+            "summary": "Видалити запи про прийом води", 
+            "description": "Видаляє запис про прийом води для зареєстрованого користувача",         
               "parameters": [
              {
                 "name": "body",
@@ -86,7 +86,7 @@
                   "application/json": {
                     "schema": {
                       "$ref": "#/components/models/deleteWater"
-                  }
+                    }
                 }
             }
         }
@@ -98,8 +98,9 @@
                  "application/json": {
                     "schema": {
                         "$ref": "#/components/schemas/WaterIntake"
-                    }
-                 }
+                    },
+                     "example": { "_id": "" }               
+                }
              }
           },    
          "responses": {
@@ -107,13 +108,14 @@
                 "description": "Успішно видалений запис про прийом води"
             }
          }
-     }
+      }
     }   
 },
 "components": {
     "schemas": {  
     "WaterIntakeInput": {
       "type": "object",
+      "required": ["value", "token"],
       "properties": {
         "value": {
           "type": "number",
@@ -123,26 +125,25 @@
           "type": "string",
           "description": "User's authentication token"
         }
-      },
-      "required": ["value", "token"]
+      }     
     },
     "WaterIntakeDeleteInput": {
       "type": "object",
+      "required": ["_id"],
       "properties": {
         "_id": {
           "type": "string",
           "description": "Identifier of the water intake record to delete"
         }
-      },
-      "required": ["_id"]
-    }
+      }     
   },
-  "securitySchemas": {
-    "BearerAuth": {
+    "securitySchemas": {
+     "Bearer": {
       "type": "apiKey",
       "name": "Authorization",
       "in": "header",
       "description": "Use a Bearer token for authentication"
     }
   }
+ } 
 }
