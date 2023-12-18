@@ -65,6 +65,10 @@ const userSchema = new Schema(
     },
     avatarUrl: {
       type: String,
+      default: "",
+    },
+    activity: {
+      type: String,
       // required: true,
       default: "",
     },
