@@ -9,138 +9,74 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { SECRET_KEY } = process.env;
 
 const signup = async (req, res) => {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
-  if (user) {
-    throw HttpError(409, "Email alreade in use");
+  const {
+    name,
+    email,
+    password,
+    goal,
+    gender,
+    age,
+    height,
+    weight,
+    activityLevel,
+  } = req.body;
+
+  
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw HttpError(409, "Email already in use");
   }
 
-  const hashPassword = await bcrypt.hash(password, 10);
+  
+  const isMale = gender === "male";
+  const bmr =
+    isMale
+      ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
+      : 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
 
-  const newUser = await User.create({ ...req.body, password: hashPassword });
-
-  const payload = {
-    id: newUser._id,
-  };
-
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
-
-  await User.findByIdAndUpdate(newUser._id, { token });
-  res.status(201).json({
-    name: newUser.name,
-    email: newUser.email,
-    password: newUser.password,
-    verify: newUser.verify,
-    token,
-  });
-};
-
-const getCurrent = async (req, res) => {
-  const { email, name, avatarURL, goal, weight, height, age, activityLevel } =
-    req.user;
-
-  // Обчислення bmr по статі ///
-  const isMale = req.user.gender === "male";
-  const bmr = isMale
-    ? (88.362 + 13.397 * weight + 4.799 * height - 5.677 * age) * activityLevel
-    : (447.593 + 9.247 * weight + 3.098 * height - 4.33 * age) * activityLevel;
-
-  // Обчислення макроелементів ///
+  
   const calories = Math.round(bmr);
-  console.log(calories);
   const { protein, fat, carbs } = calculateMacros(calories, goal);
 
-  const updateData = {
+  
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  
+  const newUser = await User.create({
+    name,
+    email,
+    password: hashPassword,
+    goal,
+    gender,
+    age,
+    height,
+    weight,
+    activityLevel,
     calories,
     protein,
     fat,
     carbs,
+  });
+
+  
+  const payload = {
+    id: newUser._id,
   };
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
 
-  // Знаходить користувача та оновлює дані
-  await User.findOneAndUpdate({ email }, { $set: updateData });
+  
+  await User.findByIdAndUpdate(newUser._id, { token });
 
-  res.json({
-    userData: {
-      name,
-      email,
-      avatarURL,
+  
+  res.status(201).json({
+    user: {
+      name: newUser.name,
+      email: newUser.email,
     },
-    userInfo: {
-      calories,
-      protein,
-      fat,
-      carbs,
-    },
+    token,
   });
 };
 
-// const signup = async (req, res) => {
-//   try {
-//     const {
-//       email,
-//       password,
-//       gender,
-//       weight,
-//       height,
-//       age,
-//       activityLevel,
-//       goal,
-//     } = req.body;
-
-//     const { calories, protein, fat, carbs } = calculateMacros(
-//       gender,
-//       weight,
-//       height,
-//       age,
-//       activityLevel,
-//       goal
-//     );
-
-//     const user = await User.findOne({ email });
-//     if (user) {
-//       throw HttpError(409, "Email already in use");
-//     }
-
-//     const hashPassword = await bcrypt.hash(password, 10);
-
-//     const newUser = await User.create({
-//       ...req.body,
-//       password: hashPassword,
-//       calories,
-//       protein,
-//       fat,
-//       carbs,
-//     });
-
-//     const payload = {
-//       id: newUser._id,
-//     };
-
-//     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
-
-//     await User.findByIdAndUpdate(newUser._id, { token });
-
-//     res.status(201).json({
-//       name: newUser.name,
-//       email: newUser.email,
-//       password: newUser.password,
-//       goal: newUser.goal,
-//       gender: newUser.gender,
-//       age: newUser.age,
-//       height: newUser.height,
-//       weight: newUser.weight,
-//       calories,
-//       protein,
-//       fat,
-//       carbs,
-//       token,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: "Internal Server Error" });
-//   }
-// };
 
 // const signup = async (req, res) => {
 //   const { email, password } = req.body;
@@ -160,19 +96,56 @@ const getCurrent = async (req, res) => {
 //   const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
 
 //   await User.findByIdAndUpdate(newUser._id, { token });
-
 //   res.status(201).json({
 //     name: newUser.name,
 //     email: newUser.email,
 //     password: newUser.password,
-//     goal: newUser.goal,
-//     gender: newUser.gender,
-//     age: newUser.age,
-//     height: newUser.height,
-//     weight: newUser.weight,
+//     verify: newUser.verify,
 //     token,
 //   });
 // };
+
+// const getCurrent = async (req, res) => {
+//   const { email, name, avatarURL, goal, weight, height, age, activityLevel } =
+//     req.user;
+
+//   // Обчислення bmr по статі ///
+//   const isMale = req.user.gender === "male";
+//   const bmr = isMale
+//     ? (88.362 + 13.397 * weight + 4.799 * height - 5.677 * age) * activityLevel
+//     : (447.593 + 9.247 * weight + 3.098 * height - 4.33 * age) * activityLevel;
+
+//   // Обчислення макроелементів ///
+//   const calories = Math.round(bmr);
+//   console.log(calories);
+//   const { protein, fat, carbs } = calculateMacros(calories, goal);
+
+//   const updateData = {
+//     calories,
+//     protein,
+//     fat,
+//     carbs,
+//   };
+
+//   // Знаходить користувача та оновлює дані
+//   await User.findOneAndUpdate({ email }, { $set: updateData });
+
+//   res.json({
+//     userData: {
+//       name,
+//       email,
+//       avatarURL,
+//     },
+//     userInfo: {
+//       calories,
+//       protein,
+//       fat,
+//       carbs,
+//     },
+//   });
+// };
+
+
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -210,7 +183,7 @@ const signout = async (req, res) => {
 
 module.exports = {
   signup: ctrlWrapper(signup),
-  getCurrent: ctrlWrapper(getCurrent),
+  // getCurrent: ctrlWrapper(getCurrent),
   signin: ctrlWrapper(signin),
   signout: ctrlWrapper(signout),
 };
