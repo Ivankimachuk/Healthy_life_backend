@@ -42,10 +42,11 @@ const updateWeight = async (req, res, next) => {
       res.status(200).json({
         status: "success",
         code: 200,
-        data: {
-          date: todayDate,
-          value: existingWeight.newValue,
-        },
+        data: existingWeight,
+        // data: {
+        //   date: todayDate,
+        //   //   value: existingWeight.newValue,
+        // },
       });
     }
     // меняем значение веса в колекции users

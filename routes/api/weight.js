@@ -1,11 +1,11 @@
 const express = require("express");
 const { updateWeight } = require("../../controllers/weight");
-// const { validateBody, authenticate } = require("../../middlewares");
-// const { schemaWeight } = require("../../models/weightModel");
-// const { ctrlWrapper } = require("../../utils");
+const { validateBody, authenticate } = require("../../middlewares");
+const { schemaWeight } = require("../../models/weightModel");
+// const { ctrlWrapper } = require("../../helpers/ctrlWrapper");
 const router = express.Router();
 
-router.patch("/", updateWeight);
+router.post("/", authenticate, validateBody(schemaWeight), updateWeight);
 
 module.exports = router;
 
