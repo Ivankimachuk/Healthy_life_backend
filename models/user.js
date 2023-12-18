@@ -59,8 +59,8 @@ const userSchema = new Schema(
     },
     activityLevel: {
       type: Number,
-      enum: [1, 2, 3, 4, 5],
-      default: 1,
+      enum: [1.2, 1.375, 1.55, 1.725, 1.9],
+      default: 1.2,
       // required: true,
     },
     avatarUrl: {
