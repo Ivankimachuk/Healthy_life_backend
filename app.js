@@ -2,6 +2,7 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
+const path = require("path");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
@@ -13,6 +14,8 @@ const intakesWaterRouter = require("./routes/api/waterIntakes");
 const weightRouter = require("./routes/api/weight");
 const app = express();
 
+app.use("/avatars", express.static(path.join(__dirname, "uploads", "avatars")));
+
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
 app.use(logger(formatsLogger));
@@ -22,6 +25,7 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/auth", authRouter);
+app.use("/api/user", authRouter);
 
 app.use("/api/recommended-food", recommendedFoodsRouter);
 app.use("/api/user/water-intake", intakesWaterRouter);
