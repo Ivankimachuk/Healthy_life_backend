@@ -129,8 +129,8 @@ const signin = async (req, res) => {
 };
 
 const signout = async (req, res) => {
-  const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: "" });
+  const { token } = req.user;
+  await User.findOneAndUpdate({ token }, { token: "" });
 
   res.json({
     message: "Logout success",
