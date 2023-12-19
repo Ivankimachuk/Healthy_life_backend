@@ -2,15 +2,15 @@ const calculateMacros = (calories, goal) => {
   let proteinPercentage, fatPercentage;
 
   switch (goal) {
-    case "weight_loss":
+    case "Lose Fat":
       proteinPercentage = 0.25;
       fatPercentage = 0.2;
       break;
-    case "muscle_gain":
+    case "Maintain":
       proteinPercentage = 0.3;
       fatPercentage = 0.2;
       break;
-    case "weight_maintenance":
+    case "Gain Muscle":
       proteinPercentage = 0.2;
       fatPercentage = 0.25;
       break;
@@ -24,7 +24,6 @@ const calculateMacros = (calories, goal) => {
   const protein = Math.round((proteinPercentage * calories) / 4);
   const fat = Math.round((fatPercentage * calories) / 9);
   const carbs = Math.round((carbPercentage * calories) / 4);
-
   return { protein, fat, carbs };
 };
 
@@ -50,9 +49,8 @@ const calculateWaterRate = (weight, activityLevel) => {
     default:
       break;
   }
-  return  Math.round(waterRate);
+  return Math.round(waterRate);
 };
-
 
 module.exports = {
   calculateMacros,
