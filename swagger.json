@@ -23,6 +23,10 @@
     {
       "name": "Recommended Food",
       "description": "Recommended food endpoints"
+    },
+    {
+      "name": "Water Intake",
+      "description": "Water intake endpoints"
     }
   ],
   "paths": {
@@ -94,15 +98,82 @@
                 ]
               }
             }
+          },
+          "500": {
+            "description": "Server error. Unable to retrieve food recommendations."
+          }
+        }
+      }
+    },
+    "/api/user/water-intake": {
+      "post": {
+        "tags": ["Water Intake"],
+        "summary": "Додати запис про прийом води",
+        "description": "Додає новий запис про прийом води для автентифікованого користувача",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterIntakeInput"
+              },
+              "example": {
+                "value": "500",
+                "token": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішно доданий запис про прийом води",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeInputResponse"
+                },
+                "example": {
+                  "message": "Success",
+                  "result": {
+                    "value": 500,
+                    "token": ""
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Не вдалося додати запис про прийом води"
           }
         }
       },
-      "500": {
-        "description": "Server error. Unable to retrieve food recommendations."
+      "delete": {
+        "tags": ["Water Intake"],
+        "summary": "Видалити запис про прийом води",
+        "description": "Видаляє запис про прийом води для зареєстрованого користувача",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterIntakeDeleteInput"
+              },
+              "example": { "_id": "" }               
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішно видалений запис про прийом води"
+          }
+        }
       }
     }
   },
-
   "components": {
     "schemas": {
       "RegistrationRequest": {
@@ -183,6 +254,42 @@
             }
           }
         }
+      },
+      "WaterIntakeInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "Amount of water intake"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's authentication token"
+          }
+        }
+      },
+      "WaterIntakeInputResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Result of the operation"
+          },
+          "result": {
+            "type": "object",
+            "description": "Result of the operation"
+          }
+        }
+      },
+      "WaterIntakeDeleteInput": {
+        "type": "object",
+        "required": ["_id"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Identifier of the water intake record to delete"
+          }
+        } 
       }
     },
     "securitySchemes": {

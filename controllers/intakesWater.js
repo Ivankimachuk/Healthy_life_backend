@@ -42,7 +42,7 @@ const addWaterIntake = async (req, res, next) => {
     
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: "Failed to delete water intake" });
+        res.status(500).json({ message: "Failed to add water intake" });
     }
 };
 
