@@ -31,13 +31,13 @@ const userSchema = new Schema(
       type: String,
       enum: ["Lose Fat", "Maintain", "Gain Muscle"],
       default: "Lose Fat",
-      required: true
+      required: true,
     },
     gender: {
       type: String,
       enum: ["male", "female"],
       default: "male",
-      required:true,
+      required: true,
     },
     age: {
       type: Number,
@@ -49,13 +49,13 @@ const userSchema = new Schema(
       type: Number,
       min: 0,
       default: 150,
-      required: true
+      required: true,
     },
     weight: {
       type: Number,
       min: 0,
       default: 40,
-      required: true
+      required: true,
     },
     activityLevel: {
       type: Number,
