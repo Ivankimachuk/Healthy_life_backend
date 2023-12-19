@@ -52,7 +52,17 @@ const calculateWaterRate = (weight, activityLevel) => {
   return Math.round(waterRate);
 };
 
+const calculateBMR = (gender, weight, height, age) => {
+  const isMale = gender === "male";
+  const bmr = isMale
+    ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
+    : 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
+
+  return Math.round(bmr);
+};
+
 module.exports = {
   calculateMacros,
   calculateWaterRate,
+  calculateBMR,
 };

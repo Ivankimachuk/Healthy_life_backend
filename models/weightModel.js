@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const Joi = require("joi");
 
 const currentDate = Date.now();
 const today = new Date(currentDate);
@@ -23,11 +22,7 @@ const weightSchema = new Schema(
   },
   { versionKey: false, timestamps: true }
 );
-const updateWeight = Joi.object({
-  weight: Joi.number().required(),
-});
 
-const schemaWeight = { updateWeight };
 const Weight = model("weight", weightSchema);
 
-module.exports = { Weight, schemaWeight };
+module.exports = { Weight };
