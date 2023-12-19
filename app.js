@@ -10,8 +10,8 @@ const swaggerDocument = require("./swagger.json");
 const authRouter = require("./routes/api/auth");
 const recommendedFoodsRouter = require("./routes/api/recommendedFoods");
 const intakesWaterRouter = require("./routes/api/waterIntakes");
+const userRouter = require("./routes/api/user");
 
-const weightRouter = require("./routes/api/weight");
 const app = express();
 
 app.use("/avatars", express.static(path.join(__dirname, "uploads", "avatars")));
@@ -25,11 +25,11 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/api/auth", authRouter);
-app.use("/api/user", authRouter);
+app.use("/api/user", userRouter);
 
 app.use("/api/recommended-food", recommendedFoodsRouter);
 app.use("/api/user/water-intake", intakesWaterRouter);
-app.use("/api/user/weight", weightRouter);
+// app.use("/api/user/weight", weightRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
