@@ -29,6 +29,7 @@ app.use("/api/user", userRouter);
 
 app.use("/api/recommended-food", recommendedFoodsRouter);
 app.use("/api/user/water-intake", intakesWaterRouter);
+// app.use("/api/user/weight", weightRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });

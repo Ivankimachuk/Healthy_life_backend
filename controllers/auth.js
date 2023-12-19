@@ -6,6 +6,7 @@ const { User } = require("../models/user");
 const {
   calculateMacros,
   calculateWaterRate,
+  calculateBMR,
 } = require("../user-datails/calculateMacros");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
@@ -30,12 +31,7 @@ const signup = async (req, res) => {
     throw HttpError(409, "Email already in use");
   }
 
-  const isMale = gender === "male";
-  const bmr = isMale
-    ? 88.362 + 13.397 * weight + 4.799 * height - 5.677 * age
-    : 447.593 + 9.247 * weight + 3.098 * height - 4.33 * age;
-
-  const BMR = Math.round(bmr);
+  const BMR = calculateBMR(gender, weight, height, age);
 
   const { protein, fat, carbs } = await calculateMacros(BMR, goal);
 

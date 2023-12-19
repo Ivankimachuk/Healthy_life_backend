@@ -7,9 +7,10 @@ const { authenticate, validateBody } = require("../../middlewares");
 // const ctrlFood = require("../../controllers/userFood");
 // const ctrlWater = require("../../controllers/userWater");
 // const ctrlStatistics = require("../../controllers/statistics");
+
 const { ctrlWrapper } = require("../../helpers");
 const multer = require("multer");
-
+const ctrlUserWeight = require("../../controllers/userWeight");
 const ctrlUserGoal = require("../../controllers/userGoal");
 const { schemas } = require("../../models/user");
 
@@ -26,7 +27,12 @@ router.put(
   ctrlUserGoal.changeGoal
 );
 
-// router.post("/weight", authenticate, ctrlUser.updateWeight);
+router.post(
+  "/weight",
+  authenticate,
+  validateBody(schemas.weightUpdateUser),
+  ctrlUserWeight.updateWeight
+);
 
 // router.post("/food-intake", authenticate, ctrlFood.saveFoodIntake);
 
