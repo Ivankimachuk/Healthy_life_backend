@@ -12,6 +12,10 @@ const ProductSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: "user",
+        date: {
+            type: Date,
+            default: todayDate,
+        }
     },
     breakfast: [{
         name: {
@@ -40,10 +44,7 @@ const ProductSchema = new Schema({
             },
 
         },
-        date: {
-            type: Date,
-            default: todayDate,
-        }
+        
     }],
     dinner: [{
         name: {
@@ -70,11 +71,7 @@ const ProductSchema = new Schema({
                 default: 0,
 
             },
-        },
-        date: {
-            type: String,
-            default: todayDate,
-        }
+        },   
     }],
     lunch: [
         {
@@ -103,10 +100,6 @@ const ProductSchema = new Schema({
 
                 },
             },
-            date: {
-                type: String,
-                default: todayDate,
-            }
         }
     ],
     snack: [
@@ -137,16 +130,7 @@ const ProductSchema = new Schema({
                 },
             }
             ,
-            date: {
-                type: String,
-                default: todayDate,
-            }
-        } ]
-            
-           
-
-
-    ,
+        } ],
     totalProteins: {
         type: Number,
         default: 0,

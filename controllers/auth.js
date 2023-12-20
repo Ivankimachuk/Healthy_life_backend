@@ -15,7 +15,6 @@ const { HttpError, ctrlWrapper } = require("../helpers");
 const { SECRET_KEY } = process.env;
 
 const signup = async (req, res) => {
-
   const {
     name,
     email,
@@ -68,13 +67,7 @@ const signup = async (req, res) => {
 
   await User.findByIdAndUpdate(newUser._id, { token });
 
-  const payload = {
-    id: newUser._id,
-  };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
-
-  await User.findByIdAndUpdate(newUser._id, { token });
   res.status(201).json({
     user: {
       name: newUser.name,

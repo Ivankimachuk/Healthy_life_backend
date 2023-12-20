@@ -3,7 +3,6 @@ const { HttpError } = require("../helpers/index");
 /* const Joi = require('joi') */
 
 const { ProductIntake } = require("../models/food");
-const { User } = require("../models/user");
  const { updateTotalFood } = require("../helpers/totalFood");
 
 const currentDate = Date.now();
@@ -14,13 +13,11 @@ const todayDate = today.toISOString().slice(0, 10)
 const saveFoodIntake = async (req, res, next) => {
     try {
     
-        const { token, typeFood, userFood } = req.body;
-        const user = await User.findOne({ token });
-        
-        const { _id: owner } = user;
-      
+        const { typeFood, userFood } = req.body;
+        const { _id: owner } = req.user;
+    
 
-        const food = await ProductIntake.findOne({ owner })
+        const food = await ProductIntake.findOne({ owner, date: todayDate })
 
         if (!food) {
             await ProductIntake.create({ owner });
@@ -33,16 +30,6 @@ const saveFoodIntake = async (req, res, next) => {
             const result = await userProducts.save()
 
             
-
-            // const userProducts = await ProductIntake.findOne({ owner, todayDate })
-            // userFood.map(item => userProducts.breakfast.push(item))
-           
-            // const result = await userProducts.save().then(saveDoc => {console.log(saveDoc)})
-
-            // const data = await ProductIntake.findOneAndUpdate({owner}, {
-            //     $push: {breakfast: {...userFood}}
-            // },{new:true})
-
             const allFood = await ProductIntake.findOne({ owner, todayDate });
             const { breakfast, dinner, lunch, snack } = allFood;
             
@@ -53,7 +40,7 @@ const saveFoodIntake = async (req, res, next) => {
                 throw HttpError(404, "Not found");
             }
 
-            res.json(result);
+            res.json(updateTotal);
 
            
         }
