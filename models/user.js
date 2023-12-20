@@ -31,47 +31,46 @@ const userSchema = new Schema(
       type: String,
       enum: ["Lose Fat", "Maintain", "Gain Muscle"],
       default: "Lose Fat",
-      // required: true
+      required: true,
     },
     gender: {
       type: String,
       enum: ["male", "female"],
       default: "male",
-      // required:true,
+      required: true,
     },
     age: {
       type: Number,
       min: [0, "Age should be positive"],
       default: 18,
-      // required: true,
+      required: true,
     },
     height: {
       type: Number,
       min: 0,
-      default: 40,
-      // required: true
+      default: 150,
+      required: true,
     },
     weight: {
       type: Number,
       min: 0,
-      default: 150,
-      // required: true
+      default: 40,
+      required: true,
     },
-    // activityLevel: {
-    //   type: Number,
-    //   // enum: ["1.2", "1.375"," 1.55", "1.725", "1.9"],
-
-    //   default: 1.2,
-    //   // required: true,
-    // },
+    activityLevel: {
+      type: Number,
+      enum: [1.2, 1.375, 1.55, 1.725, 1.9],
+      default: 1.2,
+      required: true,
+    },
     avatarUrl: {
       type: String,
+      required: true,
       default: "",
     },
-    activity: {
+    idCloudAvatar: {
       type: String,
-      // required: true,
-      default: "",
+      default: null
     },
     waterRate: {
       type: Number,
@@ -108,7 +107,7 @@ const signupSchema = Joi.object({
   age: Joi.number(),
   height: Joi.number(),
   weight: Joi.number(),
-  // activity: Joi.number(),
+  activityLevel: Joi.number(),
 });
 
 const signinSchema = Joi.object({
@@ -118,13 +117,11 @@ const signinSchema = Joi.object({
 
 const forgotPasswordSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
-
 });
 
 const updateUserSchema = Joi.object({
   name: Joi.string().required(),
   // avatar: Joi.string().min(6).required(),
-
   goal: Joi.string(),
   gender: Joi.string(),
   age: Joi.number(),
@@ -135,10 +132,10 @@ const updateUserSchema = Joi.object({
 
 const goalUpdateUser = Joi.object({
   goal: Joi.string(),
-})
+});
 const weightUpdateUser = Joi.object({
   weight: Joi.number(),
-})
+});
 
 const schemas = {
   signupSchema,

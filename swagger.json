@@ -1,338 +1,304 @@
 {
-    "openapi": "3.0.1",
-    "info": {
-        "version": "1.0.0",
-        "title": "Swagger test",
-        "description": "Showing off swagger-ui-express",
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        }
-    },
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "servers": [
-        {
-            "url": "http://localhost:3000"
-        },
-        {
-            "url": "healthy-life-backend-b6ck.onrender.com"
-        }
-    ],
-    "tags": [
-        {
-            "name": "Auth",
-            "description": "Authorization endpoints"
-        },
-        {
-            "name": "Recommended Food",
-            "description": "Recommended food endpoints"
-        },
-        {
-            "name": "Water Intake",
-            "description": "Water intake endpoints"
-        }
-    ],
-    "paths": {
-        "/auth/signup": {
-            "post": {
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "User registration",
-                "parameters": [],
-                "requestBody": {
-                    "description": "Registration's object",
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/RegistrationRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RegistrationResponse"
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request (invalid request body)",
-                        "content": {}
-                    },
-                    "409": {
-                        "description": "Provided email already exists",
-                        "content": {}
-                    }
-                }
-            }
-        },
-        "/api/recommended-food": {
-            "get": {
-                "tags": [
-                    "Recommended Food"
-                ],
-                "summary": "Get food recommendations",
-                "description": "Retrieve a list of recommended food items.",
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful request. Returns a list of recommended food items.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/RecommendedFood"
-                                },
-                                "example": [
-                                    {
-                                        "_id": "657b338690119f0a27c9426c",
-                                        "name": "Apples",
-                                        "amount": "100 g",
-                                        "img": "https://res.cloudinary.com/dec1shvoo/image/upload/v1692479041/Your%20health/pngfind.com-apple-png-1037796_udjai9.png",
-                                        "calories": 52,
-                                        "nutrition": {
-                                            "carbohydrates": 14,
-                                            "protein": 0.3,
-                                            "fat": 0.2
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Server error. Unable to retrieve food recommendations."
-                    }
-                }
-            }
-        },
-        "/api/user/water-intake": {
-            "post": {
-                "tags": [
-                    "Water Intake"
-                ],
-                "summary": "Додати запис про прийом води",
-                "description": "Додає новий запис про прийом води для автентифікованого користувача",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/WaterIntakeInput"
-                            },
-                            "example": {
-                                "value": "500",
-                                "token": ""
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Успішно доданий запис про прийом води",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/WaterIntakeInputResponse"
-                                },
-                                "example": {
-                                    "message": "Success",
-                                    "result": {
-                                        "value": 500,
-                                        "token": ""
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Не вдалося додати запис про прийом води"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Water Intake"
-                ],
-                "summary": "Видалити запис про прийом води",
-                "description": "Видаляє запис про прийом води для зареєстрованого користувача",
-                "parameters": [],
-                "security": [
-                    {
-                        "Bearer": []
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/WaterIntakeDeleteInput"
-                            },
-                            "example": {
-                                "_id": ""
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Успішно видалений запис про прийом води"
-                    }
-                }
-            }
-        }
-    },
-    "components": {
-        "schemas": {
-            "RegistrationRequest": {
-                "type": "object",
-                "required": [
-                    "email",
-                    "password"
-                ],
-                "properties": {
-                    "email": {
-                        "type": "string",
-                        "description": "User's email",
-                        "format": "email"
-                    },
-                    "password": {
-                        "type": "string",
-                        "description": "User's password",
-                        "example": "qwerty123"
-                    }
-                }
-            },
-            "RegistrationResponse": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "email": {
-                            "type": "string",
-                            "description": "User's email",
-                            "format": "email"
-                        },
-                        "userId": {
-                            "type": "number",
-                            "description": "User's id",
-                            "example": "32143232436545474"
-                        }
-                    }
-                }
-            },
-            "RecommendedFood": {
-                "type": "array",
-                "items": {
-                    "type": "object",
-                    "properties": {
-                        "_id": {
-                            "type": "string",
-                            "description": "Id product"
-                        },
-                        "name": {
-                            "type": "string",
-                            "description": "Name of the product"
-                        },
-                        "amount": {
-                            "type": "string",
-                            "description": "Amount of the product"
-                        },
-                        "img": {
-                            "type": "string",
-                            "description": "Image of the product"
-                        },
-                        "calories": {
-                            "type": "number",
-                            "description": "Calories content"
-                        },
-                        "nutrition": {
-                            "type": "object",
-                            "properties": {
-                                "carbohydrates": {
-                                    "type": "number",
-                                    "description": "Carbonohidrates content"
-                                },
-                                "protein": {
-                                    "type": "number",
-                                    "description": "Protein content"
-                                },
-                                "fat": {
-                                    "type": "number",
-                                    "description": "Fat content"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "WaterIntakeInput": {
-                "type": "object",
-                "properties": {
-                    "value": {
-                        "type": "number",
-                        "description": "Amount of water intake"
-                    },
-                    "token": {
-                        "type": "string",
-                        "description": "User's authentication token"
-                    }
-                }
-            },
-            "WaterIntakeInputResponse": {
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "type": "string",
-                        "description": "Result of the operation"
-                    },
-                    "result": {
-                        "type": "object",
-                        "description": "Result of the operation"
-                    }
-                }
-            },
-            "WaterIntakeDeleteInput": {
-                "type": "object",
-                "required": [
-                    "_id"
-                ],
-                "properties": {
-                    "_id": {
-                        "type": "string",
-                        "description": "Identifier of the water intake record to delete"
-                    }
-                }
-            }
-        },
-        "securitySchemes": {
-            "Bearer": {
-                "type": "http",
-                "scheme": "bearer",
-                "bearerFormat": "JWT"
-            }
-        }
+
+  "openapi": "3.0.1",
+  "info": {
+    "version": "1.0.0",
+    "title": "Swagger test",
+    "description": "Showing off swagger-ui-express",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
     }
+  },
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "servers": [
+    { "url": "http://localhost:3000" },
+    { "url": "healthy-life-backend-b6ck.onrender.com" }
+  ],
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authorization endpoints"
+    },
+    {
+      "name": "Recommended Food",
+      "description": "Recommended food endpoints"
+    },
+    {
+      "name": "Water Intake",
+      "description": "Water intake endpoints"
+    }
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {}
+          },
+          "409": {
+            "description": "Provided email already exists",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/recommended-food": {
+      "get": {
+        "tags": ["Recommended Food"],
+        "summary": "Get food recommendations",
+        "description": "Retrieve a list of recommended food items.",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns a list of recommended food items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendedFood"
+                },
+                "example": [
+                  {
+                    "_id": "657b338690119f0a27c9426c",
+                    "name": "Apples",
+                    "amount": "100 g",
+                    "img": "https://res.cloudinary.com/dec1shvoo/image/upload/v1692479041/Your%20health/pngfind.com-apple-png-1037796_udjai9.png",
+                    "calories": 52,
+                    "nutrition": {
+                      "carbohydrates": 14,
+                      "protein": 0.3,
+                      "fat": 0.2
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Server error. Unable to retrieve food recommendations."
+          }
+        }
+      }
+    },
+    "/api/user/water-intake": {
+      "post": {
+        "tags": ["Water Intake"],
+        "summary": "Додати запис про прийом води",
+        "description": "Додає новий запис про прийом води для автентифікованого користувача",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterIntakeInput"
+              },
+              "example": {
+                "value": "500",
+                "token": ""
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішно доданий запис про прийом води",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeInputResponse"
+                },
+                "example": {
+                  "message": "Success",
+                  "result": {
+                    "value": 500,
+                    "token": ""
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Не вдалося додати запис про прийом води"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Water Intake"],
+        "summary": "Видалити запис про прийом води",
+        "description": "Видаляє запис про прийом води для зареєстрованого користувача",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WaterIntakeDeleteInput"
+              },
+              "example": { "_id": "" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успішно видалений запис про прийом води"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
+          }
+        }
+      },
+      "RegistrationResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "userId": {
+              "type": "number",
+              "description": "User's id",
+              "example": "32143232436545474"
+            }
+          }
+        }
+      },
+      "RecommendedFood": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Id product"
+            },
+            "name": {
+              "type": "string",
+              "description": "Name of the product"
+            },
+            "amount": {
+              "type": "string",
+              "description": "Amount of the product"
+            },
+            "img": {
+              "type": "string",
+              "description": "Image of the product"
+            },
+            "calories": {
+              "type": "number",
+              "description": "Calories content"
+            },
+            "nutrition": {
+              "type": "object",
+              "properties": {
+                "carbohydrates": {
+                  "type": "number",
+                  "description": "Carbonohidrates content"
+                },
+                "protein": {
+                  "type": "number",
+                  "description": "Protein content"
+                },
+                "fat": {
+                  "type": "number",
+                  "description": "Fat content"
+                }
+              }
+            }
+          }
+        }
+      },
+      "WaterIntakeInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "Amount of water intake"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's authentication token"
+          }
+        }
+      },
+      "WaterIntakeInputResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Result of the operation"
+          },
+          "result": {
+            "type": "object",
+            "description": "Result of the operation"
+          }
+        }
+      },
+      "WaterIntakeDeleteInput": {
+        "type": "object",
+        "required": ["_id"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Identifier of the water intake record to delete"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
 }

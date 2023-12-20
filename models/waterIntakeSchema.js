@@ -3,8 +3,8 @@ const Joi = require("joi");
 Joi.objectId = require('joi-objectid')(Joi);
 
 const currentDate = Date.now();
-const today = new Date(currentDate);
-const todayDate = today.toISOString().slice(0, 10)
+        const today = new Date(currentDate);
+        const todayDate = today.toISOString().slice(0,10)
 
 const waterIntakeSchema = Schema({
     value: {
@@ -23,27 +23,25 @@ const waterIntakeSchema = Schema({
 }, { versionKey: false, timestamps: true });
 
 
-const WaterIntake = model("WaterIntake", waterIntakeSchema);
+const WaterIntake = model("WaterIntake", waterIntakeSchema); 
 
 
 const addWater = Joi.object({
     value: Joi.number().required(),
-    token: Joi.string(),
 });
 
 const deleteWater = Joi.object({
-    _id: Joi.objectId().required(),
+    _id: Joi.objectId().required(),    
 });
 
-const getWater = Joi.object({
-    value: Joi.number(),
-    date: Joi.string(),
-});
+
+const schemasWater = {
+    addWater,
+    deleteWater
+}
 
 module.exports = {
     WaterIntake,
-    addWater,
-    deleteWater,
-    getWater,
+    schemasWater,
     waterIntakeSchema,
 };
