@@ -114,14 +114,16 @@ const saveFoodIntake = async (req, res, next) => {
 
 const deleteFoodIntake = async (req, res) => {
     try {
-        const {_id, todayDate} = req.user;
-      
-        const result = await ProductIntake.findOneAndDelete({ _id, todayDate });
+        const {_id: owner } = req.user;
+        const { typeFood } = req.body;
+        const food = await ProductIntake.findOne({ owner, date: todayDate });
+        food[typeFood] = [];
+        const result = await food.save()
     if (!result) {
-        return res.status(404).json({ message: "Not found" });
+        return res.status(404).json({ message: `Not found food` });
     }
 
-    res.status(200).json({ message: "Food delete" });
+    res.status(200).json({ message: "Food deleted success" });
 }
     catch (error) {
     console.error(error);
@@ -130,9 +132,12 @@ const deleteFoodIntake = async (req, res) => {
 };
 
 const updateFoodIntake = async (req, res) => {
-    const {_id} = req.user;
-    // const { calories, fat, protein, name, carbogidrate } = req.body;
-    const result = await ProductIntake.findOneAndUpdate( {_id} , req.body, { new: true },);
+    const { id: _id } = req.params;
+    const { typeFood, products } = req.body;
+    console.log(_id)
+    const food = await ProductIntake.findOne({ _id });
+    food[typeFood] = [...products];
+    const result = await food.save()
     if (!result) {
         throw HttpError(404, "Not found");
     }
