@@ -65,10 +65,12 @@ const userSchema = new Schema(
     },
     avatarUrl: {
       type: String,
-
       required: true,
-
       default: "",
+    },
+    idCloudAvatar: {
+      type: String,
+      default: null
     },
     waterRate: {
       type: Number,
@@ -120,7 +122,6 @@ const forgotPasswordSchema = Joi.object({
 const updateUserSchema = Joi.object({
   name: Joi.string().required(),
   // avatar: Joi.string().min(6).required(),
-
   goal: Joi.string(),
   gender: Joi.string(),
   age: Joi.number(),

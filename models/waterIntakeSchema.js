@@ -27,23 +27,21 @@ const WaterIntake = model("WaterIntake", waterIntakeSchema);
 
 
 const addWater = Joi.object({
-    value: Joi.number().required(), 
-    token: Joi.string(),
+    value: Joi.number().required(),
 });
 
 const deleteWater = Joi.object({
     _id: Joi.objectId().required(),    
 });
 
-const getWater = Joi.object({
-    value: Joi.number(),
-    date: Joi.string(),
-});
+
+const schemasWater = {
+    addWater,
+    deleteWater
+}
 
 module.exports = {
     WaterIntake,
-    addWater,
-    deleteWater,
-    getWater,
+    schemasWater,
     waterIntakeSchema,
 };
