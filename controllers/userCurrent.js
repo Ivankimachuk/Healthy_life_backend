@@ -20,7 +20,7 @@ const getCurrentUser = async (req, res) => {
     fatRate: currentUser.fatRate,
     carbsRate: currentUser.carbsRate,
   };
-  res.status(200).json({ data: userCurrentData });
+  res.status(200).json({ user: userCurrentData });
 };
 
 module.exports = { getCurrentUser: ctrlWrapper(getCurrentUser) };
