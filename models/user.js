@@ -3,12 +3,13 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
-const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+  const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
   {
     name: {
       type: String,
+      minlength: 2,
       required: true,
     },
     password: {
@@ -18,7 +19,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      match: emailRegexp,
+       match: emailRegexp,
       required: [true, "Email is required"],
       unique: true,
     },
@@ -28,34 +29,70 @@ const userSchema = new Schema(
     },
     goal: {
       type: String,
+      enum: ["Lose Fat", "Maintain", "Gain Muscle"],
+      default: "Lose Fat",
       // required: true
-      // default:
     },
     gender: {
       type: String,
       enum: ["male", "female"],
-      default: null,
+      default: "male",
       // required:true,
     },
     age: {
       type: Number,
+      min: [0, "Age should be positive"],
+      default: 18,
       // required: true,
     },
     height: {
       type: Number,
+      min: 0,
+      default: 40,
       // required: true
     },
     weight: {
       type: Number,
+      min: 0,
+      default: 150,
       // required: true
+    },
+    // activityLevel: {
+    //   type: Number,
+    //   // enum: ["1.2", "1.375"," 1.55", "1.725", "1.9"],
+
+    //   default: 1.2,
+    //   // required: true,
+    // },
+    avatarUrl: {
+      type: String,
+      default: "",
     },
     activity: {
       type: String,
+      // required: true,
+      default: "",
     },
-    // avatarUrl: {
-    //   type: String,
-    //   required: true,
-    // },
+    waterRate: {
+      type: Number,
+      default: 0,
+    },
+    BMRRate: {
+      type: Number,
+      default: 0,
+    },
+    proteinRate: {
+      type: Number,
+      default: 0,
+    },
+    fatRate: {
+      type: Number,
+      default: 0,
+    },
+    carbsRate: {
+      type: Number,
+      default: 0,
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -71,7 +108,7 @@ const signupSchema = Joi.object({
   age: Joi.number(),
   height: Joi.number(),
   weight: Joi.number(),
-  activity: Joi.string(),
+  // activity: Joi.number(),
 });
 
 const signinSchema = Joi.object({
@@ -79,9 +116,37 @@ const signinSchema = Joi.object({
   email: Joi.string().pattern(emailRegexp).required(),
 });
 
+const forgotPasswordSchema = Joi.object({
+  email: Joi.string().pattern(emailRegexp).required(),
+
+});
+
+const updateUserSchema = Joi.object({
+  name: Joi.string().required(),
+  // avatar: Joi.string().min(6).required(),
+
+  goal: Joi.string(),
+  gender: Joi.string(),
+  age: Joi.number(),
+  height: Joi.number(),
+  weight: Joi.number(),
+  activity: Joi.string(),
+});
+
+const goalUpdateUser = Joi.object({
+  goal: Joi.string(),
+})
+const weightUpdateUser = Joi.object({
+  weight: Joi.number(),
+})
+
 const schemas = {
   signupSchema,
   signinSchema,
+  forgotPasswordSchema,
+  updateUserSchema,
+  goalUpdateUser,
+  weightUpdateUser,
 };
 
 const User = model("user", userSchema);

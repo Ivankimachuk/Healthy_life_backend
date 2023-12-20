@@ -306,13 +306,13 @@ const ProductSchema = new Schema({
 
 // foodSchema.post("save", handleMongooseError);
 ProductSchema.post("save", handleMongooseError)
-const FoodIntakeSchema = Joi.object({
-    id: Joi.string().required(),
-    date: Joi.date().required(),
-    totalCalories: Joi.number().required(),
+// const FoodIntakeSchema = Joi.object({
+//     id: Joi.string().required(),
+//     date: Joi.date().required(),
+//     totalCalories: Joi.number().required(),
     
    
-});
+// });
 
 
 
@@ -336,7 +336,7 @@ const ProductIntake = model("ProductIntake", ProductSchema);
 
 module.exports = {
     
-    FoodIntakeSchema,
+ 
     ProductJoiSchema,
     ProductIntake,
 }

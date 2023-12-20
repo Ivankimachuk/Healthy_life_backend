@@ -1,20 +1,18 @@
 const express = require("express");
 
-const userRouter = express.Router();
+const router = express.Router();
 
-const ctrl = require("../../controllers/foodintake");
+const ctrlFood = require("../../controllers/userFood");
 
  /* const { validateBody, isValidId, authenticate } = require("../../middlewares"); */
 
 /* const { FoodIntakeSchema} = require("../../models/food-intake"); */
 
 
-userRouter.post("/food-intake", ctrl.addFoodIntake);
-
-userRouter.put("/food-intake/:id", ctrl.updateFood);
-
+router.post("/food-intake", ctrlFood.saveFoodIntake);
+router.put("/food-intake/:id", ctrlFood.updateFoodIntake);
 
 
-userRouter.delete("/food-intake/:id", ctrl.removeFood); 
+router.delete("/food-intake", ctrlFood.deleteFoodIntake); 
 
-module.exports = userRouter;
+module.exports = router;

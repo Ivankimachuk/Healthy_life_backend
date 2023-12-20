@@ -11,7 +11,7 @@ const today = new Date(currentDate);
 const todayDate = today.toISOString().slice(0, 10)
 
 
-const addFoodIntake = async (req, res, next) => {
+const saveFoodIntake = async (req, res, next) => {
     try {
     
         const { token, typeFood, userFood } = req.body;
@@ -125,27 +125,35 @@ const addFoodIntake = async (req, res, next) => {
 };
     
 
-const removeFood = async (req, res) => {
-    const { id } = req.params;
-    const result = await ProductIntake.findByIdAndDelete(id);
+const deleteFoodIntake = async (req, res) => {
+    try {
+        const {_id, todayDate} = req.user;
+      
+        const result = await ProductIntake.findOneAndDelete({ _id, todayDate });
     if (!result) {
-        throw HttpError(404, "Not found");
+        return res.status(404).json({ message: "Not found" });
     }
-    res.json({ message: "food deleted" });
+
+    res.status(200).json({ message: "Food delete" });
+}
+    catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "error" });
+}
 };
 
-const updateFood = async (req, res) => {
-    const { id } = req.params;
-    
-    const result = await ProductIntake.findByIdAndUpdate( {id} , req.body, { new: true });
+const updateFoodIntake = async (req, res) => {
+    const {_id} = req.user;
+    // const { calories, fat, protein, name, carbogidrate } = req.body;
+    const result = await ProductIntake.findOneAndUpdate( {_id} , req.body, { new: true },);
     if (!result) {
         throw HttpError(404, "Not found");
     }
     res.json(result);
 };
 module.exports = {
-    updateFood,
-    removeFood,
-    addFoodIntake,
+    updateFoodIntake,
+    deleteFoodIntake,
+    saveFoodIntake,
     
 };
