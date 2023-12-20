@@ -12,10 +12,10 @@ const ProductSchema = new Schema({
     owner: {
         type: Schema.Types.ObjectId,
         ref: "user",
-        date: {
-            type: Date,
-            default: todayDate,
-        }
+    },
+    date: {
+        type: Date,
+        default: todayDate,
     },
     breakfast: [{
         name: {
