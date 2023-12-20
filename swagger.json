@@ -162,7 +162,7 @@
               "schema": {
                 "$ref": "#/components/schemas/WaterIntakeDeleteInput"
               },
-              "example": { "_id": "" }               
+              "example": { "_id": "" }
             }
           }
         },
@@ -289,7 +289,7 @@
             "type": "string",
             "description": "Identifier of the water intake record to delete"
           }
-        } 
+        }
       }
     },
     "securitySchemes": {
