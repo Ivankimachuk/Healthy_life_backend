@@ -1,4 +1,5 @@
 const calculateMacros = (calories, goal) => {
+
   let proteinPercentage, fatPercentage;
 
   switch (goal) {

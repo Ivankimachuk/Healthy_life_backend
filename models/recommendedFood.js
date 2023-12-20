@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const recommendedFoodSchema = new Schema(
+
   {
     name: {
       type: String,
@@ -31,4 +32,6 @@ const recommendedFoodSchema = new Schema(
 
 const RecommendedFood = model("recommendedfood", recommendedFoodSchema);
 
+
 module.exports = RecommendedFood;
+

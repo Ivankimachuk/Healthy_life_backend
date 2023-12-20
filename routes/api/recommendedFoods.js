@@ -7,4 +7,6 @@ const ctrl = require("../../controllers/recommendedFoods");
 
 router.get("/", authenticate, ctrl.getRecommendedFoods);
 
+
 module.exports = router;
+

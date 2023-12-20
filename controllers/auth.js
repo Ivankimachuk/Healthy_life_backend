@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 
 const { User } = require("../models/user");
+
 const {
   calculateMacros,
   calculateWaterRate,
@@ -66,6 +67,7 @@ const signup = async (req, res) => {
 
   await User.findByIdAndUpdate(newUser._id, { token });
 
+
   res.status(201).json({
     user: {
       name: newUser.name,
@@ -86,6 +88,7 @@ const signup = async (req, res) => {
     token,
   });
 };
+
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -142,3 +145,4 @@ module.exports = {
   signin: ctrlWrapper(signin),
   signout: ctrlWrapper(signout),
 };
+

@@ -4,7 +4,7 @@ const { authenticate, validateBody } = require("../../middlewares");
 const { userUpdateInfo } = require("../../controllers/userUpdateInfo");
 
 const ctrlWrapper = require("../../helpers/ctrlWrapper");
-// const ctrlFood = require("../../controllers/userFood");
+const ctrlFood = require("../../controllers/userFood");
 const ctrlWater = require("../../controllers/userWater");
 // const ctrlStatistics = require("../../controllers/statistics");
 
@@ -42,11 +42,11 @@ router.post(
 // router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
 
 
-// router.post("/food-intake", authenticate, ctrlFood.saveFoodIntake);
+router.post("/food-intake", authenticate, ctrlFood.saveFoodIntake);
 
-// router.put("/food-intake/:id", authenticate, ctrlFood.updateFoodIntake);
+router.put("/food-intake/:id", authenticate, ctrlFood.updateFoodIntake);
 
-// router.delete("/food-intake", authenticate, ctrlFood.deleteFoodIntake);
+router.delete("/food-intake", authenticate, ctrlFood.deleteFoodIntake);
 
 router.post("/water-intake", authenticate,validateBody(schemasWater.addWater), ctrlWater.addWaterIntake);
 
