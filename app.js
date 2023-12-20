@@ -6,15 +6,13 @@ const path = require("path");
 
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocument = require("./swagger.json");
-
 const authRouter = require("./routes/api/auth");
 const recommendedFoodsRouter = require("./routes/api/recommendedFoods");
-const intakesWaterRouter = require("./routes/api/waterIntakes");
 const userRouter = require("./routes/api/user");
 
 const app = express();
 
-app.use("/avatars", express.static(path.join(__dirname, "uploads", "avatars")));
+app.use("/update", express.static(path.join(__dirname, "uploads", "avatars")));
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 
@@ -28,8 +26,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
 app.use("/api/recommended-food", recommendedFoodsRouter);
-app.use("/api/user/water-intake", intakesWaterRouter);
-// app.use("/api/user/weight", weightRouter);
+
 
 app.use((req, res) => {
   res.status(404).json({ message: "Not found" });
