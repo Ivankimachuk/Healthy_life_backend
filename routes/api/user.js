@@ -7,7 +7,7 @@ const { authenticate, validateBody } = require("../../middlewares");
 // const ctrlFood = require("../../controllers/userFood");
 // const ctrlWater = require("../../controllers/userWater");
 // const ctrlStatistics = require("../../controllers/statistics");
-
+const ctrlUserCurrent = require("../../controllers/userCurrent");
 const { ctrlWrapper } = require("../../helpers");
 const multer = require("multer");
 const ctrlUserWeight = require("../../controllers/userWeight");
@@ -16,7 +16,7 @@ const { schemas } = require("../../models/user");
 
 const router = express.Router();
 
-// router.get("/current", authenticate, ctrlUser.getCurrent);
+router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
 
 // router.put("/update", authenticate, ctrlUser.updateUser);
 
