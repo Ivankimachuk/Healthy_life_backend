@@ -3,8 +3,8 @@
   "openapi": "3.0.1",
   "info": {
     "version": "1.0.0",
-    "title": "Swagger test",
-    "description": "Showing off swagger-ui-express",
+    "title": "Healthy-Life API",
+    "description": "Healthy-Life API. It is a full-fledged RESTful API linked to an extensive database and multiple routes.",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
@@ -31,13 +31,14 @@
     }
   ],
   "paths": {
-    "/auth/signup": {
+    "/api/auth/signup": {
       "post": {
         "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
           "description": "Registration's object",
+          "security": [{ "Bearer": [] }],
           "required": true,
           "content": {
             "application/json": {
@@ -58,13 +59,60 @@
               }
             }
           },
-          "400": {
-            "description": "Bad request (invalid request body)",
-            "content": {}
-          },
           "409": {
-            "description": "Provided email already exists",
+            "description": "Email already in use",
             "content": {}
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Logs user into the system",
+        "parameters": [],
+        "requestBody": {
+          "description": "User login object",
+          "security": [{ "Bearer": [] }],
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Email or password invalid"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "User logout",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+
+        "responses": {
+          "204": {
+            "description": "Logout success"
+          },
+          "401": {
+            "description": "User unauthorized"
           }
         }
       }
@@ -179,8 +227,23 @@
     "schemas": {
       "RegistrationRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "name",
+          "email",
+          "password",
+          "goal",
+          "gender",
+          "age",
+          "height",
+          "weight",
+          "activityLevel"
+        ],
         "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name",
+            "example": "Alex"
+          },
           "email": {
             "type": "string",
             "description": "User's email",
@@ -190,25 +253,216 @@
             "type": "string",
             "description": "User's password",
             "example": "qwerty123"
+          },
+          "goal": {
+            "type": "string",
+            "description": "User's goal",
+            "example": "Maintain"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender",
+            "example": "male"
+          },
+          "age": {
+            "type": "integer",
+            "description": "User's age",
+            "example": "18"
+          },
+          "height": {
+            "type": "integer",
+            "description": "User's height",
+            "example": "160"
+          },
+          "weight": {
+            "type": "integer",
+            "description": "User's weight",
+            "example": "60"
+          },
+          "activityLevel": {
+            "type": "number",
+            "description": "User's activityLevel",
+            "example": "1.2"
           }
         }
       },
       "RegistrationResponse": {
-        "type": "array",
-        "items": {
+        "type": "object",
+        "user": {
           "type": "object",
           "properties": {
+            "name": {
+              "type": "string",
+              "description": "User's email",
+              "example": "Alex"
+            },
             "email": {
               "type": "string",
               "description": "User's email",
               "format": "email"
             },
-            "userId": {
+            "goal": {
+              "type": "string",
+              "description": "User's goal",
+              "example": "Maintain"
+            },
+            "gender": {
+              "type": "string",
+              "description": "User's gender",
+              "example": "male"
+            },
+            "age": {
+              "type": "integer",
+              "description": "User's age",
+              "example": "18"
+            },
+            "height": {
+              "type": "integer",
+              "description": "User's height",
+              "example": "160"
+            },
+            "weight": {
+              "type": "integer",
+              "description": "User's weight",
+              "example": "60"
+            },
+            "activityLevel": {
               "type": "number",
-              "description": "User's id",
-              "example": "32143232436545474"
+              "description": "User's activityLevel",
+              "example": "1.2"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "User's gravatar",
+              "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
+            },
+            "waterRate": {
+              "type": "integer",
+              "description": "User's waterRate",
+              "example": "2150"
+            },
+            "BMRRate": {
+              "type": "integer",
+              "description": "User's BMRRate",
+              "example": "1451"
+            },
+            "proteinRate": {
+              "type": "integer",
+              "description": "User's proteinRate",
+              "example": "91"
+            },
+            "fatRate": {
+              "type": "integer",
+              "description": "User's fatRate",
+              "example": "32"
+            },
+            "carbsRate": {
+              "type": "integer",
+              "description": "User's carbsRate",
+              "example": "200"
             }
           }
+        },
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "exampleEmail@mail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "userPassword"
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "user": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "User's email",
+              "example": "Alex"
+            },
+            "email": {
+              "type": "string",
+              "description": "User's email",
+              "format": "email"
+            },
+            "goal": {
+              "type": "string",
+              "description": "User's goal",
+              "example": "Maintain"
+            },
+            "gender": {
+              "type": "string",
+              "description": "User's gender",
+              "example": "male"
+            },
+            "age": {
+              "type": "integer",
+              "description": "User's age",
+              "example": "18"
+            },
+            "height": {
+              "type": "integer",
+              "description": "User's height",
+              "example": "160"
+            },
+            "weight": {
+              "type": "integer",
+              "description": "User's weight",
+              "example": "60"
+            },
+            "activityLevel": {
+              "type": "number",
+              "description": "User's activityLevel",
+              "example": "1.2"
+            },
+            "avatar": {
+              "type": "string",
+              "description": "User's gravatar",
+              "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
+            },
+            "waterRate": {
+              "type": "integer",
+              "description": "User's waterRate",
+              "example": "2150"
+            },
+            "BMRRate": {
+              "type": "integer",
+              "description": "User's BMRRate",
+              "example": "1451"
+            },
+            "proteinRate": {
+              "type": "integer",
+              "description": "User's proteinRate",
+              "example": "91"
+            },
+            "fatRate": {
+              "type": "integer",
+              "description": "User's fatRate",
+              "example": "32"
+            },
+            "carbsRate": {
+              "type": "integer",
+              "description": "User's carbsRate",
+              "example": "200"
+            }
+          }
+        },
+        "token": {
+          "type": "string",
+          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
         }
       },
       "RecommendedFood": {
