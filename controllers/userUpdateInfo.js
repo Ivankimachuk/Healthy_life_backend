@@ -1,21 +1,14 @@
 // const fs = require("fs/promises");
 const { HttpError, ctrlWrapper} = require("../helpers");
 const { User } = require("../models/user");
-const path = require("path");
-const multer = require("multer");
+
+const {
+  calculateBMR,
+  calculateWaterRate,
+  calculateMacros,
+} = require("../user-datails/calculateMacros"); 
 // import { v2 as coudinary } from 'cloudinary';
 
-// const {
-//     name,
-//     email,
-//     password,
-//     goal,
-//     gender,
-//     age,
-//     height,
-//     weight,
-//     activityLevel,
-//   } = req.body;
 
 // const cloudinary = require("cloudinary").v2;
 // const { CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET } = process.env;
@@ -89,28 +82,10 @@ const multer = require("multer");
 // }
 
 
-// Зберігаю аватарки у папці uploads/avatars
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/avatars");
-  },
-  filename: (req, file, cb) => {
-    // Генеруємо унікальне ім"я для файлу
-    const extname = path.extname(file.originalname);
-    const basename = path.basename(file.originalname, extname);
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    const name = `${basename}-${uniqueSuffix}${extname}`;
-    cb(null, name);
-  },
-});
-
-const upload = multer({ storage: storage });
-
-
 const uploadAvatar = async (req, res) => {
   try {
     if (!req.file) {
-      throw HttpError(400, "No file uploaded");
+      throw new HttpError(400, "No file uploaded");
     }
 
     const avatarURL = req.file.filename;
@@ -118,81 +93,92 @@ const uploadAvatar = async (req, res) => {
 
     const user = await User.findById(userId);
     if (!user) {
-      throw HttpError(400, "User not found");
+      throw new HttpError(400, "User not found");
     }
 
     if (user.avatarUrl === avatarURL) {
-      throw HttpError(400, "This avatar is already in use");
+      throw new HttpError(400, "This avatar is already in use");
     }
     
     const avatarExists = await User.findOne({ avatarUrl: avatarURL });
     if (avatarExists) {
-      throw HttpError(400, "This avatar is already in use");
+      throw new HttpError(400, "This avatar is already in use");
     }
 
     user.avatarUrl = avatarURL;
     await user.save();
 
+    const updatedUserData = {
+      name: user.name,
+      gender: user.gender,
+      age: user.age,
+      height: user.height,
+      weight: user.weight,
+      activityLevel: user.activityLevel,
+      avatar: user.avatarUrl, 
+      waterRate: user.waterRate,
+      BMRRate: user.BMRRate,
+      proteinRate: user.proteinRate,
+      fatRate: user.fatRate,
+      carbsRate: user.carbsRate,
+    };
 
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { avatarUrl: avatarURL },
-      { new: true }
-    );
-
-    if (!updatedUser) {
-      throw HttpError(404, "User not found");
-    }
-
-    res.json({
-      user: {
-      name: updatedUser.name,
-      email: updatedUser.email,
-      goal: updatedUser.goal,
-      gender: updatedUser.gender,
-      age: updatedUser.age,
-      height: updatedUser.height,
-      weight: updatedUser.weight,
-      activityLevel: updatedUser.activityLevel,
-      avatar: updatedUser.avatarUrl,
-      waterRate: updatedUser.waterRate,
-      BMRRate: updatedUser.BMRRate,
-      proteinRate: updatedUser.proteinRate,
-      fatRate: updatedUser.fatRate,
-      carbsRate: updatedUser.carbsRate,
-    },
-    }
-      
-    );
+    res.json(updatedUserData);
   } catch (error) {
     res.status(error.status || 500).json({ message: error.message });
   }
 };
 
-// const userUpdateInfo = async (req, res) => {
-//   try {
-//     const { userInfo: newUserInfo } = req.body;
-//     const userId = req.user._id;
 
-//     const updatedUser = await User.findByIdAndUpdate(
-//       userId,
-//       newUserInfo,
-//       { new: true }
-//     ). select('-token -password');
+const userUpdateInfo = async (req, res) => {
+  
+  const { name, gender, weight, height, age, activityLevel, avatarUrl, goal } = req.body;
+  const { _id } = req.user;
+  // const updateFields = req.body;
+  
+  try {
+    const user = await User.findById(_id);
+    if (!user) {
+      throw new HttpError(404, "User not found");
+    }
 
-//     if (!updatedUser) {
-//       throw HttpError(404, "User not found");
-//     }
+    Object.keys(req.body).forEach((field) => {
+      user[field] = req.body[field];
+    });
 
-//     res.json(updatedUser);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+    const newBMR = calculateBMR(user.gender, user.weight, user.height, user.age);
+    const newWaterRate = calculateWaterRate(user.weight, user.activityLevel);
+    const { protein, fat, carbs } = calculateMacros(newBMR, user.goal);
 
-module.exports = {
-  // cloudinary,
-  upload,
-  uploadAvatar: ctrlWrapper(uploadAvatar),
-  // userUpdateInfo: ctrlWrapper(userUpdateInfo),
+    user.waterRate = newWaterRate;
+    user.BMRRate = newBMR;
+    user.proteinRate = protein;
+    user.fatRate = fat;
+    user.carbsRate = carbs;
+
+    await user.save();
+
+    const updatedUserData = {
+      name: user.name,
+      gender: user.gender,
+      age: user.age,
+      height: user.height,
+      weight: user.weight,
+      activityLevel: user.activityLevel,
+      avatar: user.avatarUrl, 
+      waterRate: user.waterRate,
+      BMRRate: user.BMRRate,
+      proteinRate: user.proteinRate,
+      fatRate: user.fatRate,
+      carbsRate: user.carbsRate,
+    };
+
+    res.json(updatedUserData);
+  } catch (error) {
+    res.status(error.status || 500).json({ message: error.message });
+  }
 };
+    module.exports = {
+      uploadAvatar: ctrlWrapper(uploadAvatar),
+      userUpdateInfo: ctrlWrapper(userUpdateInfo),
+    };

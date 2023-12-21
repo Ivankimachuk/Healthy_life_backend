@@ -13,7 +13,7 @@ const userRouter = require("./routes/api/user");
 
 const app = express();
 
-app.use("/update", express.static(path.join(__dirname, "uploads", "avatars")));
+app.use("/avatars", express.static(path.join(__dirname, "uploads", "avatars")));
 
 
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
@@ -21,6 +21,7 @@ const formatsLogger = app.get("env") === "development" ? "dev" : "short";
 app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
+app.use(express.static("uploads"))
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

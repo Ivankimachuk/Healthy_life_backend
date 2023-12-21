@@ -1,7 +1,7 @@
 const express = require("express");
 // const path = require("path");
 const { authenticate, validateBody } = require("../../middlewares");
-const { userUpdateInfo } = require("../../controllers/userUpdateInfo");
+const { userUpdateInfo, uploadAvatar } = require("../../controllers/userUpdateInfo");
 
 const ctrlWrapper = require("../../helpers/ctrlWrapper");
 const ctrlFood = require("../../controllers/userFood");
@@ -14,9 +14,30 @@ const ctrlUserWeight = require("../../controllers/userWeight");
 const ctrlUserGoal = require("../../controllers/userGoal");
 const { schemas } = require("../../models/user");
 const router = express.Router();
+const path = require("path");
+const multer = require("multer");
+
+
+// Зберігаю аватарки у папці uploads/avatars
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/avatars");
+  },
+  filename: (req, file, cb) => {
+    // Генеруємо унікальне ім"я для файлу
+    const extname = path.extname(file.originalname);
+    const basename = path.basename(file.originalname, extname);
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const name = `${basename}-${uniqueSuffix}${extname}`;
+    cb(null, name);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
 
+router.patch("/avatars", authenticate, upload.single("avatar"), ctrlWrapper(uploadAvatar));
 router.put("/update", authenticate, ctrlWrapper(userUpdateInfo));
 
 router.put(
@@ -32,15 +53,6 @@ router.post(
   validateBody(schemas.weightUpdateUser),
   ctrlUserWeight.updateWeight
 );
-
-// router.put("/update",
-//   authenticate,
-//   upload.single("avatar"),
-//   ctrlWrapper(uploadAvatar)
-// );
-
-// router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
-
 
 router.post("/food-intake", authenticate, ctrlFood.saveFoodIntake);
 
