@@ -6,10 +6,10 @@ const { userUpdateInfo } = require("../../controllers/userUpdateInfo");
 const ctrlWrapper = require("../../helpers/ctrlWrapper");
 const ctrlFood = require("../../controllers/userFood");
 const ctrlWater = require("../../controllers/userWater");
-// const ctrlStatistics = require("../../controllers/statistics");
+const ctrlStatistics = require("../../controllers/statistics");
 
 const ctrlUserCurrent = require("../../controllers/userCurrent");
-const { schemasWater } = require("../../models/waterIntakeSchema"); 
+const { schemasWater } = require("../../models/waterIntakeSchema");
 const ctrlUserWeight = require("../../controllers/userWeight");
 const ctrlUserGoal = require("../../controllers/userGoal");
 const { schemas } = require("../../models/user");
@@ -41,20 +41,33 @@ router.post(
 
 // router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
 
-
 router.post("/food-intake", authenticate, ctrlFood.saveFoodIntake);
 
 router.put("/food-intake/:id", authenticate, ctrlFood.updateFoodIntake);
 
 router.delete("/food-intake", authenticate, ctrlFood.deleteFoodIntake);
 
-router.post("/water-intake", authenticate,validateBody(schemasWater.addWater), ctrlWater.addWaterIntake);
+router.post(
+  "/water-intake",
+  authenticate,
+  validateBody(schemasWater.addWater),
+  ctrlWater.addWaterIntake
+);
 
-router.delete("/water-intake", authenticate,validateBody(schemasWater.deleteWater), ctrlWater.deleteByIdWater);
+router.delete(
+  "/water-intake",
+  authenticate,
+  validateBody(schemasWater.deleteWater),
+  ctrlWater.deleteByIdWater
+);
 
 // router.get("/daily-statistics", authenticate, ctrlStatistics.getDaily);
 
-// router.get("/statistics", authenticate, ctrlStatistics.getMonth);
-
+router.get(
+  "/statistics",
+  authenticate,
+  validateBody(schemas.userStatistics),
+  ctrlStatistics.getStatistics
+);
 
 module.exports = router;
