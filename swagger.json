@@ -262,8 +262,7 @@
                 "$ref": "#/components/schemas/WaterIntakeInput"
               },
               "example": {
-                "value": "500",
-                "token": ""
+                "value": "500"               
               }
             }
           }
@@ -279,12 +278,14 @@
                 "example": {
                   "message": "Success",
                   "result": {
-                    "value": 500,
-                    "token": ""
+                    "value": 500                   
                   }
                 }
               }
             }
+          },
+          "401": {
+            "description": "Користувач не авторизований"
           },
           "500": {
             "description": "Не вдалося додати запис про прийом води"
@@ -694,24 +695,12 @@
         "properties": {
           "value": {
             "type": "number",
-            "description": "Amount of water intake"
+            "description": "Amount of water intake",
+            "example": "300"
           },
           "token": {
             "type": "string",
-            "description": "User's authentication token"
-          }
-        }
-      },
-      "WaterIntakeInputResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Result of the operation"
-          },
-          "result": {
-            "type": "object",
-            "description": "Result of the operation"
+            "description": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODMyNzNhYjVmNTZmZWU3OGVkMzZjYiIsImlhdCI6MTcwMzEwMTExMSwiZXhwIjoyMDE4Njc3MTExfQ.bkW8ulIywUZ2l5En9ZJGvtCH_NmvCH5JLVeaCyksJck"
           }
         }
       },
@@ -721,7 +710,12 @@
         "properties": {
           "_id": {
             "type": "string",
-            "description": "Identifier of the water intake record to delete"
+            "description": "Identifier of the water intake record to delete",
+            "example": "6585efe5168a85ab476462b4"
+          },
+          "token": {
+            "type": "string",
+            "description": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODMyNzNhYjVmNTZmZWU3OGVkMzZjYiIsImlhdCI6MTcwMzEwMTExMSwiZXhwIjoyMDE4Njc3MTExfQ.bkW8ulIywUZ2l5En9ZJGvtCH_NmvCH5JLVeaCyksJck"
           }
         }
       },

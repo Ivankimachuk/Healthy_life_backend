@@ -17,7 +17,6 @@ const { addWater, deleteWater } = require("../../models/waterIntakeSchema");
 const isValidWater = require("../../middlewares/isValidWater");
 const { ctrlWrapper } = require("../../helpers");
 
-// Маршрути для обробки запитів
 router.get("/",
     authenticate,
     getWaterIntake);

@@ -60,6 +60,13 @@ router.delete(
   ctrlFood.deleteFoodIntake
 );
 
+router.get(
+  "/water-intake",
+  authenticate,
+  ctrlWater.getWaterIntake
+);
+    
+
 router.post(
   "/water-intake",
   authenticate,
