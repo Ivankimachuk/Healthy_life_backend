@@ -14,7 +14,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      minLength: 6,
+      minlength: 6,
       required: [true, "Set password for user"],
     },
     email: {
@@ -108,6 +108,7 @@ const signupSchema = Joi.object({
   height: Joi.number(),
   weight: Joi.number(),
   activityLevel: Joi.number(),
+  avatar: Joi.string(),
 });
 
 const signinSchema = Joi.object({
@@ -116,12 +117,12 @@ const signinSchema = Joi.object({
 });
 
 const forgotPasswordSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string().required(),
 });
 
 const updateUserSchema = Joi.object({
   name: Joi.string().required(),
-  // avatar: Joi.string().min(6).required(),
+  avatar: Joi.string().min(6).required(),
   goal: Joi.string(),
   gender: Joi.string(),
   age: Joi.number(),

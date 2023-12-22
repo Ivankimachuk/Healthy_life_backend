@@ -12,7 +12,7 @@ router.post("/signup", validateBody(schemas.signupSchema), ctrl.signup);
 
 router.post("/signin", validateBody(schemas.signinSchema), ctrl.signin);
 
-// router.post("/forgot-password", validateBody(schemas.forgotPasswordSchema), ctrl.forgot);
+router.post("/forgot-password",authenticate, validateBody(schemas.forgotPasswordSchema), ctrl.forgot);
 
 router.post("/signout", authenticate, ctrl.signout);
 

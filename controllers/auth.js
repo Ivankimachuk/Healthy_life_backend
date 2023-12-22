@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
+const crypto = require("crypto");
 
 const { User } = require("../models/user");
 
@@ -67,7 +68,6 @@ const signup = async (req, res) => {
 
   await User.findByIdAndUpdate(newUser._id, { token });
 
-
   res.status(201).json({
     user: {
       name: newUser.name,
@@ -88,7 +88,6 @@ const signup = async (req, res) => {
     token,
   });
 };
-
 
 const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -131,6 +130,28 @@ const signin = async (req, res) => {
   });
 };
 
+const forgot = async (req, res) => {
+  const { email } = req.body;
+
+  const newPassword = crypto.randomBytes(8).toString("hex");
+
+  const hashPassword = await bcrypt.hash(newPassword, 10);
+
+  const user = await User.findOneAndUpdate(
+    { email },
+    { password: hashPassword }
+  );
+
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  res.status(200).json({
+    message:
+      "Password updated successfully. Check your email for the new password.",
+  });
+};
+
 const signout = async (req, res) => {
   const { token } = req.user;
   await User.findOneAndUpdate({ token }, { token: "" });
@@ -143,6 +164,6 @@ const signout = async (req, res) => {
 module.exports = {
   signup: ctrlWrapper(signup),
   signin: ctrlWrapper(signin),
+  forgot: ctrlWrapper(forgot),
   signout: ctrlWrapper(signout),
 };
-
