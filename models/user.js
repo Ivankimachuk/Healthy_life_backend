@@ -131,7 +131,7 @@ const updateUserSchema = Joi.object({
 });
 
 const goalUpdateUser = Joi.object({
-  goal: Joi.string(),
+  goal: Joi.string().valid("Lose Fat", "Maintain", "Gain Muscle").required(),
 });
 const weightUpdateUser = Joi.object({
   weight: Joi.number().required(),
