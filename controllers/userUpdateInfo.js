@@ -1,4 +1,3 @@
-// const fs = require("fs/promises");
 const { HttpError, ctrlWrapper} = require("../helpers");
 const { User } = require("../models/user");
 
@@ -7,38 +6,7 @@ const {
   calculateWaterRate,
   calculateMacros,
 } = require("../user-datails/calculateMacros"); 
-// import { v2 as coudinary } from 'cloudinary';
 
-
-// const cloudinary = require("cloudinary").v2;
-// const { CLOUD_NAME, CLOUD_API_KEY, CLOUD_API_SECRET } = process.env;
-
-// cloudinary.config({
-//   cloud_name: CLOUD_NAME,
-//   api_key: CLOUD_API_KEY,
-//   api_secret: CLOUD_API_SECRET,
-//   secure: true,
-// })
-
-// const uploadCloud = (pathFile) => {
-//   return new Promise((resolve, reject) => {
-//     cloudinary.uploader.upload(
-//       pathFile,
-//       {
-//         folder: "Avatars",
-//         transformation: { width: 250, crop: "fit", angle: 0, auto: true },
-//       },
-//       (error, result) => {
-//         if (error) {
-//           reject(error);
-//         }
-//         if (result) {
-//           resolve(result);
-//         }
-//       }
-//     );
-//   });
-// };
 
 // async function uploadAvatar(req, res, next) {
 //   try {
@@ -173,7 +141,7 @@ const userUpdateInfo = async (req, res) => {
       carbsRate: user.carbsRate,
     };
 
-    res.json(updatedUserData);
+    res.status(200).json(updatedUserData);
   } catch (error) {
     res.status(error.status || 500).json({ message: error.message });
   }
