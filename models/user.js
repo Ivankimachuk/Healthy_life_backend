@@ -137,10 +137,6 @@ const weightUpdateUser = Joi.object({
   weight: Joi.number().required(),
 });
 
-const userStatistics = Joi.object({
-  month: Joi.string(),
-})
-
 const schemas = {
   signupSchema,
   signinSchema,
@@ -148,7 +144,6 @@ const schemas = {
   updateUserSchema,
   goalUpdateUser,
   weightUpdateUser,
-  userStatistics,
 };
 
 const User = model("user", userSchema);
