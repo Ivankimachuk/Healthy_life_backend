@@ -1,9 +1,8 @@
 const express = require("express");
-// const path = require("path");
 const { authenticate, validateBody } = require("../../middlewares");
 const { userUpdateInfo } = require("../../controllers/userUpdateInfo");
+const { upload } = require("../../middlewares/uploadFile");
 
-const ctrlWrapper = require("../../helpers/ctrlWrapper");
 const ctrlFood = require("../../controllers/userFood");
 const ctrlWater = require("../../controllers/userWater");
 const ctrlStatistics = require("../../controllers/statistics");
@@ -17,7 +16,14 @@ const router = express.Router();
 const { ProductJoiSchema, FoodJoiSchema } = require("../../models/food");
 router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
 
-router.put("/update", authenticate, ctrlWrapper(userUpdateInfo));
+router.put(
+  "/update",
+  authenticate,
+  upload.single("avatar"),
+  // validateBody(schemas.updateUserSchema),
+  userUpdateInfo
+);
+
 
 router.put(
   "/goal",
@@ -33,11 +39,6 @@ router.post(
   ctrlUserWeight.updateWeight
 );
 
-// router.put("/update",
-//   authenticate,
-//   upload.single("avatar"),
-//   ctrlWrapper(uploadAvatar)
-// );
 
 // router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
 
@@ -77,6 +78,8 @@ router.delete(
 );
 
 // router.get("/daily-statistics", authenticate, ctrlStatistics.getDaily);
+
+// router.post('/user', authenticate, upload.single('avatar'), ctrl.someFunc);
 
 router.get(
   "/statistics",
