@@ -7,6 +7,22 @@ const currentDate = Date.now();
 const today = new Date(currentDate);
 const todayDate = today.toISOString().slice(0, 10)
 
+const getAll = async (req, res, next) => {
+    try {
+        const { _id: owner } = req.user;
+        const result = await ProductIntake.find({ owner, date: todayDate });
+    
+        if (!result) {
+            throw HttpError(404, "Not found");
+        }
+        res.json(result);
+    }
+
+    catch (error) {
+        next(error);
+
+    }
+};
 
 const saveFoodIntake = async (req, res, next) => {
     try {
@@ -150,9 +166,11 @@ const updateFoodIntake = async (req, res) => {
     }
   res.json(result);
 };
+
     module.exports = {
         updateFoodIntake,
         deleteFoodIntake,
         saveFoodIntake,
+        getAll,
     
     };
