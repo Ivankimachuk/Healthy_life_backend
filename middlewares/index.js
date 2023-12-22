@@ -6,7 +6,7 @@ const isValidIdWater = require('./isValidWater');
 
 module.exports = {
   validateBody,
-  // isValidId,
+  
   authenticate,
   isValidIdWater,  
 };
