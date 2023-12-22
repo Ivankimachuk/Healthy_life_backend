@@ -13,9 +13,7 @@ const ctrlUserWeight = require("../../controllers/userWeight");
 const ctrlUserGoal = require("../../controllers/userGoal");
 const { schemas } = require("../../models/user");
 const router = express.Router();
-const { upload } = require("../../middlewares/uploadFile");
-
-
+const { ProductJoiSchema, FoodJoiSchema } = require("../../models/food");
 router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
 
 router.put(
@@ -44,11 +42,26 @@ router.post(
 
 // router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
 
-router.post("/food-intake", authenticate, ctrlFood.saveFoodIntake);
+router.post(
+  "/food-intake",
+  authenticate,
+  validateBody(ProductJoiSchema),
+  ctrlFood.saveFoodIntake
+);
 
-router.put("/food-intake/:id", authenticate, ctrlFood.updateFoodIntake);
+router.put(
+  "/food-intake/:id",
+  authenticate,
+  validateBody(ProductJoiSchema),
+  ctrlFood.updateFoodIntake
+);
 
-router.delete("/food-intake", authenticate, ctrlFood.deleteFoodIntake);
+router.delete(
+  "/food-intake",
+  authenticate,
+  validateBody(FoodJoiSchema),
+  ctrlFood.deleteFoodIntake
+);
 
 router.post(
   "/water-intake",
@@ -71,7 +84,6 @@ router.delete(
 router.get(
   "/statistics",
   authenticate,
-  validateBody(schemas.userStatistics),
   ctrlStatistics.getStatistics
 );
 

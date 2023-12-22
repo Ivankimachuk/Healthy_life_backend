@@ -21,7 +21,7 @@ const weightSchema = new Schema(
       default: todayDate,
     },
     month: {
-      type: String,
+      type: Number,
       default: todayMonth,
     },
   },
