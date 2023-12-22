@@ -12,6 +12,7 @@ const {
 } = require("../user-datails/calculateMacros");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
+const sendEmail = require("../helpers/sendEmail");
 
 const { SECRET_KEY } = process.env;
 
@@ -133,16 +134,36 @@ const signin = async (req, res) => {
 const forgot = async (req, res) => {
   const { email } = req.body;
 
-  const newPassword = crypto.randomBytes(8).toString("hex");
+  const user = await User.findOne({ email });
 
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  const { name } = user;
+
+  const newPassword = crypto.randomBytes(8).toString("hex");
   const hashPassword = await bcrypt.hash(newPassword, 10);
 
-  const user = await User.findOneAndUpdate(
+  const newPasswordEmail = {
+    to: email,
+    subject: "Your new password",
+    html: `
+        <h1>Hello ${name},</h1>
+        <p>Your password has been reset. Here is your new password: <strong>${newPassword}</strong></p>
+        <p>Please log in and change your password immediately.</p>
+        <p>Best regards,<br>Your dream Team</p>
+      `,
+  };
+
+  await sendEmail(newPasswordEmail);
+
+  const userUpdate = await User.findOneAndUpdate(
     { email },
     { password: hashPassword }
   );
 
-  if (!user) {
+  if (!userUpdate) {
     throw HttpError(404, "User not found");
   }
 

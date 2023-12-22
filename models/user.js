@@ -3,7 +3,7 @@ const Joi = require("joi");
 
 const { handleMongooseError } = require("../helpers");
 
-  const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
   {
@@ -19,7 +19,7 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-       match: emailRegexp,
+      match: emailRegexp,
       required: [true, "Email is required"],
       unique: true,
     },
@@ -70,7 +70,7 @@ const userSchema = new Schema(
     },
     idCloudAvatar: {
       type: String,
-      default: null
+      default: null,
     },
     waterRate: {
       type: Number,
@@ -117,7 +117,7 @@ const signinSchema = Joi.object({
 });
 
 const forgotPasswordSchema = Joi.object({
-  email: Joi.string().required(),
+  email: Joi.string().pattern(emailRegexp).required(),
 });
 
 const updateUserSchema = Joi.object({

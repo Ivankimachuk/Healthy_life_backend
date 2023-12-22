@@ -1,5 +1,4 @@
 {
-
   "openapi": "3.0.1",
   "info": {
     "version": "1.0.0",
@@ -10,8 +9,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json","multipart/form-data"],
-  "produces": ["application/json","multipart/form-data"],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json", "multipart/form-data"],
   "servers": [
     { "url": "http://localhost:3000" },
     { "url": "healthy-life-backend-b6ck.onrender.com" }
@@ -66,7 +65,7 @@
         }
       }
     },
-    "/auth/signin": {
+    "/api/auth/signin": {
       "post": {
         "tags": ["Auth"],
         "summary": "Logs user into the system",
@@ -100,7 +99,34 @@
         }
       }
     },
-    "/auth/logout": {
+    "/api/auth/forgot-password": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Sending a new password to the mail",
+        "parameters": [],
+        "requestBody": {
+          "description": "Forgout-Password object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgoutPasswordRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Password updated successfully. Check your email for the new password"
+          },
+          "404": {
+            "description": "User not found",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
@@ -463,6 +489,17 @@
         "token": {
           "type": "string",
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
+        }
+      },
+      "ForgoutPasswordRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "exampleEmail@mail.com"
+          }
         }
       },
       "RecommendedFood": {
