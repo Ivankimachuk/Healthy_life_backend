@@ -55,6 +55,12 @@ router.put(
   validateBody(ProductJoiSchema),
   ctrlFood.updateFoodIntake
 );
+router.get(
+  "/food-intake",
+  authenticate,
+  ctrlFood.getAll
+);
+
 
 router.delete(
   "/food-intake",
