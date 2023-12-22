@@ -7,7 +7,7 @@ const {
   calculateWaterRate,
   calculateMacros,
 } = require("../user-datails/calculateMacros"); 
-const { upload } = require('../middlewares/uploadFile');
+// const { upload } = require('../middlewares/uploadFile');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -87,5 +87,5 @@ const userUpdateInfo = async (req, res, next) => {
     
 
 module.exports = {
-         userUpdateInfo: ctrlWrapper(userUpdateInfo),
-    };
+  userUpdateInfo: ctrlWrapper(userUpdateInfo),
+};
