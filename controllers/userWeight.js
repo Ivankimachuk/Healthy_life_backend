@@ -45,8 +45,6 @@ const updateWeight = async (req, res, next) => {
     ).exec();
 
     res.json({
-      status: "success",
-      code: 201,
       message: "Weight is updated",
       user: {
         weight: result.weight,
