@@ -14,7 +14,7 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
-      minLength: 6,
+      minlength: 6,
       required: [true, "Set password for user"],
     },
     email: {
@@ -66,6 +66,10 @@ const userSchema = new Schema(
     avatarUrl: {
       type: String,
       required: true,
+      default: "",
+    },
+    idCloudAvatar: {
+      type: String,
       default: null,
     },
     waterRate: {
@@ -104,6 +108,7 @@ const signupSchema = Joi.object({
   height: Joi.number(),
   weight: Joi.number(),
   activityLevel: Joi.number(),
+  avatar: Joi.string(),
 });
 
 const signinSchema = Joi.object({
@@ -117,6 +122,13 @@ const forgotPasswordSchema = Joi.object({
 
 const updateUserSchema = Joi.object({
   name: Joi.string().required(),
+  avatar: Joi.string().min(6).required(),
+  goal: Joi.string(),
+  gender: Joi.string(),
+  age: Joi.number(),
+  height: Joi.number(),
+  weight: Joi.number(),
+  activity: Joi.string(),
   gender: Joi.string().valid("male", "female"),
   age: Joi.number().min(0).required(),
   height: Joi.number().min(0).required(),
