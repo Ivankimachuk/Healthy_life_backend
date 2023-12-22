@@ -20,7 +20,7 @@ router.put(
   "/update",
   authenticate,
   upload.single("avatar"),
-  // validateBody(schemas.updateUserSchema),
+  validateBody(schemas.updateUserSchema),
   userUpdateInfo
 );
 
@@ -37,9 +37,6 @@ router.post(
   validateBody(schemas.weightUpdateUser),
   ctrlUserWeight.updateWeight
 );
-
-// router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
-
 router.post(
   "/food-intake",
   authenticate,
@@ -66,6 +63,13 @@ router.delete(
   validateBody(FoodJoiSchema),
   ctrlFood.deleteFoodIntake
 );
+
+router.get(
+  "/water-intake",
+  authenticate,
+  ctrlWater.getWaterIntake
+);
+    
 
 router.post(
   "/water-intake",

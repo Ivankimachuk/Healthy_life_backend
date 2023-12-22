@@ -7,7 +7,6 @@ const {
   calculateWaterRate,
   calculateMacros,
 } = require("../user-datails/calculateMacros"); 
-// const { upload } = require('../middlewares/uploadFile');
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -44,10 +43,6 @@ const userUpdateInfo = async (req, res, next) => {
           user[field] = formData[field];
         }
     });
-
-        // if (formData.avatar) {
-        //   user.avatarUrl = req.file.filename;
-        // }
 
         const newBMR = calculateBMR(user.gender, user.weight, user.height, user.age);
         const newWaterRate = calculateWaterRate(user.weight, user.activityLevel);

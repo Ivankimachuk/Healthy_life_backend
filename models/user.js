@@ -134,8 +134,9 @@ const updateUserSchema = Joi.object({
   height: Joi.number().min(0).required(),
   weight: Joi.number().min(0).required(),
   activityLevel: Joi.number().valid(1.2, 1.375, 1.55, 1.725, 1.9).required(),
-  // avatarUrl: Joi.string().allow(null).required()
-
+  avatar: Joi.any()
+    .meta({ swaggerType: 'file' })
+    .description('Image file'),  
 });
 
 const goalUpdateUser = Joi.object({
