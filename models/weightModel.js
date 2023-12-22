@@ -3,6 +3,7 @@ const { Schema, model } = require("mongoose");
 const currentDate = Date.now();
 const today = new Date(currentDate);
 const todayDate = today.toISOString().slice(0, 10);
+const todayMonth = today.getMonth() + 1;
 
 const weightSchema = new Schema(
   {
@@ -18,6 +19,10 @@ const weightSchema = new Schema(
     date: {
       type: String,
       default: todayDate,
+    },
+    month: {
+      type: Number,
+      default: todayMonth,
     },
   },
   { versionKey: false, timestamps: true }

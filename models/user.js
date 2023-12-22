@@ -129,13 +129,20 @@ const updateUserSchema = Joi.object({
   height: Joi.number(),
   weight: Joi.number(),
   activity: Joi.string(),
+  gender: Joi.string().valid("male", "female"),
+  age: Joi.number().min(0).required(),
+  height: Joi.number().min(0).required(),
+  weight: Joi.number().min(0).required(),
+  activityLevel: Joi.number().valid(1.2, 1.375, 1.55, 1.725, 1.9).required(),
+  // avatarUrl: Joi.string().allow(null).required()
+
 });
 
 const goalUpdateUser = Joi.object({
-  goal: Joi.string(),
+  goal: Joi.string().valid("Lose Fat", "Maintain", "Gain Muscle").required(),
 });
 const weightUpdateUser = Joi.object({
-  weight: Joi.number(),
+  weight: Joi.number().required(),
 });
 
 const schemas = {

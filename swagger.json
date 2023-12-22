@@ -21,6 +21,10 @@
       "description": "Authorization endpoints"
     },
     {
+      "name": "User",
+      "description": "User's endpoins"
+    },
+    {
       "name": "Recommended Food",
       "description": "Recommended food endpoints"
     },
@@ -143,43 +147,133 @@
         }
       }
     },
-    "/api/recommended-food": {
-      "get": {
-        "tags": ["Recommended Food"],
-        "summary": "Get food recommendations",
-        "description": "Retrieve a list of recommended food items.",
+    "/api/user/goal": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user's goal",
+        "description": "Update the user's goal, which will recalculate daily nutrition based on the new goal",
+        "parameters": [],
         "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's new goal object.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalUpdateRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
-            "description": "Successful request. Returns a list of recommended food items.",
+            "description": "Successful update.",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RecommendedFood"
-                },
-                "example": [
-                  {
-                    "_id": "657b338690119f0a27c9426c",
-                    "name": "Apples",
-                    "amount": "100 g",
-                    "img": "https://res.cloudinary.com/dec1shvoo/image/upload/v1692479041/Your%20health/pngfind.com-apple-png-1037796_udjai9.png",
-                    "calories": 52,
-                    "nutrition": {
-                      "carbohydrates": 14,
-                      "protein": 0.3,
-                      "fat": 0.2
-                    }
-                  }
-                ]
+                  "$ref": "#/components/schemas/GoalUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "\"goal\" must be one of [Lose Fat, Maintain, Gain Muscle]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
               }
             }
           },
           "500": {
-            "description": "Server error. Unable to retrieve food recommendations."
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
           }
         }
       }
     },
+
+    "/api/user/weight": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Update user's weigh",
+        "description": "Add the user's weight, which will recalculate daily nutrition and update other relevant information.",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's weight object.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WeightUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful update.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeightUpdateResponses"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "\"weight\" must be a number"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/api/user/water-intake": {
       "post": {
         "tags": ["Water Intake"],
@@ -247,8 +341,107 @@
           }
         }
       }
+    },
+    "/api/user/statistics": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user's statistics.",
+        "description": "Get user's statistics from month.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "queryMonth",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 12
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserStatisticsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/recommended-food": {
+      "get": {
+        "tags": ["Recommended Food"],
+        "summary": "Get food recommendations",
+        "description": "Retrieve a list of recommended food items.",
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful request. Returns a list of recommended food items.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendedFoodResponse"
+                },
+                "example": [
+                  {
+                    "_id": "657b338690119f0a27c9426c",
+                    "name": "Apples",
+                    "amount": "100 g",
+                    "img": "https://res.cloudinary.com/dec1shvoo/image/upload/v1692479041/Your%20health/pngfind.com-apple-png-1037796_udjai9.png",
+                    "calories": 52,
+                    "nutrition": {
+                      "carbohydrates": 14,
+                      "protein": 0.3,
+                      "fat": 0.2
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "500": {
+            "description": "Server error. Unable to retrieve food recommendations."
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "RegistrationRequest": {
@@ -503,6 +696,209 @@
         }
       },
       "RecommendedFood": {
+      "GoalUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Goal updated.",
+            "example": "Goal updated."
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "goal": {
+                "type": "string",
+                "example": "Maintain"
+              },
+              "proteinRate": {
+                "type": "number",
+                "example": 159
+              },
+              "fatRate": {
+                "type": "number",
+                "example": 47
+              },
+              "carbsRate": {
+                "type": "number",
+                "example": 265
+              }
+            }
+          }
+        }
+      },
+      "GoalUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "goal": {
+            "type": "string",
+            "description": "Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
+            "example": "Lose Fat"
+          }
+        },
+        "required": ["goal"]
+      },
+      "WeightUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "description": "User's new weight.",
+            "example": 55
+          }
+        },
+        "required": ["weight"]
+      },
+      "WeightUpdateResponses": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Weidht updated.",
+            "example": "Weidht updated."
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "number",
+                "example": 55
+              },
+              "BMRRate": {
+                "type": "number",
+                "example": 2123
+              },
+              "waterRate": {
+                "type": "number",
+                "example": 2950
+              },
+              "proteinRate": {
+                "type": "number",
+                "example": 133
+              },
+              "fatRate": {
+                "type": "number",
+                "example": 47
+              },
+              "carbsRate": {
+                "type": "number",
+                "example": 292
+              }
+            }
+          }
+        }
+      },
+      "WaterIntakeInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "Amount of water intake"
+          },
+          "token": {
+            "type": "string",
+            "description": "User's authentication token"
+          }
+        }
+      },
+      "WaterIntakeInputResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Result of the operation"
+          },
+          "result": {
+            "type": "object",
+            "description": "Result of the operation"
+          }
+        }
+      },
+      "WaterIntakeDeleteInput": {
+        "type": "object",
+        "required": ["_id"],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Identifier of the water intake record to delete"
+          }
+        }
+      },
+      "UserStatisticsResponse": {
+        "type": "object",
+        "properties": {
+          "weightMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65856ea9e12be5cdeb2291a5"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Weight of the day.",
+                  "example": 45
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          },
+          "waterMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65857276dda32a85a05f40d8"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Water of the day.",
+                  "example": 1876
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          },
+          "caloriesMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65857276dda32a85a05f40d8"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Calories of the day.",
+                  "example": 2087
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          }
+        }
+      },
+      "RecommendedFoodResponse": {
         "type": "array",
         "items": {
           "type": "object",
@@ -544,42 +940,6 @@
                 }
               }
             }
-          }
-        }
-      },
-      "WaterIntakeInput": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "number",
-            "description": "Amount of water intake"
-          },
-          "token": {
-            "type": "string",
-            "description": "User's authentication token"
-          }
-        }
-      },
-      "WaterIntakeInputResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Result of the operation"
-          },
-          "result": {
-            "type": "object",
-            "description": "Result of the operation"
-          }
-        }
-      },
-      "WaterIntakeDeleteInput": {
-        "type": "object",
-        "required": ["_id"],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Identifier of the water intake record to delete"
           }
         }
       }
