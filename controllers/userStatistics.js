@@ -34,4 +34,6 @@ const getStatistics = async (req, res) => {
   });
 };
 
-module.exports = { getStatistics: ctrlWrapper(getStatistics) };
+module.exports = {
+  getStatistics: ctrlWrapper(getStatistics),
+};
