@@ -315,7 +315,67 @@
         }
       }
     },
-
+    "/api/user/statistics": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get user's statistics.",
+        "description": "Get user's statistics from month.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "queryMonth",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "example": 12
+            }
+          }
+        ],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserStatisticsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/recommended-food": {
       "get": {
         "tags": ["Recommended Food"],
@@ -722,6 +782,80 @@
           "_id": {
             "type": "string",
             "description": "Identifier of the water intake record to delete"
+          }
+        }
+      },
+      "UserStatisticsResponse": {
+        "type": "object",
+        "properties": {
+          "weightMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65856ea9e12be5cdeb2291a5"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Weight of the day.",
+                  "example": 45
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          },
+          "waterMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65857276dda32a85a05f40d8"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Water of the day.",
+                  "example": 1876
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          },
+          "caloriesMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65857276dda32a85a05f40d8"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Calories of the day.",
+                  "example": 2087
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
           }
         }
       },
