@@ -1,5 +1,4 @@
 {
-
   "openapi": "3.0.1",
   "info": {
     "version": "1.0.0",
@@ -20,6 +19,10 @@
     {
       "name": "Auth",
       "description": "Authorization endpoints"
+    },
+    {
+      "name": "User",
+      "description": "User's endpoins"
     },
     {
       "name": "Recommended Food",
@@ -129,7 +132,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RecommendedFood"
+                  "$ref": "#/components/schemas/RecommendedFoodResponse"
                 },
                 "example": [
                   {
@@ -221,8 +224,62 @@
           }
         }
       }
+    },
+
+    "/api/user/goal": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user's goal",
+        "description": "Update the user's goal, which will recalculate daily nutrition based on the new goal",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "User's new goal object.",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GoalUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GoalUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "\"goal\" must be one of [Lose Fat, Maintain, Gain Muscle]"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
+
   "components": {
     "schemas": {
       "RegistrationRequest": {
@@ -465,7 +522,7 @@
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
         }
       },
-      "RecommendedFood": {
+      "RecommendedFoodResponse": {
         "type": "array",
         "items": {
           "type": "object",
@@ -545,6 +602,47 @@
             "description": "Identifier of the water intake record to delete"
           }
         }
+      },
+      "GoalUpdateResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Goal updated"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "goal": {
+                "type": "string",
+                "example": "Maintain"
+              },
+              "proteinRate": {
+                "type": "number",
+                "example": "159"
+              },
+              "fatRate": {
+                "type": "number",
+                "example": "47"
+              },
+              "carbsRate": {
+                "type": "number",
+                "example": "265"
+              }
+            }
+          }
+        }
+      },
+      "GoalUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "goal": {
+            "type": "string",
+            "description": "Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
+            "example": "Lose Fat"
+          }
+        },
+        "required": ["goal"]
       }
     },
     "securitySchemes": {
