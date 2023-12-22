@@ -1,7 +1,7 @@
 const express = require("express");
 const { authenticate, validateBody } = require("../../middlewares");
 const { userUpdateInfo } = require("../../controllers/userUpdateInfo");
-
+const { upload } = require("../../middlewares/uploadFile");
 
 const ctrlFood = require("../../controllers/userFood");
 const ctrlWater = require("../../controllers/userWater");
