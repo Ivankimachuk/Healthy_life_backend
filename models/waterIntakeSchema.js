@@ -23,7 +23,7 @@ const waterIntakeSchema = Schema(
       default: todayDate,
     },
     month: {
-      type: String,
+      type: Number,
       default: todayMonth,
     },
   },

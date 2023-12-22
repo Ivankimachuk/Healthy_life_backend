@@ -5,22 +5,26 @@ const { WaterIntake } = require("../models/waterIntakeSchema");
 const { ProductIntake } = require("../models/food");
 
 const getStatistics = async (req, res) => {
+  const month = req.query.queryMonth;
+
   const { _id: owner } = req.user;
-  const { month } = req.body;
+
+  const monthNumber = Number(month);
 
   const weightMonth = await Weight.find(
-    { owner, month },
+    { owner, month: monthNumber },
     { value: 1, date: 1 }
-  ).sort({ date: 1 });
-
+  ).sort({
+    date: 1,
+  });
   const waterMonth = await WaterIntake.find(
-    { owner, month },
+    { owner, month: monthNumber },
     { value: 1, date: 1 }
   ).sort({ date: 1 });
 
   const caloriesMonth = await ProductIntake.find(
-    { owner, month },
-    { value: 1, date: 1 }
+    { owner, month: monthNumber },
+    { totalCalories: 1, date: 1 }
   ).sort({ date: 1 });
 
   res.json({
