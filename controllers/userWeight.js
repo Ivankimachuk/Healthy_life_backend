@@ -10,7 +10,7 @@ const {
 
 const updateWeight = async (req, res, next) => {
   const { weight: value } = req.body;
-  const { _id, gender, weight, height, age, activityLevel, goal } = req.user;
+  const { _id, gender, height, age, activityLevel, goal } = req.user;
 
   const currentDate = Date.now();
   const today = new Date(currentDate);
@@ -27,8 +27,8 @@ const updateWeight = async (req, res, next) => {
       );
     }
 
-    const newBMR = calculateBMR(gender, weight, height, age);
-    const newWaterRate = calculateWaterRate(weight, activityLevel);
+    const newBMR = calculateBMR(gender, value, height, age);
+    const newWaterRate = calculateWaterRate(value, activityLevel);
     const { protein, fat, carbs } = calculateMacros(newBMR, goal);
 
     const result = await User.findByIdAndUpdate(
