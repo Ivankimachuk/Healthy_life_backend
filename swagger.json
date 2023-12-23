@@ -158,7 +158,6 @@
         }
       }
     },
-
     "/api/user/current": {
       "get": {
         "tags": ["User"],
@@ -173,6 +172,66 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/update": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user information",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update user information",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User information updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
                 }
               }
             }
@@ -1057,7 +1116,49 @@
               }
             }
           }
-        },     
+        }, 
+      "UpdateUserResponse": {
+          "type": "object",
+          "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Maryna"
+              },
+              "gender": {
+                "type": "string",
+                "enum": ["male", "female"],
+                "description": "User's gender",
+                "example": "female"
+              },
+              "age": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "User's age",
+                "example": 30
+              },
+              "height": {
+                "type": "integer",
+                "description": "User's height in cm",
+                "example": 170
+              },
+              "weight": {
+                "type": "integer",
+                "description": "User's wight in kg",
+                "example": 50
+              },
+              "activityLevel": {
+                "type": "number",
+                "enum": [1.2, 1.375, 1.55, 1.725, 1.9],
+                "description": "User's activity level"
+              },
+              "avatar": {
+                "type": "string",
+                "format": "binary",
+                "description": "User's avatra image file"
+              }                
+            }
+           },    
       "RecommendedFoodResponse": {
           "type": "array",
           "items": {
