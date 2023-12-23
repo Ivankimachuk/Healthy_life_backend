@@ -87,7 +87,6 @@ router.delete(
 
 // router.get("/daily-statistics", authenticate, ctrlStatistics.getDaily);
 
-// router.post('/user', authenticate, upload.single('avatar'), ctrl.someFunc);
 
 router.get("/statistics", authenticate, ctrlStatistics.getStatistics);
 

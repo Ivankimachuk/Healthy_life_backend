@@ -158,7 +158,6 @@
         }
       }
     },
-
     "/api/user/current": {
       "get": {
         "tags": ["User"],
@@ -210,7 +209,66 @@
         }
       }
     },
-
+    "/api/user/update": {
+      "put": {
+        "tags": ["User"],
+        "summary": "Update user information",
+        "security": [{ "Bearer": [] }],
+        "requestBody": {
+          "description": "Update user information",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User information updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/user/goal": {
       "put": {
         "tags": ["User"],
@@ -344,12 +402,39 @@
       }
     },
     "/api/user/water-intake": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a user's water intake record",
+        "parameters": [],
+        "security":[
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeGetResponse"
+                }                
+              }
+            }
+          }
+        },
+          "500": {
+          "description": "Failed to get water intake for date"          
+        }
+      },
       "post": {
         "tags": [
           "User"
         ],
-        "summary": "Add of water input",
-        "description": "Adds a watr intake for an authoriaed user",
+        "summary": "Add of water intake",
+        "description": "Adds a water intake for an authoriazed user",
         "parameters": [],
         "security": [
           {
@@ -366,12 +451,12 @@
               "example": {
                 "value": 500                           
               }
-            }
-          
-        },
-        "responses": {
+            }          
+         }
+      },
+      "responses": {
           "200": {
-            "description": "Успішно доданий запис про прийом води",
+            "description": "Water intake added successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -382,16 +467,15 @@
           }
         },
             "500": {
-            "description": "Не вдалося додати запис про прийом води"
+            "description": "Failed to add water intake"
           }
-        }
-      },
+        },
       "delete": {
         "tags": [
           "User"
         ],
-        "summary": "Видалити запис про прийом води",
-        "description": "Видаляє запис про прийом води для зареєстрованого користувача",
+        "summary": "Delete of water intake",
+        "description": "Deletes of water intake for a registered user",
         "parameters": [],
         "security": [
           {
@@ -411,7 +495,7 @@
         "responses": {
           "200": {
             "type": "string",
-            "description": "Успішно видалений запис про прийом води"
+            "description": "Water intake deleted successfully"
           }
         }
       }
@@ -872,6 +956,40 @@
             }
           }
         },
+      "WaterIntakeGetResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Result of the operation"
+            },
+            "waterIntakeRecord": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6586b3df8f73e97cf6030fe8"
+                },
+                "owner": {
+                  "type": "string",
+                  "example": "658619e2e760d9bf9d21b7e8"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 2100
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2023-12-23"
+                },
+                "month": {
+                  "type": "number",
+                  "example": "12"
+                }
+              }
+            }
+          }
+        },
       "WaterIntakeInput": {
           "type": "object",
           "properties": {
@@ -998,7 +1116,49 @@
               }
             }
           }
-        },     
+        }, 
+      "UpdateUserResponse": {
+          "type": "object",
+          "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's name",
+                "example": "Maryna"
+              },
+              "gender": {
+                "type": "string",
+                "enum": ["male", "female"],
+                "description": "User's gender",
+                "example": "female"
+              },
+              "age": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "User's age",
+                "example": 30
+              },
+              "height": {
+                "type": "integer",
+                "description": "User's height in cm",
+                "example": 170
+              },
+              "weight": {
+                "type": "integer",
+                "description": "User's wight in kg",
+                "example": 50
+              },
+              "activityLevel": {
+                "type": "number",
+                "enum": [1.2, 1.375, 1.55, 1.725, 1.9],
+                "description": "User's activity level"
+              },
+              "avatar": {
+                "type": "string",
+                "format": "binary",
+                "description": "User's avatra image file"
+              }                
+            }
+           },    
       "RecommendedFoodResponse": {
           "type": "array",
           "items": {
