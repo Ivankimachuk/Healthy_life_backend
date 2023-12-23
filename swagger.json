@@ -333,7 +333,8 @@
                 "$ref": "#/components/schemas/WaterIntakeInput"
               },
               "example": {
-                "value": "500"               
+                "value": "500",
+                "token": ""
               }
             }
           }
@@ -349,14 +350,12 @@
                 "example": {
                   "message": "Success",
                   "result": {
-                    "value": 500                   
+                    "value": 500,
+                    "token": ""
                   }
                 }
               }
             }
-          },
-          "401": {
-            "description": "Користувач не авторизований"
           },
           "500": {
             "description": "Не вдалося додати запис про прийом води"
@@ -1029,4 +1028,3 @@
     }
   }
 }
-
