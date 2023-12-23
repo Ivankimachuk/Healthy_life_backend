@@ -776,8 +776,7 @@
           }
         }
       },
-      "RecommendedFood": {
-        "GoalUpdateResponse": {
+      "GoalUpdateResponse": {
           "type": "object",
           "properties": {
             "message": {
@@ -808,7 +807,7 @@
             }
           }
         },
-        "GoalUpdateRequest": {
+      "GoalUpdateRequest": {
           "type": "object",
           "properties": {
             "goal": {
@@ -821,7 +820,7 @@
             "goal"
           ]
         },
-        "WeightUpdateRequest": {
+      "WeightUpdateRequest": {
           "type": "object",
           "properties": {
             "weight": {
@@ -834,7 +833,7 @@
             "weight"
           ]
         },
-        "WeightUpdateResponses": {
+      "WeightUpdateResponses": {
           "type": "object",
           "properties": {
             "message": {
@@ -873,21 +872,17 @@
             }
           }
         },
-        "WaterIntakeInput": {
+      "WaterIntakeInput": {
           "type": "object",
           "properties": {
             "value": {
               "type": "number",
               "description": "Amount of water intake",
-              "example": "300"
-            },
-            "token": {
-              "type": "string",
-              "description": "User's authentication token"
-            }
+              "example": 300
+            }            
           }
         },
-        "WaterIntakeInputResponse": {
+      "WaterIntakeInputResponse": {
           "type": "object",
           "properties": {
             "message": {
@@ -916,8 +911,8 @@
               }
             }
           }
-        },
-        "WaterIntakeDeleteInput": {
+        },  
+      "WaterIntakeDeleteInput": {
           "type": "object",
           "required": [
             "_id"
@@ -925,11 +920,12 @@
           "properties": {
             "_id": {
               "type": "string",
-              "description": "Identifier of the water intake record to delete"
+              "description": "Identifier of the water intake record to delete",
+              "example": "6586b3828f73e97cf6030fd5"
             }
           }
-        },
-        "UserStatisticsResponse": {
+        }, 
+      "UserStatisticsResponse": {
           "type": "object",
           "properties": {
             "weightMonth": {
@@ -1002,8 +998,8 @@
               }
             }
           }
-        },
-        "RecommendedFoodResponse": {
+        },     
+      "RecommendedFoodResponse": {
           "type": "array",
           "items": {
             "type": "object",
@@ -1057,15 +1053,7 @@
           }
         }
       },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
-      }
-    },
-    "securitySchemes": {
+  "securitySchemes": {
       "Bearer": {
         "type": "http",
         "scheme": "bearer",
@@ -1074,3 +1062,4 @@
     }
   }
 }
+
