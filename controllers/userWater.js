@@ -8,7 +8,7 @@ const todayDate = today.toISOString().slice(0, 10)
 const getWaterIntake = async (req, res) => {
   try {
     const userId = req.user.id;
-    const waterIntakeRecord = await WaterIntake.find({ owner: userId, date: todayDate });
+    const waterIntakeRecord = await WaterIntake.findOne({ owner: userId, date: todayDate });
     res.status(200).json({ status: "success", waterIntakeRecord });
   } catch (error) {
     res.status(500).json({ message: "Failed to get water intake for date" });
