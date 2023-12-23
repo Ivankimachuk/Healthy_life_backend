@@ -5,7 +5,7 @@ const { upload } = require("../../middlewares/uploadFile");
 
 const ctrlFood = require("../../controllers/userFood");
 const ctrlWater = require("../../controllers/userWater");
-const ctrlStatistics = require("../../controllers/statistics");
+const ctrlStatistics = require("../../controllers/userStatistics");
 
 const ctrlUserCurrent = require("../../controllers/userCurrent");
 const { schemasWater } = require("../../models/waterIntakeSchema");
@@ -20,10 +20,9 @@ router.put(
   "/update",
   authenticate,
   upload.single("avatar"),
-  // validateBody(schemas.updateUserSchema),
+  validateBody(schemas.updateUserSchema),
   userUpdateInfo
 );
-
 
 router.put(
   "/goal",
@@ -38,10 +37,6 @@ router.post(
   validateBody(schemas.weightUpdateUser),
   ctrlUserWeight.updateWeight
 );
-
-
-// router.patch("/update", authenticate, ctrlWrapper(updateUserInfo));
-
 router.post(
   "/food-intake",
   authenticate,
@@ -69,6 +64,13 @@ router.delete(
   ctrlFood.deleteFoodIntake
 );
 
+router.get(
+  "/water-intake",
+  authenticate,
+  ctrlWater.getWaterIntake
+);
+    
+
 router.post(
   "/water-intake",
   authenticate,
@@ -87,10 +89,6 @@ router.delete(
 
 // router.post('/user', authenticate, upload.single('avatar'), ctrl.someFunc);
 
-router.get(
-  "/statistics",
-  authenticate,
-  ctrlStatistics.getStatistics
-);
+router.get("/statistics", authenticate, ctrlStatistics.getStatistics);
 
 module.exports = router;
