@@ -317,8 +317,8 @@
         "tags": [
           "Water Intake"
         ],
-        "summary": "Додати запис про прийом води",
-        "description": "Додає новий запис про прийом води для автентифікованого користувача",
+        "summary": "Add of water input",
+        "description": "Adds a watr intake for an authoriaed user",
         "parameters": [],
         "security": [
           {
@@ -333,10 +333,10 @@
                 "$ref": "#/components/schemas/WaterIntakeInput"
               },
               "example": {
-                "value": "500"               
+                "value": "500"                           
               }
             }
-          }
+          
         },
         "responses": {
           "200": {
@@ -349,16 +349,15 @@
                 "example": {
                   "message": "Success",
                   "result": {
-                    "value": 500                   
+                    "value": 500, 
+                    "token": ""
+                  }                   
                   }
                 }
               }
             }
           },
-          "401": {
-            "description": "Користувач не авторизований"
-          },
-          "500": {
+            "500": {
             "description": "Не вдалося додати запис про прийом води"
           }
         }
@@ -866,7 +865,8 @@
           "properties": {
             "value": {
               "type": "number",
-              "description": "Amount of water intake"
+              "description": "Amount of water intake",
+              "example": "300"
             },
             "token": {
               "type": "string",
@@ -881,9 +881,26 @@
               "type": "string",
               "description": "Result of the operation"
             },
-            "result": {
+            "water": {
               "type": "object",
-              "description": "Result of the operation"
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6586b3df8f73e97cf6030fe8"
+                },
+                "owner": {
+                  "type": "string",
+                  "example": "658619e2e760d9bf9d21b7e8"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 2100
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2023-12-23"
+                }
+              }
             }
           }
         },
