@@ -26,8 +26,8 @@ const addWaterIntake = async (req, res, next) => {
     // console.log(water);
 
     if (!water) {
-      const result = await WaterIntake.create({ owner, value });
-      return res.json({ message: "success", result });
+      const water = await WaterIntake.create({ owner, value });
+      return res.json({ message: "success", water });
     }
 
     water.value += Number(value);
