@@ -343,6 +343,33 @@
       }
     },
     "/api/user/water-intake": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a user's water intake record",
+        "parameters": [],
+        "security":[
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful retrieval",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WaterIntakeGetResponse"
+                }                
+              }
+            }
+          }
+        },
+          "500": {
+          "description": "Failed to get water intake for date"          
+        }
+      },
       "post": {
         "tags": [
           "User"
@@ -865,6 +892,40 @@
                 "carbsRate": {
                   "type": "number",
                   "example": 292
+                }
+              }
+            }
+          }
+        },
+      "WaterIntakeGetResponse": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Result of the operation"
+            },
+            "waterIntakeRecord": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6586b3df8f73e97cf6030fe8"
+                },
+                "owner": {
+                  "type": "string",
+                  "example": "658619e2e760d9bf9d21b7e8"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 2100
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2023-12-23"
+                },
+                "month": {
+                  "type": "number",
+                  "example": "12"
                 }
               }
             }
