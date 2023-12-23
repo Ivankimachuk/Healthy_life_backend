@@ -11,6 +11,7 @@ const nodemailerConfig = {
     user: META_USER,
     pass: META_PASSWORD,
   },
+  tls: { rejectUnauthorized: false },
 };
 
 const transport = nodemailer.createTransport(nodemailerConfig);
