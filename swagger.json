@@ -37,11 +37,7 @@
     {
       "name": "Recommended Food",
       "description": "Recommended food endpoints"
-    },
-    {
-      "name": "Water Intake",
-      "description": "Water intake endpoints"
-    }
+    }    
   ],
   "paths": {
     "/api/auth/signup": {
@@ -315,7 +311,7 @@
     "/api/user/water-intake": {
       "post": {
         "tags": [
-          "Water Intake"
+          "User"
         ],
         "summary": "Add of water input",
         "description": "Adds a watr intake for an authoriaed user",
@@ -333,7 +329,7 @@
                 "$ref": "#/components/schemas/WaterIntakeInput"
               },
               "example": {
-                "value": "500"                           
+                "value": 500                           
               }
             }
           
@@ -345,18 +341,11 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WaterIntakeInputResponse"
-                },
-                "example": {
-                  "message": "Success",
-                  "result": {
-                    "value": 500, 
-                    "token": ""
-                  }                   
-                  }
-                }
+                }                
               }
             }
-          },
+          }
+        },
             "500": {
             "description": "Не вдалося додати запис про прийом води"
           }
@@ -364,7 +353,7 @@
       },
       "delete": {
         "tags": [
-          "Water Intake"
+          "User"
         ],
         "summary": "Видалити запис про прийом води",
         "description": "Видаляє запис про прийом води для зареєстрованого користувача",
@@ -380,15 +369,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/WaterIntakeDeleteInput"
-              },
-              "example": {
-                "_id": ""
-              }
+              }              
             }
           }
         },
         "responses": {
           "200": {
+            "type": "string",
             "description": "Успішно видалений запис про прийом води"
           }
         }
