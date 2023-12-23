@@ -23,11 +23,11 @@ const addWaterIntake = async (req, res, next) => {
     const { _id: owner } = user;
     
     const water = await WaterIntake.findOne({ owner, date: todayDate });
-    console.log(water);
+    // console.log(water);
 
     if (!water) {
-      const result = await WaterIntake.create({ owner, value });
-      return res.json({ message: "success", result });
+      const water = await WaterIntake.create({ owner, value });
+      return res.json({ message: "success", water });
     }
 
     water.value += Number(value);

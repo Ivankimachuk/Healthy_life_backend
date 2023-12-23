@@ -31,11 +31,7 @@
     {
       "name": "Recommended Food",
       "description": "Recommended food endpoints"
-    },
-    {
-      "name": "Water Intake",
-      "description": "Water intake endpoints"
-    }
+    }    
   ],
   "paths": {
     "/api/auth/signup": {
@@ -349,9 +345,11 @@
     },
     "/api/user/water-intake": {
       "post": {
-        "tags": ["Water Intake"],
-        "summary": "Додати запис про прийом води",
-        "description": "Додає новий запис про прийом води для автентифікованого користувача",
+        "tags": [
+          "User"
+        ],
+        "summary": "Add of water input",
+        "description": "Adds a watr intake for an authoriaed user",
         "parameters": [],
         "security": [
           {
@@ -366,10 +364,10 @@
                 "$ref": "#/components/schemas/WaterIntakeInput"
               },
               "example": {
-                "value": "500"
+                "value": 500                           
               }
             }
-          }
+          
         },
         "responses": {
           "200": {
@@ -378,23 +376,20 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WaterIntakeInputResponse"
-                },
-                "example": {
-                  "message": "Success",
-                  "result": {
-                    "value": 500
-                  }
-                }
+                }                
               }
             }
-          },
-          "500": {
+          }
+        },
+            "500": {
             "description": "Не вдалося додати запис про прийом води"
           }
         }
       },
       "delete": {
-        "tags": ["Water Intake"],
+        "tags": [
+          "User"
+        ],
         "summary": "Видалити запис про прийом води",
         "description": "Видаляє запис про прийом води для зареєстрованого користувача",
         "parameters": [],
@@ -409,15 +404,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/WaterIntakeDeleteInput"
-              },
-              "example": {
-                "_id": ""
-              }
+              }              
             }
           }
         },
         "responses": {
           "200": {
+            "type": "string",
             "description": "Успішно видалений запис про прийом води"
           }
         }
@@ -783,301 +776,230 @@
           }
         }
       },
-
-      "CurrentUserResponse": {
-        "type": "object",
-        "properties": {
-          "user": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "description": "User's email",
-                "example": "Alice"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "example": "alice123@gmail.com"
-              },
-              "goal": {
-                "type": "string",
-                "description": "User's goal",
-
-                "example": "Maintain"
-              },
-              "gender": {
-                "type": "string",
-                "description": "User's gender",
-                "example": "female"
-              },
-              "age": {
-                "type": "integer",
-                "description": "User's age",
-                "example": "18"
-              },
-              "height": {
-                "type": "integer",
-                "description": "User's height",
-                "example": "160"
-              },
-              "weight": {
-                "type": "integer",
-                "description": "User's weight",
-                "example": "60"
-              },
-              "activityLevel": {
-                "type": "number",
-                "description": "User's activityLevel",
-                "example": "1.2"
-              },
-              "avatar": {
-                "type": "string",
-                "description": "User's gravatar",
-                "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
-              },
-              "waterRate": {
-                "type": "integer",
-                "description": "User's waterRate",
-                "example": "2150"
-              },
-              "BMRRate": {
-                "type": "integer",
-                "description": "User's BMRRate",
-                "example": "1451"
-              },
-              "proteinRate": {
-                "type": "integer",
-                "description": "User's proteinRate",
-                "example": "91"
-              },
-              "fatRate": {
-                "type": "integer",
-                "description": "User's fatRate",
-                "example": "32"
-              },
-              "carbsRate": {
-                "type": "integer",
-                "description": "User's carbsRate",
-                "example": "200"
-              }
-            }
-          }
-        }
-      },
-
       "GoalUpdateResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Goal updated.",
-            "example": "Goal updated."
-          },
-          "user": {
-            "type": "object",
-            "properties": {
-              "goal": {
-                "type": "string",
-                "example": "Maintain"
-              },
-              "proteinRate": {
-                "type": "number",
-                "example": 159
-              },
-              "fatRate": {
-                "type": "number",
-                "example": 47
-              },
-              "carbsRate": {
-                "type": "number",
-                "example": 265
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Goal updated.",
+              "example": "Goal updated."
+            },
+            "user": {
+              "type": "object",
+              "properties": {
+                "goal": {
+                  "type": "string",
+                  "example": "Maintain"
+                },
+                "proteinRate": {
+                  "type": "number",
+                  "example": 159
+                },
+                "fatRate": {
+                  "type": "number",
+                  "example": 47
+                },
+                "carbsRate": {
+                  "type": "number",
+                  "example": 265
+                }
               }
             }
           }
-        }
-      },
-
+        },
       "GoalUpdateRequest": {
-        "type": "object",
-        "properties": {
-          "goal": {
-            "type": "string",
-            "description": "Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
-            "example": "Lose Fat"
-          }
+          "type": "object",
+          "properties": {
+            "goal": {
+              "type": "string",
+              "description": "Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
+              "example": "Lose Fat"
+            }
+          },
+          "required": [
+            "goal"
+          ]
         },
-        "required": ["goal"]
-      },
-
       "WeightUpdateRequest": {
-        "type": "object",
-        "properties": {
-          "weight": {
-            "type": "number",
-            "description": "User's new weight.",
-            "example": 55
+          "type": "object",
+          "properties": {
+            "weight": {
+              "type": "number",
+              "description": "User's new weight.",
+              "example": 55
+            }
+          },
+          "required": [
+            "weight"
+          ]
+        },
+      "WeightUpdateResponses": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Weidht updated.",
+              "example": "Weidht updated."
+            },
+            "user": {
+              "type": "object",
+              "properties": {
+                "weight": {
+                  "type": "number",
+                  "example": 55
+                },
+                "BMRRate": {
+                  "type": "number",
+                  "example": 2123
+                },
+                "waterRate": {
+                  "type": "number",
+                  "example": 2950
+                },
+                "proteinRate": {
+                  "type": "number",
+                  "example": 133
+                },
+                "fatRate": {
+                  "type": "number",
+                  "example": 47
+                },
+                "carbsRate": {
+                  "type": "number",
+                  "example": 292
+                }
+              }
+            }
           }
         },
-        "required": ["weight"]
-      },
-
-      "WeightUpdateResponses": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Weidht updated.",
-            "example": "Weidht updated."
-          },
-          "user": {
-            "type": "object",
-            "properties": {
-              "weight": {
-                "type": "number",
-                "example": 55
-              },
-              "BMRRate": {
-                "type": "number",
-                "example": 2123
-              },
-              "waterRate": {
-                "type": "number",
-                "example": 2950
-              },
-              "proteinRate": {
-                "type": "number",
-                "example": 133
-              },
-              "fatRate": {
-                "type": "number",
-                "example": 47
-              },
-              "carbsRate": {
-                "type": "number",
-                "example": 292
-              }
-            }
-          }
-        }
-      },
-
-      "UserStatisticsResponse": {
-        "type": "object",
-        "properties": {
-          "weightMonth": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Id user",
-                  "example": "65856ea9e12be5cdeb2291a5"
-                },
-                "value": {
-                  "type": "number",
-                  "description": "Weight of the day.",
-                  "example": 45
-                },
-                "date": {
-                  "type": "string",
-                  "description": "Date of current value.",
-                  "example": "2023-12-09"
-                }
-              }
-            }
-          },
-          "waterMonth": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Id user",
-                  "example": "65857276dda32a85a05f40d8"
-                },
-                "value": {
-                  "type": "number",
-                  "description": "Water of the day.",
-                  "example": 1876
-                },
-                "date": {
-                  "type": "string",
-                  "description": "Date of current value.",
-                  "example": "2023-12-09"
-                }
-              }
-            }
-          },
-          "caloriesMonth": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "description": "Id user",
-                  "example": "65857276dda32a85a05f40d8"
-                },
-                "value": {
-                  "type": "number",
-                  "description": "Calories of the day.",
-                  "example": 2087
-                },
-                "date": {
-                  "type": "string",
-                  "description": "Date of current value.",
-                  "example": "2023-12-09"
-                }
-              }
-            }
-          }
-        }
-      },
-
       "WaterIntakeInput": {
-        "type": "object",
-        "properties": {
-          "value": {
-            "type": "number",
-            "description": "Amount of water intake"
-          },
-          "token": {
-            "type": "string",
-            "description": "User's authentication token"
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number",
+              "description": "Amount of water intake",
+              "example": 300
+            }            
           }
-        }
-      },
-
+        },
       "WaterIntakeInputResponse": {
-        "type": "object",
-        "properties": {
-          "message": {
-            "type": "string",
-            "description": "Result of the operation"
-          },
-          "result": {
-            "type": "object",
-            "description": "Result of the operation"
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "description": "Result of the operation"
+            },
+            "water": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "example": "6586b3df8f73e97cf6030fe8"
+                },
+                "owner": {
+                  "type": "string",
+                  "example": "658619e2e760d9bf9d21b7e8"
+                },
+                "value": {
+                  "type": "number",
+                  "example": 2100
+                },
+                "date": {
+                  "type": "string",
+                  "example": "2023-12-23"
+                }
+              }
+            }
           }
-        }
-      },
-
+        },  
       "WaterIntakeDeleteInput": {
-        "type": "object",
-        "required": ["_id"],
-        "properties": {
-          "_id": {
-            "type": "string",
-            "description": "Identifier of the water intake record to delete"
+          "type": "object",
+          "required": [
+            "_id"
+          ],
+          "properties": {
+            "_id": {
+              "type": "string",
+              "description": "Identifier of the water intake record to delete",
+              "example": "6586b3828f73e97cf6030fd5"
+            }
           }
-        }
-      },
-
+        }, 
+      "UserStatisticsResponse": {
+          "type": "object",
+          "properties": {
+            "weightMonth": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Id user",
+                    "example": "65856ea9e12be5cdeb2291a5"
+                  },
+                  "value": {
+                    "type": "number",
+                    "description": "Weight of the day.",
+                    "example": 45
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date of current value.",
+                    "example": "2023-12-09"
+                  }
+                }
+              }
+            },
+            "waterMonth": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Id user",
+                    "example": "65857276dda32a85a05f40d8"
+                  },
+                  "value": {
+                    "type": "number",
+                    "description": "Water of the day.",
+                    "example": 1876
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date of current value.",
+                    "example": "2023-12-09"
+                  }
+                }
+              }
+            },
+            "caloriesMonth": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": {
+                    "type": "string",
+                    "description": "Id user",
+                    "example": "65857276dda32a85a05f40d8"
+                  },
+                  "value": {
+                    "type": "number",
+                    "description": "Calories of the day.",
+                    "example": 2087
+                  },
+                  "date": {
+                    "type": "string",
+                    "description": "Date of current value.",
+                    "example": "2023-12-09"
+                  }
+                }
+              }
+            }
+          }
+        },     
       "RecommendedFoodResponse": {
-        "RecommendedFoodResponse": {
           "type": "array",
           "items": {
             "type": "object",
@@ -1131,15 +1053,7 @@
           }
         }
       },
-      "securitySchemes": {
-        "Bearer": {
-          "type": "http",
-          "scheme": "bearer",
-          "bearerFormat": "JWT"
-        }
-      }
-    },
-    "securitySchemes": {
+  "securitySchemes": {
       "Bearer": {
         "type": "http",
         "scheme": "bearer",
@@ -1148,3 +1062,4 @@
     }
   }
 }
+
