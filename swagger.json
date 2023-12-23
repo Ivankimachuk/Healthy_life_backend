@@ -9,14 +9,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": [
-    "application/json",
-    "multipart/form-data"
-  ],
-  "produces": [
-    "application/json",
-    "multipart/form-data"
-  ],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json", "multipart/form-data"],
   "servers": [
     {
       "url": "http://localhost:3000"
@@ -42,9 +36,7 @@
   "paths": {
     "/api/auth/signup": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -83,9 +75,7 @@
     },
     "/api/auth/signin": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Logs user into the system",
         "parameters": [],
         "requestBody": {
@@ -123,9 +113,7 @@
     },
     "/api/auth/forgot-password": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Sending a new password to the mail",
         "parameters": [],
         "requestBody": {
@@ -152,9 +140,7 @@
     },
     "/api/auth/logout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -172,11 +158,62 @@
         }
       }
     },
+
+    "/api/user/current": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Get information of current user.",
+        "description": "Retrieve information about the currently authenticated user.",
+        "parameters": [],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved current user information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Bad Request."
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/api/user/goal": {
       "put": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update user's goal",
         "description": "Update the user's goal, which will recalculate daily nutrition based on the new goal",
         "parameters": [],
@@ -242,9 +279,7 @@
     },
     "/api/user/weight": {
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update user's weigh",
         "description": "Add the user's weight, which will recalculate daily nutrition and update other relevant information.",
         "parameters": [],
@@ -383,9 +418,7 @@
     },
     "/api/user/statistics": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get user's statistics.",
         "description": "Get user's statistics from month.",
         "parameters": [
@@ -450,9 +483,7 @@
     },
     "/api/recommended-food": {
       "get": {
-        "tags": [
-          "Recommended Food"
-        ],
+        "tags": ["Recommended Food"],
         "summary": "Get food recommendations",
         "description": "Retrieve a list of recommended food items.",
         "security": [
@@ -639,10 +670,7 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -739,9 +767,7 @@
       },
       "ForgoutPasswordRequest": {
         "type": "object",
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "properties": {
           "email": {
             "type": "string",
@@ -984,38 +1010,46 @@
             "properties": {
               "_id": {
                 "type": "string",
-                "description": "Id product"
+                "description": "Id product",
+                "example": "657b338690119f0a27c9426c"
               },
               "name": {
                 "type": "string",
-                "description": "Name of the product"
+                "description": "Name of the product",
+                "example": "Apples"
               },
               "amount": {
                 "type": "string",
-                "description": "Amount of the product"
+                "description": "Amount of the product",
+                "example": "100 g"
               },
               "img": {
                 "type": "string",
-                "description": "Image of the product"
+                "description": "Image of the product",
+                "example": "https://res.cloudinary.com/dec1shvoo/image/upload/v1692479041/Your%20health/pngfind.com-apple-png-1037796_udjai9.png"
               },
               "calories": {
                 "type": "number",
-                "description": "Calories content"
+                "description": "Calories content",
+                "example": 52
               },
               "nutrition": {
                 "type": "object",
                 "properties": {
                   "carbohydrates": {
                     "type": "number",
-                    "description": "Carbonohidrates content"
+                    "description": "Carbonohidrates content",
+                    "example": 14
                   },
                   "protein": {
                     "type": "number",
-                    "description": "Protein content"
+                    "description": "Protein content",
+                    "example": 0.3
                   },
                   "fat": {
                     "type": "number",
-                    "description": "Fat content"
+                    "description": "Fat content",
+                    "example": 0.2
                   }
                 }
               }
@@ -1030,7 +1064,13 @@
           "bearerFormat": "JWT"
         }
       }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
     }
   }
 }
-
