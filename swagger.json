@@ -210,7 +210,6 @@
         }
       }
     },
-
     "/api/user/goal": {
       "put": {
         "tags": ["User"],
@@ -348,8 +347,8 @@
         "tags": [
           "User"
         ],
-        "summary": "Add of water input",
-        "description": "Adds a watr intake for an authoriaed user",
+        "summary": "Add of water intake",
+        "description": "Adds a water intake for an authoriazed user",
         "parameters": [],
         "security": [
           {
@@ -366,12 +365,12 @@
               "example": {
                 "value": 500                           
               }
-            }
-          
-        },
-        "responses": {
+            }          
+         }
+      },
+      "responses": {
           "200": {
-            "description": "Успішно доданий запис про прийом води",
+            "description": "Water intake added successfully",
             "content": {
               "application/json": {
                 "schema": {
@@ -382,16 +381,15 @@
           }
         },
             "500": {
-            "description": "Не вдалося додати запис про прийом води"
+            "description": "Failed to add water intake"
           }
-        }
-      },
+        },
       "delete": {
         "tags": [
           "User"
         ],
-        "summary": "Видалити запис про прийом води",
-        "description": "Видаляє запис про прийом води для зареєстрованого користувача",
+        "summary": "Delete of water intake",
+        "description": "Deletes of water intake for a registered user",
         "parameters": [],
         "security": [
           {
@@ -411,7 +409,7 @@
         "responses": {
           "200": {
             "type": "string",
-            "description": "Успішно видалений запис про прийом води"
+            "description": "Water intake deleted successfully"
           }
         }
       }
