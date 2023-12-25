@@ -138,7 +138,7 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/api/auth/signout": {
       "post": {
         "tags": ["Auth"],
         "summary": "User logout",
@@ -151,9 +151,6 @@
         "responses": {
           "204": {
             "description": "Logout success"
-          },
-          "401": {
-            "description": "User unauthorized"
           }
         }
       }
@@ -1060,12 +1057,12 @@
         "properties": {
           "email": {
             "type": "string",
-            "format": "email",
-            "example": "exampleEmail@mail.com"
+            "format": "email"
+            
           },
           "password": {
             "type": "string",
-            "example": "userPassword"
+            "example": "qwerty123"
           }
         }
       },
@@ -1158,7 +1155,7 @@
           "email": {
             "type": "string",
             "format": "email",
-            "example": "exampleEmail@mail.com"
+            "example": "va7ul@ukr.net"
           }
         }
       },
