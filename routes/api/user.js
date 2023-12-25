@@ -14,6 +14,7 @@ const ctrlUserGoal = require("../../controllers/userGoal");
 const { schemas } = require("../../models/user");
 const router = express.Router();
 const { ProductJoiSchema, FoodJoiSchema } = require("../../models/food");
+
 router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
 
 router.put(
@@ -37,6 +38,7 @@ router.post(
   validateBody(schemas.weightUpdateUser),
   ctrlUserWeight.updateWeight
 );
+
 router.post(
   "/food-intake",
   authenticate,
@@ -50,12 +52,8 @@ router.put(
   validateBody(ProductJoiSchema),
   ctrlFood.updateFoodIntake
 );
-router.get(
-  "/food-intake",
-  authenticate,
-  ctrlFood.getAll
-);
 
+router.get("/food-intake", authenticate, ctrlFood.getAll);
 
 router.delete(
   "/food-intake",
@@ -64,12 +62,7 @@ router.delete(
   ctrlFood.deleteFoodIntake
 );
 
-router.get(
-  "/water-intake",
-  authenticate,
-  ctrlWater.getWaterIntake
-);
-    
+router.get("/water-intake", authenticate, ctrlWater.getWaterIntake);
 
 router.post(
   "/water-intake",
@@ -84,9 +77,6 @@ router.delete(
   validateBody(schemasWater.deleteWater),
   ctrlWater.deleteByIdWater
 );
-
-// router.get("/daily-statistics", authenticate, ctrlStatistics.getDaily);
-
 
 router.get("/statistics", authenticate, ctrlStatistics.getStatistics);
 

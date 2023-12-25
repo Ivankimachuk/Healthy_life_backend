@@ -9,7 +9,7 @@ const {
   calculateMacros,
   calculateWaterRate,
   calculateBMR,
-} = require("../user-datails/calculateMacros");
+} = require("../helpers/calculations");
 
 const { HttpError, ctrlWrapper } = require("../helpers");
 const sendEmail = require("../helpers/sendEmail");
