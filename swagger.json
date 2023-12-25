@@ -9,14 +9,20 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": ["application/json", "multipart/form-data"],
-  "produces": ["application/json", "multipart/form-data"],
+  "consumes": [
+    "application/json",
+    "multipart/form-data"
+  ],
+  "produces": [
+    "application/json",
+    "multipart/form-data"
+  ],
   "servers": [
     {
       "url": "http://localhost:3000"
     },
     {
-      "url": "healthy-life-backend-b6ck.onrender.com"
+      "url": "https://healthy-life-backend-b6ck.onrender.com"
     }
   ],
   "tags": [
@@ -36,7 +42,9 @@
   "paths": {
     "/api/auth/signup": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -75,7 +83,9 @@
     },
     "/api/auth/signin": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Logs user into the system",
         "parameters": [],
         "requestBody": {
@@ -113,7 +123,9 @@
     },
     "/api/auth/forgot-password": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "Sending a new password to the mail",
         "parameters": [],
         "requestBody": {
@@ -140,7 +152,9 @@
     },
     "/api/auth/logout": {
       "post": {
-        "tags": ["Auth"],
+        "tags": [
+          "Auth"
+        ],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -160,11 +174,17 @@
     },
     "/api/user/current": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get information of current user.",
         "description": "Retrieve information about the currently authenticated user.",
         "parameters": [],
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Successfully retrieved current user information.",
@@ -211,9 +231,15 @@
     },
     "/api/user/update": {
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Update user information",
-        "security": [{ "Bearer": [] }],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
         "requestBody": {
           "description": "Update user information",
           "required": true,
@@ -271,7 +297,9 @@
     },
     "/api/user/goal": {
       "put": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Update user's goal",
         "description": "Update the user's goal, which will recalculate daily nutrition based on the new goal",
         "parameters": [],
@@ -337,7 +365,9 @@
     },
     "/api/user/weight": {
       "post": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Update user's weigh",
         "description": "Add the user's weight, which will recalculate daily nutrition and update other relevant information.",
         "parameters": [],
@@ -403,7 +433,9 @@
     },
     "/api/user/water-intake": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Create a user's water intake record",
         "parameters": [],
         "security": [
@@ -428,7 +460,9 @@
         }
       },
       "post": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Add of water intake",
         "description": "Adds a water intake for an authoriazed user",
         "parameters": [],
@@ -467,7 +501,9 @@
         }
       },
       "delete": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Delete of water intake",
         "description": "Deletes of water intake for a registered user",
         "parameters": [],
@@ -496,7 +532,9 @@
     },
     "/api/user/statistics": {
       "get": {
-        "tags": ["User"],
+        "tags": [
+          "User"
+        ],
         "summary": "Get user's statistics.",
         "description": "Get user's statistics from month.",
         "parameters": [
@@ -561,7 +599,9 @@
     },
     "/api/recommended-food": {
       "get": {
-        "tags": ["Recommended Food"],
+        "tags": [
+          "Recommended Food"
+        ],
         "summary": "Get food recommendations",
         "description": "Retrieve a list of recommended food items.",
         "security": [
@@ -600,72 +640,71 @@
         }
       }
     },
-  "api/user/food-intake": {
-    "post": {
-      "tags":["User"],
-      "summary": "Add food intake for an authoriazed user",
-      "parameters": [],
-      "security": [
-        {
-          "Bearer": "[]"
-        }
-      ],
-      "requestBody": {
-        "description": "Food-intake object",
-        "required": true,
-        "content": {
-          "application/json": {
+    "api/user/food-intake": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Add food intake for an authoriazed user",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": "[]"
+          }
+        ],
+        "requestBody": {
+          "description": "Food-intake object",
+          "required": true,
+          "content": {
+            "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/FoodIntakeInput"
               }
-           
+            }
           }
-        }
         },
-      
-      "responses": {
-        "200": {
-                  "description": "Create food intake",
-                  "content": {
-                    "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/FoodIntakePostResponse"
-                      }
-                    }
-                  }
-                },
-                   
-        "400": {
-                "description": "Bad Request",
-                "content": {
-                  "application/json": {
-                    "example": {
-                      "message": "\"typeFood\" is required"
-                    }
-                  }
+        "responses": {
+          "200": {
+            "description": "Create food intake",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodIntakePostResponse"
                 }
-              },
-        "401": {
-                "description": "Unauthorized.",
-                "content": {
-                  "application/json": {
-                    "example": {
-                      "message": "Unauthorized."
-                    }
-                  }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "\"typeFood\" is required"
                 }
-              },
-        "404": {
-                "description": "",
-                "content": {
-                  "application/json": {
-                    "example": {
-                      "message": "Not found"
-                    }
-                  }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
                 }
-              },
-        "500": {
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not found"
+                }
+              }
+            }
+          },
+          "500": {
             "description": "Server error.",
             "content": {
               "application/json": {
@@ -677,238 +716,238 @@
           }
         }
       },
-      
-          "delete": {
-            "tags":["User"],
-            "summary": "Delete food intake",
-            "description": "Delete food intake for a registered user",
-            "parameters": [],
-            "security": [
-              {
-                "Bearer": "[]"
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Delete food intake",
+        "description": "Delete food intake for a registered user",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": "[]"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodIntakeDeleteInput"
               }
-            ],
-            "requestBody": {
-              "description": "Food-intake object",
-              "required": true,
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/FoodIntakeDeleteInput"
-                  }
-                }
-              }
-            },
-          "responses": {
+            }
+          }
+        },
+        "responses": {
           "200": {
-              "description": "Delete food intake",
-              "type": "string",
-              "content": {
-                "application/json": {
-                  "example": {
-                    "message": "Food deleted success"
-                  }
+            "description": "Delete food intake",
+            "type": "string",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Food deleted success"
                 }
               }
-            },
+            }
+          },
           "400": {
-                    "description": "Bad Request",
-                    "content": {
-                      "application/json": {
-                        "example": {
-                          "message": "\"typeFood\" is required"
-                        }
-                      }
-                    }
-                  },
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "\"typeFood\" is required"
+                }
+              }
+            }
+          },
           "401": {
-                    "description": "Unauthorized.",
-                    "content": {
-                      "application/json": {
-                        "example": {
-                          "message": "Unauthorized."
-                        }
-                      }
-                    }
-                  },
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
           "404": {
-                    "description": "Not found food",
-                    "content": {
-                      "application/json": {
-                        "example": {
-                          "message": "Not found food"
-                        }
-                      }
-                    }
-                  },
+            "description": "Not found food",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not found food"
+                }
+              }
+            }
+          },
           "500": {
-                    "description": "Server error.",
-                    "content": {
-                      "application/json": {
-                        "example": {
-                          "message": "Server error."
-                        }
-                      }
-                    }
-                  }
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
                 }
-              },
-                  "get": {
-                    "tags":["User"],
-                    "summary": "Create a user's food intake  for a  current date",
-                    "parameters": [],
-                    "security": [
-                      {
-                        "Bearer": []
-                      }
-                    ],
-                    "responses": {
-                      "200": {
-                        "description": "Successful",
-                        "content": {
-                          "application/json": {
-                            "schema": {
-                              "$ref": "#/components/schemas/FoodIntakeGetResponse"
-                            }
-                          }
-                        }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a user's food intake  for a  current date",
+        "parameters": [],
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodIntakeGetResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found food",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not found food"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/user/food-intake/:id": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update food intake for a specific product",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the food product to update for an authorized user",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "Bearer": "[]"
+          }
+        ],
+        "requestBody": {
+          "description": "Food  object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FoodIntakeInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful update",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FoodIntakeGetResponse"
+                },
+                "example": {
+                  "_id": "65886929070babe3027cf5c2",
+                  "owner": "6586fe5f3cce842ef95d99d4",
+                  "date": "2023-12-24",
+                  "month": 12,
+                  "totalProteins": 7,
+                  "totalFats": 20,
+                  "totalCarbs": 20,
+                  "totalCalories": 50,
+                  "breakfast": [
+                    {
+                      "name": "english breakfast",
+                      "calories": 50,
+                      "nutrition": {
+                        "carbogidrate": 20,
+                        "protein": 7,
+                        "fat": 20
                       },
-                      "401": {
-                      "description": "Unauthorized.",
-                      "content": {
-                        "application/json": {
-                          "example": {
-                            "message": "Unauthorized."
-                          }
-                        }
-                      }
-                    },
-                    "404": {
-                      "description": "Not found food",
-                      "content": {
-                        "application/json": {
-                          "example": {
-                            "message": "Not found food"
-                          }
-                        }
-                      }
+                      "_id": "65887c3d224f9ebd144b9429"
                     }
-                  }
+                  ],
+                  "dinner": [],
+                  "lunch": [],
+                  "snack": [],
+                  "__v": 4
                 }
-              },
-              
-  "/api/user/food-intake/:id": {
-               "put": {
-               "tags":["User"],
-               "summary": "Update food intake for a specific product",
-              "parameters": [
-                   {
-                     "name": "id",
-                            "in": "path",
-                            "description": "ID of the food product to update for an authorized user",
-                            "required": true
-                            }
-                          ],
-                          
-                        
-                        "security": [
-                          {
-                            "Bearer": "[]"
-                          }
-                        ],
-                        "requestBody": {
-                          "description": "Food  object",
-                          "required": true,
-                          "content": {
-                            "application/json": {
-                              "schema": {
-                                "$ref": "#/components/schemas/FoodIntakeInput"
-                                        }
-                                      }
-                                    }
-                                  },  
-                      
-                "responses": {
-                          "200": {
-                         "description": "Successful update",
-                             "content": {
-                                "application/json": {
-                                 "schema": {
-                                    "$ref": "#/components/schemas/FoodIntakeGetResponse"
-                                           },
-                                     "example": {
-                                  "_id": "65886929070babe3027cf5c2",
-                                 "owner": "6586fe5f3cce842ef95d99d4",
-                                  "date": "2023-12-24",
-                                "month": 12,
-                               "totalProteins": 7,
-                              "totalFats": 20,
-                             "totalCarbs": 20,
-                             "totalCalories": 50,
-                             "breakfast": [
-                             {
-                            "name": "english breakfast",
-                            "calories": 50,
-                            "nutrition": {
-                             "carbogidrate": 20,
-                             "protein": 7,
-                               "fat": 20
-                              },
-                               "_id": "65887c3d224f9ebd144b9429"
-                               }
-                              ],
-                            "dinner": [],
-                            "lunch": [],
-                           "snack": [],
-                             "__v": 4
-                            }
-                              }
- }
-                          },
-             "400": {
-                   "description": "Bad Request",
-                    "content": {
-                    "application/json": {
-                    "example": {
-                    "message": "\"typeFood\" is required"
-                     }
-                       }
-                    }
-                            },
-            "401": {
-                    "description": "Unauthorized.",
-                     "content": {
-                      "application/json": {
-                        "example": {
-                          "message": "Unauthorized."
-                              }
-                              }
-                               }
-                        },
-            "404": {
-                          "description": "Not found",
-                           "content": {
-                           "application/json": {
-                            "example": {
-                              "message": "Not found"
-                               }
-                                 }
-                                 }
-                            },
-           "500": {
-         "description": "Server error.",
-        "content": {
-        "application/json": {
-         "example": {
-         "message": "Server error."
-            }
-            }
-            }
-             }
-             }
               }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "\"typeFood\" is required"
+                }
               }
-              },
+            }
+          },
+          "401": {
+            "description": "Unauthorized.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Unauthorized."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Not found"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Server error."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
   "components": {
     "schemas": {
       "RegistrationRequest": {
@@ -1056,7 +1095,10 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": ["email", "password"],
+        "required": [
+          "email",
+          "password"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -1153,7 +1195,9 @@
       },
       "ForgoutPasswordRequest": {
         "type": "object",
-        "required": ["email"],
+        "required": [
+          "email"
+        ],
         "properties": {
           "email": {
             "type": "string",
@@ -1243,542 +1287,774 @@
         }
       },
       "GoalUpdateResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "Goal updated.",
-              "example": "Goal updated."
-            },
-            "user": {
-              "type": "object",
-              "properties": {
-                "goal": {
-                  "type": "string",
-                  "example": "Maintain"
-                },
-                "proteinRate": {
-                  "type": "number",
-                  "example": 159
-                },
-                "fatRate": {
-                  "type": "number",
-                  "example": 47
-                },
-                "carbsRate": {
-                  "type": "number",
-                  "example": 265
-                }
-              }
-            }
-          }
-        },
-      
-        
-      "GoalUpdateRequest": {
-          "type": "object",
-          "properties": {
-            "goal": {
-              "type": "string",
-              "description": "Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
-              "example": "Lose Fat"
-            }
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Goal updated.",
+            "example": "Goal updated."
           },
-          "required": [
-            "goal"
-          ]
-        },
-      "WeightUpdateRequest": {
-          "type": "object",
-          "properties": {
-            "weight": {
-              "type": "number",
-              "description": "User's new weight.",
-              "example": 55
-            }
-          },
-          "required": [
-            "weight"
-          ]
-        },
-      "WeightUpdateResponses": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "Weidht updated.",
-              "example": "Weidht updated."
-            },
-            "user": {
-              "type": "object",
-              "properties": {
-                "weight": {
-                  "type": "number",
-                  "example": 55
-                },
-                "BMRRate": {
-                  "type": "number",
-                  "example": 2123
-                },
-                "waterRate": {
-                  "type": "number",
-                  "example": 2950
-                },
-                "proteinRate": {
-                  "type": "number",
-                  "example": 133
-                },
-                "fatRate": {
-                  "type": "number",
-                  "example": 47
-                },
-                "carbsRate": {
-                  "type": "number",
-                  "example": 292
-                }
-              }
-            }
-          }
-        },
-      "WaterIntakeGetResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "Result of the operation"
-            },
-            "waterIntakeRecord": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "example": "6586b3df8f73e97cf6030fe8"
-                },
-                "owner": {
-                  "type": "string",
-                  "example": "658619e2e760d9bf9d21b7e8"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 2100
-                },
-                "date": {
-                  "type": "string",
-                  "example": "2023-12-23"
-                },
-                "month": {
-                  "type": "number",
-                  "example": "12"
-                }
-              }
-            }
-          }
-        },
-      "WaterIntakeInput": {
-          "type": "object",
-          "properties": {
-            "value": {
-              "type": "number",
-              "description": "Amount of water intake",
-              "example": 300
-            }            
-          }
-        },
-      "WaterIntakeInputResponse": {
-          "type": "object",
-          "properties": {
-            "message": {
-              "type": "string",
-              "description": "Result of the operation"
-            },
-            "water": {
-              "type": "object",
-              "properties": {
-                "_id": {
-                  "type": "string",
-                  "example": "6586b3df8f73e97cf6030fe8"
-                },
-                "owner": {
-                  "type": "string",
-                  "example": "658619e2e760d9bf9d21b7e8"
-                },
-                "value": {
-                  "type": "number",
-                  "example": 2100
-                },
-                "date": {
-                  "type": "string",
-                  "example": "2023-12-23"
-                }
-              }
-            }
-          }
-        },  
-      "WaterIntakeDeleteInput": {
-          "type": "object",
-          "required": [
-            "_id"
-          ],
-          "properties": {
-            "_id": {
-              "type": "string",
-              "description": "Identifier of the water intake record to delete",
-              "example": "6586b3828f73e97cf6030fd5"
-            }
-          }
-        }, 
-      "UserStatisticsResponse": {
-          "type": "object",
-          "properties": {
-            "weightMonth": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "_id": {
-                    "type": "string",
-                    "description": "Id user",
-                    "example": "65856ea9e12be5cdeb2291a5"
-                  },
-                  "value": {
-                    "type": "number",
-                    "description": "Weight of the day.",
-                    "example": 45
-                  },
-                  "date": {
-                    "type": "string",
-                    "description": "Date of current value.",
-                    "example": "2023-12-09"
-                  }
-                }
-              }
-            },
-            "waterMonth": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "_id": {
-                    "type": "string",
-                    "description": "Id user",
-                    "example": "65857276dda32a85a05f40d8"
-                  },
-                  "value": {
-                    "type": "number",
-                    "description": "Water of the day.",
-                    "example": 1876
-                  },
-                  "date": {
-                    "type": "string",
-                    "description": "Date of current value.",
-                    "example": "2023-12-09"
-                  }
-                }
-              }
-            },
-            "caloriesMonth": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "_id": {
-                    "type": "string",
-                    "description": "Id user",
-                    "example": "65857276dda32a85a05f40d8"
-                  },
-                  "value": {
-                    "type": "number",
-                    "description": "Calories of the day.",
-                    "example": 2087
-                  },
-                  "date": {
-                    "type": "string",
-                    "description": "Date of current value.",
-                    "example": "2023-12-09"
-                  }
-                }
-              }
-            }
-          }
-        }, 
-      "UpdateUserResponse": {
-          "type": "object",
-          "properties": {
-              "name": {
-                "type": "string",
-                "description": "User's email",
-                "example": "Alice"
-              },
-              "email": {
-                "type": "string",
-                "description": "User's email",
-                "example": "alice123@gmail.com"
-              },
-              "goal": {
-                "type": "string",
-                "description": "User's goal",
-                "example": "Maintain"
-              },
-              "gender": {
-                "type": "string",
-                "description": "User's gender",
-                "example": "female"
-              },
-              "age": {
-                "type": "integer",
-                "description": "User's age",
-                "example": "18"
-              },
-              "height": {
-                "type": "integer",
-                "description": "User's height",
-                "example": "160"
-              },
-              "weight": {
-                "type": "integer",
-                "description": "User's weight",
-                "example": "60"
-              },
-              "activityLevel": {
-                "type": "number",
-                "description": "User's activityLevel",
-                "example": "1.2"
-              },
-              "avatar": {
-                "type": "string",
-                "description": "User's gravatar",
-                "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
-              },
-              "waterRate": {
-                "type": "integer",
-                "description": "User's waterRate",
-                "example": "2150"
-              },
-              "BMRRate": {
-                "type": "integer",
-                "description": "User's BMRRate",
-                "example": "1451"
-              },
-              "proteinRate": {
-                "type": "integer",
-                "description": "User's proteinRate",
-                "example": "91"
-              },
-              "fatRate": {
-                "type": "integer",
-                "description": "User's fatRate",
-                "example": "32"
-              },
-              "carbsRate": {
-                "type": "integer",
-                "description": "User's carbsRate",
-                "example": "200"
-              }
-            }
-          },
-     "FoodIntakePostResponse": {
-                "type": "object",
-                "properties": {
-                  "message": {
-                    "type": "string",
-                    "description": "Result of the operation"
-                  },
-                  "UserFood": {
-                    "type": "array",
-                    "properties": {
-                      "owner": {
-                        "type": "string",
-                        "example": "658619e2e760d9bf9d21b7e8"
-                      },
-                      "date": {
-                        "type": "string",
-                        "example": "2023-12-24"
-                      },
-                      "mounth": {
-                        "type": "number",
-                        "example": "12"
-                      },
-                      "total proteins": {
-                        "type": "number",
-                        "example": "15"
-                      },
-                      "total fats": {
-                        "type": "number",
-                        "example": "25"
-                      },
-                      "totalCarbs": {
-                        "type": "number",
-                        "example": "30"
-                      },
-                      "totalCalories": {
-                        "type": "number",
-                        "example": "50"
-                      },
-                      "typeFood": {
-                        "type": "object",
-                        "example": "breakfast",
-                        "properties": {
-                          "name": "string",
-                          "example": "apple"
-                        },
-                        "calories": {
-                          "type": "number",
-                          "example": "50"
-                        },
-                        "nutrition": {
-                          "type": "object",
-                          "properties": {
-                            "carbogidrate": {
-                              "type": "number",
-                              "example": "30"
-                            },
-                            "protein": {
-                              "type": "number",
-                              "example": "15"
-                            },
-                            "fat": {
-                              "type": "number",
-                              "example": "25"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }, 
-       
-    "FoodIntakeGetResponse": {
-  "type": "object",
-  "properties": {
-    "message": {
-      "type": "string",
-      "description": "Result of the operation"
-    },
-    "UserFood": {
-      "type": "array",
-    "properties": {
-    
-    "owner": {
-      "type": "string",
-      "example": "658619e2e760d9bf9d21b7e8"
-    },
-    "date": {
-      "type": "string",
-      "example": "2023-12-24"
-    },
-    "mounth": {
-      "type": "number",
-      "example": "12"
-    }, 
-    "total proteins": {
-      "type": "number",
-      "example": "15"
-
-    },
-    "total fats": {
-   "type": "number",
-    "example": "25"
-    },
-    "totalCarbs": {
-      "type": "number",
-      "example": "30"
-    },
-    "totalCalories": {
-      "type": "number",
-      "example": "50" 
-    }, 
-    "typeFood":{
-      "type": "object",
-      "example": "breakfast",
-      "properties": {
-        "name": "string",
-        "example": "apple"
-      },
-      "calories": {
-        "type": "number",
-        "example": "50"
-      },
-    
-        "nutrition": {
-          "type": "object",
-          "properties": {
-            "carbogidrate": {
-              "type": "number",
-              "example": "30"
-            },
-            "protein": {
-              "type": "number",
-              "example": "15"
-            },
-            "fat": {
-              "type": "number",
-              "example": "25"
-            }
-       
-  }
-    }
-  }
-}
-    }
-  
-        
-      }
-    },
-"FoodIntakeInput": {
-  "type": "object",
-  "properties": {
-    "typeFood": {
-      "type": "string",
-      "example": "breakfast",
-      "userFood": {
-        "type": "array",
-          "properties": {
-            "name": "string",
-            "example": "apple"
-          },
-          "calories": {
-            "type": "number",
-            "example": "50"
-          },
-          "nutrition": {
+          "user": {
             "type": "object",
             "properties": {
-              "carbogidrate": {
-                "type": "number",
-                "example": "30"
+              "goal": {
+                "type": "string",
+                "example": "Maintain"
               },
-              "protein": {
+              "proteinRate": {
                 "type": "number",
-                "example": "15"
+                "example": 159
               },
-              "fat": {
+              "fatRate": {
                 "type": "number",
-                "example": "25"
+                "example": 47
+              },
+              "carbsRate": {
+                "type": "number",
+                "example": 265
               }
             }
           }
         }
+      },
+      "GoalUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "goal": {
+            "type": "string",
+            "description": "Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
+            "example": "Lose Fat"
+          }
+        },
+        "required": [
+          "goal"
+        ]
+      },
+      "WeightUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "weight": {
+            "type": "number",
+            "description": "User's new weight.",
+            "example": 55
+          }
+        },
+        "required": [
+          "weight"
+        ]
+      },
+      "WeightUpdateResponses": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Weidht updated.",
+            "example": "Weidht updated."
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "weight": {
+                "type": "number",
+                "example": 55
+              },
+              "BMRRate": {
+                "type": "number",
+                "example": 2123
+              },
+              "waterRate": {
+                "type": "number",
+                "example": 2950
+              },
+              "proteinRate": {
+                "type": "number",
+                "example": 133
+              },
+              "fatRate": {
+                "type": "number",
+                "example": 47
+              },
+              "carbsRate": {
+                "type": "number",
+                "example": 292
+              }
+            }
+          }
+        }
+      },
+      "WaterIntakeGetResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Result of the operation"
+          },
+          "waterIntakeRecord": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6586b3df8f73e97cf6030fe8"
+              },
+              "owner": {
+                "type": "string",
+                "example": "658619e2e760d9bf9d21b7e8"
+              },
+              "value": {
+                "type": "number",
+                "example": 2100
+              },
+              "date": {
+                "type": "string",
+                "example": "2023-12-23"
+              },
+              "month": {
+                "type": "number",
+                "example": "12"
+              }
+            }
+          }
+        }
+      },
+      "WaterIntakeInput": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "description": "Amount of water intake",
+            "example": 300
+          }
+        }
+      },
+      "WaterIntakeInputResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Result of the operation"
+          },
+          "water": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "example": "6586b3df8f73e97cf6030fe8"
+              },
+              "owner": {
+                "type": "string",
+                "example": "658619e2e760d9bf9d21b7e8"
+              },
+              "value": {
+                "type": "number",
+                "example": 2100
+              },
+              "date": {
+                "type": "string",
+                "example": "2023-12-23"
+              }
+            }
+          }
+        }
+      },
+      "WaterIntakeDeleteInput": {
+        "type": "object",
+        "required": [
+          "_id"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Identifier of the water intake record to delete",
+            "example": "6586b3828f73e97cf6030fd5"
+          }
+        }
+      },
+      "UserStatisticsResponse": {
+        "type": "object",
+        "properties": {
+          "weightMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65856ea9e12be5cdeb2291a5"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Weight of the day.",
+                  "example": 45
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          },
+          "waterMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65857276dda32a85a05f40d8"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Water of the day.",
+                  "example": 1876
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          },
+          "caloriesMonth": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "Id user",
+                  "example": "65857276dda32a85a05f40d8"
+                },
+                "value": {
+                  "type": "number",
+                  "description": "Calories of the day.",
+                  "example": 2087
+                },
+                "date": {
+                  "type": "string",
+                  "description": "Date of current value.",
+                  "example": "2023-12-09"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UpdateUserResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's email",
+            "example": "Alice"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "alice123@gmail.com"
+          },
+          "goal": {
+            "type": "string",
+            "description": "User's goal",
+            "example": "Maintain"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender",
+            "example": "female"
+          },
+          "age": {
+            "type": "integer",
+            "description": "User's age",
+            "example": "18"
+          },
+          "height": {
+            "type": "integer",
+            "description": "User's height",
+            "example": "160"
+          },
+          "weight": {
+            "type": "integer",
+            "description": "User's weight",
+            "example": "60"
+          },
+          "activityLevel": {
+            "type": "number",
+            "description": "User's activityLevel",
+            "example": "1.2"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "User's gravatar",
+            "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
+          },
+          "waterRate": {
+            "type": "integer",
+            "description": "User's waterRate",
+            "example": "2150"
+          },
+          "BMRRate": {
+            "type": "integer",
+            "description": "User's BMRRate",
+            "example": "1451"
+          },
+          "proteinRate": {
+            "type": "integer",
+            "description": "User's proteinRate",
+            "example": "91"
+          },
+          "fatRate": {
+            "type": "integer",
+            "description": "User's fatRate",
+            "example": "32"
+          },
+          "carbsRate": {
+            "type": "integer",
+            "description": "User's carbsRate",
+            "example": "200"
+          }
+        }
+      },
+      "FoodIntakePostResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "657b338690119f0a27c9426c"
+            },
+            "owner": {
+              "type": "string",
+              "example": "658619e2e760d9bf9d21b7e8"
+            },
+            "date": {
+              "type": "string",
+              "example": "2023-12-24"
+            },
+            "mounth": {
+              "type": "number",
+              "example": "12"
+            },
+            "total proteins": {
+              "type": "number",
+              "example": "15"
+            },
+            "total fats": {
+              "type": "number",
+              "example": "25"
+            },
+            "totalCarbs": {
+              "type": "number",
+              "example": "30"
+            },
+            "totalCalories": {
+              "type": "number",
+              "example": "50"
+            },
+            "breakfast": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
+              }
+            },
+            "dinner": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
+              }
+            },
+            "lunch": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
+              }
+            },
+            "snack": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "FoodIntakeGetResponse": {
+        "type": "array",
+        "items": {
+          "type": "object",
+        "properties": {
+              "_id": {
+                "type": "string",
+                "example": "657b338690119f0a27c9426c"
+              },
+              "owner": {
+                "type": "string",
+                "example": "658619e2e760d9bf9d21b7e8"
+              },
+              "date": {
+                "type": "string",
+                "example": "2023-12-24"
+              },
+              "mounth": {
+                "type": "number",
+                "example": "12"
+              },
+              "total proteins": {
+                "type": "number",
+                "example": "15"
+              },
+              "total fats": {
+                "type": "number",
+                "example": "25"
+              },
+              "totalCarbs": {
+                "type": "number",
+                "example": "30"
+              },
+              "totalCalories": {
+                "type": "number",
+                "example": "50"
+              },
+            
+              "breakfast": {
+                "type": "array",
+               "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                  "type": "string",
+                  "example": "apple"
+                },
+                "calories": {
+                  "type": "number",
+                  "example": "50"
+                },
+                "nutrition": {
+                  "type": "object",
+                  "properties": {
+                    "carbogidrate": {
+                      "type": "number",
+                      "example": "30"
+                    },
+                    "protein": {
+                      "type": "number",
+                      "example": "15"
+                    },
+                    "fat": {
+                      "type": "number",
+                      "example": "25"
+                    }
+                  }
+                },
+                "_id": {
+                  "type": "string",
+                  "example": "657b338690119f0a27c9426c"
+                } 
+              }
+            }
+          },
+                    "dinner": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "example": "apple"
+                          },
+                          "calories": {
+                            "type": "number",
+                            "example": "50"
+                          },
+                          "nutrition": {
+                            "type": "object",
+                            "properties": {
+                              "carbogidrate": {
+                                "type": "number",
+                                "example": "30"
+                              },
+                              "protein": {
+                                "type": "number",
+                                "example": "15"
+                              },
+                              "fat": {
+                                "type": "number",
+                                "example": "25"
+                              }
+                            }
+                          },
+                          "_id": {
+                            "type": "string",
+                            "example": "657b338690119f0a27c9426c"
+                          }
+                        }
+                      }
+                    },
+                              "lunch": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string",
+                                      "example": "apple"
+                                    },
+                                    "calories": {
+                                      "type": "number",
+                                      "example": "50"
+                                    },
+                                    "nutrition": {
+                                      "type": "object",
+                                      "properties": {
+                                        "carbogidrate": {
+                                          "type": "number",
+                                          "example": "30"
+                                        },
+                                        "protein": {
+                                          "type": "number",
+                                          "example": "15"
+                                        },
+                                        "fat": {
+                                          "type": "number",
+                                          "example": "25"
+                                        }
+                                      }
+                                    },
+                                    "_id": {
+                                      "type": "string",
+                                      "example": "657b338690119f0a27c9426c"
+                                    }
+                                  }
+                                }
+                              },
+                                        "snack": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "name": {
+                                                "type": "string",
+                                                "example": "apple"
+                                              },
+                                              "calories": {
+                                                "type": "number",
+                                                "example": "50"
+                                              },
+                                              "nutrition": {
+                                                "type": "object",
+                                                "properties": {
+                                                  "carbogidrate": {
+                                                    "type": "number",
+                                                    "example": "30"
+                                                  },
+                                                  "protein": {
+                                                    "type": "number",
+                                                    "example": "15"
+                                                  },
+                                                  "fat": {
+                                                    "type": "number",
+                                                    "example": "25"
+                                                  }
+                                                }
+                                              },
+                                              "_id": {
+                                                "type": "string",
+                                                "example": "657b338690119f0a27c9426c"
+                                              }
+                                            }
+                                          }
+                                        }
+          
+        }
+      }
+    },
+      "FoodIntakeInput": {
+        "type": "object",
+        "properties": {
+          "typeFood": {
+            "type": "string",
+            "example": "breakfast"
+          },
+            "userFood": {
+              "type": "array",
+              "items": {
+                "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "apple"
+                },
+                "calories": {
+                  "type": "number",
+                  "example": "50"
+                },
+                "nutrition": {
+                  "type": "object",
+                  "properties": {
+                    "carbogidrate": {
+                      "type": "number",
+                      "example": "30"
+                    },
+                    "protein": {
+                      "type": "number",
+                      "example": "15"
+                    },
+                    "fat": {
+                      "type": "number",
+                      "example": "25"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+    
+      "FoodIntakeDeleteInput": {
+        "type": "array",
+        "items": {
+          
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "657b338690119f0a27c9426c"
+            },
+            "typeFood": {
+              "type": "string", 
+              "example": "breakfast"
+            }
       }
     }
   },
-
-"FoodIntakeDeleteInput": {
-"type": "object",
-"properties": {
-  "typeFood": {
-    "type": "string",
-    "example": "breakfast",
-    "userFood": {
-      "type": "object",
-      "example": "breakfast"
-
-}
-
-    }
-  }
-},
-    
       "RecommendedFoodResponse": {
         "type": "array",
         "items": {
@@ -1842,4 +2118,3 @@
     }
   }
 }
-
