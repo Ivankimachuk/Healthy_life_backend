@@ -2,15 +2,12 @@ const { WaterIntake } = require("../models/waterIntakeSchema");
 
 const currentDate = Date.now();
 const today = new Date(currentDate);
-const todayDate = today.toISOString().slice(0, 10);
+const todayDate = today.toISOString().slice(0, 10)
 
 const getWaterIntake = async (req, res) => {
   try {
     const userId = req.user.id;
-    const waterIntakeRecord = await WaterIntake.findOne({
-      owner: userId,
-      date: todayDate,
-    });
+    const waterIntakeRecord = await WaterIntake.findOne({ owner: userId, date: todayDate });
     res.status(200).json({ status: "success", waterIntakeRecord });
   } catch (error) {
     res.status(500).json({ message: "Failed to get water intake for date" });
@@ -19,10 +16,10 @@ const getWaterIntake = async (req, res) => {
 
 const addWaterIntake = async (req, res, next) => {
   try {
-    const { value } = req.body;
-    const { _id: owner } = req.user;
-
-    const water = await WaterIntake.findOne({ owner, date: todayDate });
+    const { value } = req.body; 
+    const { _id: owner } = req.user;    
+    
+    const water = await WaterIntake.findOne({ owner, date: todayDate });  
 
     if (!water) {
       const water = await WaterIntake.create({ owner, value });
@@ -50,10 +47,9 @@ const deleteByIdWater = async (req, res) => {
     }
 
     if (String(waterRecord.owner) !== String(ownerId)) {
-      return res
-        .status(403)
-        .json({ message: "Unauthorized to delete this record" });
+      return res.status(403).json({ message: "Unauthorized to delete this record" });
     }
+  
 
     const result = await WaterIntake.findOneAndDelete({ _id });
 
