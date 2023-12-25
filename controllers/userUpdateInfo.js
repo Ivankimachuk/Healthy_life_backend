@@ -6,7 +6,7 @@ const {
   calculateBMR,
   calculateWaterRate,
   calculateMacros,
-} = require("../user-datails/calculateMacros"); 
+} = require("../helpers/calculations"); 
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
