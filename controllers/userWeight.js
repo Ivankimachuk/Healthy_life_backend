@@ -6,7 +6,7 @@ const {
   calculateBMR,
   calculateWaterRate,
   calculateMacros,
-} = require("../user-datails/calculateMacros");
+} = require("../helpers/calculations");
 
 const updateWeight = async (req, res, next) => {
   const { weight: value } = req.body;

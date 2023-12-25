@@ -1,5 +1,5 @@
 const { User } = require("../models/user");
-const { calculateMacros } = require("../user-datails/calculateMacros");
+const { calculateMacros } = require("../helpers/calculations");
 
 const { ctrlWrapper } = require("../helpers");
 
@@ -32,7 +32,7 @@ const changeGoal = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Goal is not correct" });
+    res.status(400).json({ message: "Goal is not correct" });
   }
 };
 

@@ -129,12 +129,12 @@
         "summary": "Sending a new password to the mail",
         "parameters": [],
         "requestBody": {
-          "description": "Forgout-Password object",
+          "description": "Forgot-Password object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ForgoutPasswordRequest"
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
               }
             }
           }
@@ -150,7 +150,7 @@
         }
       }
     },
-    "/api/auth/logout": {
+    "/api/auth/signout": {
       "post": {
         "tags": [
           "Auth"
@@ -165,9 +165,6 @@
         "responses": {
           "204": {
             "description": "Logout success"
-          },
-          "401": {
-            "description": "User unauthorized"
           }
         }
       }
@@ -1102,12 +1099,12 @@
         "properties": {
           "email": {
             "type": "string",
-            "format": "email",
-            "example": "exampleEmail@mail.com"
+            "format": "email"
+            
           },
           "password": {
             "type": "string",
-            "example": "userPassword"
+            "example": "qwerty123"
           }
         }
       },
@@ -1193,7 +1190,7 @@
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
         }
       },
-      "ForgoutPasswordRequest": {
+      "ForgotPasswordRequest": {
         "type": "object",
         "required": [
           "email"
@@ -1202,7 +1199,7 @@
           "email": {
             "type": "string",
             "format": "email",
-            "example": "exampleEmail@mail.com"
+            "example": "va7ul@ukr.net"
           }
         }
       },

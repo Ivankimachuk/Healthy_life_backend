@@ -1,26 +1,41 @@
-const { User } = require("../models/user");
 const { ctrlWrapper } = require("../helpers");
 
 const getCurrentUser = async (req, res) => {
-  const { _id } = req.user;
-  const currentUser = await User.findById(_id);
-  const userCurrentData = {
-    name: currentUser.name,
-    email: currentUser.email,
-    goal: currentUser.goal,
-    gender: currentUser.gender,
-    age: currentUser.age,
-    height: currentUser.height,
-    weight: currentUser.weight,
-    activityLevel: currentUser.activityLevel,
-    avatar: currentUser.avatarUrl,
-    waterRate: currentUser.waterRate,
-    BMRRate: currentUser.BMRRate,
-    proteinRate: currentUser.proteinRate,
-    fatRate: currentUser.fatRate,
-    carbsRate: currentUser.carbsRate,
-  };
-  res.status(200).json({ user: userCurrentData });
+  const {
+    name,
+    email,
+    goal,
+    gender,
+    age,
+    height,
+    weight,
+    activityLevel,
+    avatarUrl,
+    waterRate,
+    BMRRate,
+    proteinRate,
+    fatRate,
+    carbsRate,
+  } = req.user;
+
+  res.status(200).json({
+    user: {
+      name,
+      email,
+      goal,
+      gender,
+      age,
+      height,
+      weight,
+      activityLevel,
+      avatar: avatarUrl,
+      waterRate,
+      BMRRate,
+      proteinRate,
+      fatRate,
+      carbsRate,
+    },
+  });
 };
 
 module.exports = { getCurrentUser: ctrlWrapper(getCurrentUser) };
