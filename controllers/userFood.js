@@ -11,19 +11,24 @@ const getAll = async (req, res, next) => {
     try {
         const { _id: owner } = req.user;
         const result = await ProductIntake.find({ owner, date: todayDate });
-    
-        if (!result) {
+        const allFood = await ProductIntake.findOne({ owner, todayDate });
+        const { breakfast, dinner, lunch, snack } = allFood;
+
+        const total = updateTotalFood(breakfast, dinner, snack, lunch)
+        const updateTotal = await ProductIntake.findOneAndUpdate({ owner, todayDate }, total, { new: true })
+
+        if (!result && !updateTotal) {
             throw HttpError(404, "Not found");
         }
-        res.json(result);
-    }
 
+        res.json(updateTotal);
+    
+                
+    }
     catch (error) {
-        next(error);
-
-    }
+    next(error);
+}
 };
-
 const saveFoodIntake = async (req, res, next) => {
     try {
     
