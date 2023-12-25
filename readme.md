@@ -55,14 +55,14 @@ The project has several main routes, such as:
 - `/user/recommended-food` - root to get a list of recommended products.
 
 
-## Команди
+## Teams
 
-### Інсталяція
+### Installation
 
 ```bash
 npm install
 
-Запуск сервера
+Starting the server
 
 bash
 
@@ -71,7 +71,7 @@ npm run start:dev
 
 ```
 
-## Автори
+## The authors
 
 - [@Irulik ](https://github.com/Irulik)
 - [@victoria2588 ](https://github.com/victoria2588)
