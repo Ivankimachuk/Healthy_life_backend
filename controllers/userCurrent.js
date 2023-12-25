@@ -28,7 +28,7 @@ const getCurrentUser = async (req, res) => {
       height,
       weight,
       activityLevel,
-      avatarUrl,
+      avatar: avatarUrl,
       waterRate,
       BMRRate,
       proteinRate,
