@@ -152,7 +152,7 @@ const ProductSchema = new Schema({
 ProductSchema.post("save", handleMongooseError);
 
 const ProductJoiSchema = Joi.object({
-  typeFood: Joi.string().required(),
+  typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
   userFood: Joi.array()
     .items(
       Joi.object({
@@ -169,8 +169,8 @@ const ProductJoiSchema = Joi.object({
 });
 
 const FoodJoiSchema = Joi.object({
-  typeFood: Joi.string().required(),
-  userFood: Joi.object({}).required(),
+_id: Joi.string().required(),
+ typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
 });
 const ProductIntake = model("ProductIntake", ProductSchema);
 
