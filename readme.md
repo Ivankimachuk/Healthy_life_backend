@@ -52,7 +52,7 @@ The project has several main routes, such as:
 - `/user/food-intake/:id` - route for updating information about consumed food for a specific record by its identifier (id)
 - `/user/water-intake` - route to save information about the user's water consumption for the current date or delete
 - `/user/statistics` - root for obtaining statistics of calorie, water and user weight consumption for the selected period
-- `/user/recommended-food` - root to get a list of recommended products.
+- `/user/recommended-food` - root to get a list of recommended products
 
 
 ## Teams

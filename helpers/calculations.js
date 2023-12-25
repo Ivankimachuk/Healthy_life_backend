@@ -1,5 +1,4 @@
 const calculateMacros = (calories, goal) => {
-
   let proteinPercentage, fatPercentage;
 
   switch (goal) {
@@ -29,20 +28,20 @@ const calculateMacros = (calories, goal) => {
 };
 
 const calculateWaterRate = (weight, activityLevel) => {
-  let waterRate = weight * 0.03 * 1000; // базова потреба у воді
+  let waterRate = weight * 0.03 * 1000;
 
   switch (activityLevel) {
     case 1.2:
-      waterRate += 0; // легка активність
+      waterRate += 0;
       break;
     case 1.375:
-      waterRate += 350; // середня активність
+      waterRate += 350;
       break;
     case 1.55:
-      waterRate += 350; // висока активність
+      waterRate += 350;
       break;
     case 1.725:
-      waterRate += 350; // дуже висока активність
+      waterRate += 350;
       break;
     case 1.9:
       waterRate += 700;

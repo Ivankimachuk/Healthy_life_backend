@@ -99,25 +99,43 @@ const userSchema = new Schema(
 userSchema.post("save", handleMongooseError);
 
 const signupSchema = Joi.object({
-  name: Joi.string().required(),
-  password: Joi.string().min(6).required(),
-  email: Joi.string().pattern(emailRegexp).required(),
-  goal: Joi.string(),
-  gender: Joi.string(),
-  age: Joi.number(),
-  height: Joi.number(),
-  weight: Joi.number(),
-  activityLevel: Joi.number(),
-  avatar: Joi.string(),
+  name: Joi.string().required().empty(false),
+  password: Joi.string().min(6).required().empty(false),
+  email: Joi.string().pattern(emailRegexp).required().empty(false).messages({
+    "string.base": "The email must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email must not be empty.",
+    "string.pattern.base": "The email must be in the format alex@gmail.com.",
+  }),
+  goal: Joi.string().empty(false),
+  gender: Joi.string().empty(false).valid("male", "female"),
+  age: Joi.number().min(0).required().empty(false),
+  height: Joi.number().min(0).required().empty(false),
+  weight: Joi.number().min(0).required().empty(false),
+  activityLevel: Joi.number()
+    .valid(1.2, 1.375, 1.55, 1.725, 1.9)
+    .required()
+    .empty(false),
+  avatar: Joi.any().meta({ swaggerType: "file" }).description("Image file"),
 });
 
 const signinSchema = Joi.object({
-  password: Joi.string().min(6).required(),
-  email: Joi.string().pattern(emailRegexp).required(),
+  password: Joi.string().min(6).required().empty(false),
+  email: Joi.string().pattern(emailRegexp).required().empty(false).messages({
+    "string.base": "The email must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email must not be empty.",
+    "string.pattern.base": "The email must be in the format alex@gmail.com.",
+  }),
 });
 
 const forgotPasswordSchema = Joi.object({
-  email: Joi.string().pattern(emailRegexp).required(),
+  email: Joi.string().pattern(emailRegexp).required().empty(false).messages({
+    "string.base": "The email must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email must not be empty.",
+    "string.pattern.base": "The email must be in the format alex@gmail.com.",
+  }),
 });
 
 const updateUserSchema = Joi.object({

@@ -16,7 +16,7 @@
       "url": "http://localhost:3000"
     },
     {
-      "url": "healthy-life-backend-b6ck.onrender.com"
+      "url": "https://healthy-life-backend-b6ck.onrender.com"
     }
   ],
   "tags": [
@@ -117,12 +117,12 @@
         "summary": "Sending a new password to the mail",
         "parameters": [],
         "requestBody": {
-          "description": "Forgout-Password object",
+          "description": "Forgot-Password object",
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ForgoutPasswordRequest"
+                "$ref": "#/components/schemas/ForgotPasswordRequest"
               }
             }
           }
@@ -1151,7 +1151,7 @@
           "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
         }
       },
-      "ForgoutPasswordRequest": {
+      "ForgotPasswordRequest": {
         "type": "object",
         "required": ["email"],
         "properties": {

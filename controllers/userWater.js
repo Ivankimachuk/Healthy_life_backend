@@ -3,12 +3,15 @@ const { WaterIntake } = require("../models/waterIntakeSchema");
 
 const currentDate = Date.now();
 const today = new Date(currentDate);
-const todayDate = today.toISOString().slice(0, 10)
+const todayDate = today.toISOString().slice(0, 10);
 
 const getWaterIntake = async (req, res) => {
   try {
     const userId = req.user.id;
-    const waterIntakeRecord = await WaterIntake.findOne({ owner: userId, date: todayDate });
+    const waterIntakeRecord = await WaterIntake.findOne({
+      owner: userId,
+      date: todayDate,
+    });
     res.status(200).json({ status: "success", waterIntakeRecord });
   } catch (error) {
     res.status(500).json({ message: "Failed to get water intake for date" });
@@ -21,9 +24,8 @@ const addWaterIntake = async (req, res, next) => {
     const { _id } = req.user;
     const user = await User.findOne({ _id });
     const { _id: owner } = user;
-    
+
     const water = await WaterIntake.findOne({ owner, date: todayDate });
-    // console.log(water);
 
     if (!water) {
       const water = await WaterIntake.create({ owner, value });

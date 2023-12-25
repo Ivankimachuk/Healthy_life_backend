@@ -1,5 +1,5 @@
 const { User } = require("../models/user");
-const { calculateMacros } = require("../user-datails/calculateMacros");
+const { calculateMacros } = require("../helpers/calculations");
 
 const { ctrlWrapper } = require("../helpers");
 
