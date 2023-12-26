@@ -66,11 +66,11 @@ const deleteFoodIntake = async (req, res) => {
         const food = await ProductIntake.findOne({ owner, date: todayDate });
         food[typeFood] = [];
         const result = await food.save()
-        const allFood = await ProductIntake.findOne({ owner, todayDate });
+        const allFood = await ProductIntake.findOne({ owner, date: todayDate });
         const { breakfast, dinner, lunch, snack } = allFood;
 
         const total = updateTotalFood(breakfast, dinner, snack, lunch)
-        const updateTotal = await ProductIntake.findOneAndUpdate({ owner, todayDate }, total, { new: true })
+        const updateTotal = await ProductIntake.findOneAndUpdate({ owner, date: todayDate }, total, { new: true })
 
     if (!result) {
         return res.status(404).json({ message: `Not found food` });
