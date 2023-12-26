@@ -169,9 +169,11 @@ const ProductJoiSchema = Joi.object({
 });
 
 const FoodJoiSchema = Joi.object({
-_id: Joi.string().required(),
- typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
+  typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
+ 
+  userFood: Joi.object({}).required(),
 });
+
 const ProductIntake = model("ProductIntake", ProductSchema);
 
 module.exports = {

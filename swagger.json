@@ -1807,192 +1807,190 @@
         "type": "array",
         "items": {
           "type": "object",
-        "properties": {
-              "_id": {
-                "type": "string",
-                "example": "657b338690119f0a27c9426c"
-              },
-              "owner": {
-                "type": "string",
-                "example": "658619e2e760d9bf9d21b7e8"
-              },
-              "date": {
-                "type": "string",
-                "example": "2023-12-24"
-              },
-              "mounth": {
-                "type": "number",
-                "example": "12"
-              },
-              "total proteins": {
-                "type": "number",
-                "example": "15"
-              },
-              "total fats": {
-                "type": "number",
-                "example": "25"
-              },
-              "totalCarbs": {
-                "type": "number",
-                "example": "30"
-              },
-              "totalCalories": {
-                "type": "number",
-                "example": "50"
-              },
-            
-              "breakfast": {
-                "type": "array",
-               "items": {
+          "properties": {
+            "_id": {
+              "type": "string",
+              "example": "657b338690119f0a27c9426c"
+            },
+            "owner": {
+              "type": "string",
+              "example": "658619e2e760d9bf9d21b7e8"
+            },
+            "date": {
+              "type": "string",
+              "example": "2023-12-24"
+            },
+            "mounth": {
+              "type": "number",
+              "example": "12"
+            },
+            "total proteins": {
+              "type": "number",
+              "example": "15"
+            },
+            "total fats": {
+              "type": "number",
+              "example": "25"
+            },
+            "totalCarbs": {
+              "type": "number",
+              "example": "30"
+            },
+            "totalCalories": {
+              "type": "number",
+              "example": "50"
+            },
+            "breakfast": {
+              "type": "array",
+              "items": {
                 "type": "object",
                 "properties": {
                   "name": {
-                  "type": "string",
-                  "example": "apple"
-                },
-                "calories": {
-                  "type": "number",
-                  "example": "50"
-                },
-                "nutrition": {
-                  "type": "object",
-                  "properties": {
-                    "carbogidrate": {
-                      "type": "number",
-                      "example": "30"
-                    },
-                    "protein": {
-                      "type": "number",
-                      "example": "15"
-                    },
-                    "fat": {
-                      "type": "number",
-                      "example": "25"
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
                     }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
                   }
-                },
-                "_id": {
-                  "type": "string",
-                  "example": "657b338690119f0a27c9426c"
-                } 
+                }
+              }
+            },
+            "dinner": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
+              }
+            },
+            "lunch": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
+              }
+            },
+            "snack": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "apple"
+                  },
+                  "calories": {
+                    "type": "number",
+                    "example": "50"
+                  },
+                  "nutrition": {
+                    "type": "object",
+                    "properties": {
+                      "carbogidrate": {
+                        "type": "number",
+                        "example": "30"
+                      },
+                      "protein": {
+                        "type": "number",
+                        "example": "15"
+                      },
+                      "fat": {
+                        "type": "number",
+                        "example": "25"
+                      }
+                    }
+                  },
+                  "_id": {
+                    "type": "string",
+                    "example": "657b338690119f0a27c9426c"
+                  }
+                }
               }
             }
-          },
-                    "dinner": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string",
-                            "example": "apple"
-                          },
-                          "calories": {
-                            "type": "number",
-                            "example": "50"
-                          },
-                          "nutrition": {
-                            "type": "object",
-                            "properties": {
-                              "carbogidrate": {
-                                "type": "number",
-                                "example": "30"
-                              },
-                              "protein": {
-                                "type": "number",
-                                "example": "15"
-                              },
-                              "fat": {
-                                "type": "number",
-                                "example": "25"
-                              }
-                            }
-                          },
-                          "_id": {
-                            "type": "string",
-                            "example": "657b338690119f0a27c9426c"
-                          }
-                        }
-                      }
-                    },
-                              "lunch": {
-                                "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "properties": {
-                                    "name": {
-                                      "type": "string",
-                                      "example": "apple"
-                                    },
-                                    "calories": {
-                                      "type": "number",
-                                      "example": "50"
-                                    },
-                                    "nutrition": {
-                                      "type": "object",
-                                      "properties": {
-                                        "carbogidrate": {
-                                          "type": "number",
-                                          "example": "30"
-                                        },
-                                        "protein": {
-                                          "type": "number",
-                                          "example": "15"
-                                        },
-                                        "fat": {
-                                          "type": "number",
-                                          "example": "25"
-                                        }
-                                      }
-                                    },
-                                    "_id": {
-                                      "type": "string",
-                                      "example": "657b338690119f0a27c9426c"
-                                    }
-                                  }
-                                }
-                              },
-                                        "snack": {
-                                          "type": "array",
-                                          "items": {
-                                            "type": "object",
-                                            "properties": {
-                                              "name": {
-                                                "type": "string",
-                                                "example": "apple"
-                                              },
-                                              "calories": {
-                                                "type": "number",
-                                                "example": "50"
-                                              },
-                                              "nutrition": {
-                                                "type": "object",
-                                                "properties": {
-                                                  "carbogidrate": {
-                                                    "type": "number",
-                                                    "example": "30"
-                                                  },
-                                                  "protein": {
-                                                    "type": "number",
-                                                    "example": "15"
-                                                  },
-                                                  "fat": {
-                                                    "type": "number",
-                                                    "example": "25"
-                                                  }
-                                                }
-                                              },
-                                              "_id": {
-                                                "type": "string",
-                                                "example": "657b338690119f0a27c9426c"
-                                              }
-                                            }
-                                          }
-                                        }
-          
+          }
         }
-      }
-    },
+      },
       "FoodIntakeInput": {
         "type": "object",
         "properties": {
