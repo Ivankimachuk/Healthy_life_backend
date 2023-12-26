@@ -43,12 +43,12 @@ const saveFoodIntake = async (req, res, next) => {
             
             const total = updateTotalFood(breakfast, dinner, snack, lunch)
             const updateTotal = await ProductIntake.findOneAndUpdate({owner, todayDate}, total, {new: true})
-            
+            const resUpdateTotal = await updateTotal.save()
             if (!result && !updateTotal) {
                 throw HttpError(404, "Not found");
             }
 
-            res.json(updateTotal)       
+        res.json(resUpdateTotal)       
         
     }
     catch (error) {
