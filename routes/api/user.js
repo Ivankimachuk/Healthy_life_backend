@@ -13,7 +13,7 @@ const ctrlUserWeight = require("../../controllers/userWeight");
 const ctrlUserGoal = require("../../controllers/userGoal");
 const { schemas } = require("../../models/user");
 const router = express.Router();
-const { ProductJoiSchema, FoodJoiSchema } = require("../../models/food");
+const { ProductJoiSchema, FoodJoiSchema, updateProductJoiSchema } = require("../../models/food");
 
 router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
 
@@ -49,7 +49,7 @@ router.post(
 router.put(
   "/food-intake/:id",
   authenticate,
-  validateBody(ProductJoiSchema),
+  validateBody(updateProductJoiSchema),
   ctrlFood.updateFoodIntake
 );
 
