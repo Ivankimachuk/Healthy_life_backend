@@ -170,7 +170,6 @@ const ProductJoiSchema = Joi.object({
 
 const FoodJoiSchema = Joi.object({
   typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
- 
   userFood: Joi.object({}).required(),
 });
 

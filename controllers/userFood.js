@@ -64,22 +64,31 @@ const deleteFoodIntake = async (req, res) => {
         const {_id: owner } = req.user;
         const { typeFood } = req.body;
         const food = await ProductIntake.findOne({ owner, date: todayDate });
+        if (food === null || food[typeFood] === null) {
+            res.status(404).json({ message: `Not found food` });
+        }
         food[typeFood] = [];
         const result = await food.save()
+
+        if (!result) {
+            return res.status(500).json({ message: `Internal server Error` });
+        }
+
         const allFood = await ProductIntake.findOne({ owner, date: todayDate });
+        if (allFood === null) {
+            res.status(404).json({ message: `Not found any food` });
+        }
+
         const { breakfast, dinner, lunch, snack } = allFood;
 
         const total = updateTotalFood(breakfast, dinner, snack, lunch)
         const updateTotal = await ProductIntake.findOneAndUpdate({ owner, date: todayDate }, total, { new: true })
+        const resultTotal = await updateTotal.save()
+    
 
-    if (!result) {
-        return res.status(404).json({ message: `Not found food` });
-    }
-
-        res.status(200).json({ message: "Food deleted success" }, updateTotal);
+        res.status(200).json({ message: "Food deleted success", resultTotal });
 }
     catch (error) {
-    console.error(error);
     res.status(500).json({ message: "error" });
 }
 };
