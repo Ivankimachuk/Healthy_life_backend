@@ -101,20 +101,74 @@ const updateFoodIntake = async (req, res) => {
         const { typeFood, userFood } = req.body;
         const { _id: owner } = req.user;
 
-        const food = await ProductIntake.findOne({ _id: id });
-        food[typeFood] = [...userFood];
-        const result = await food.save()
+        const food = await ProductIntake.findOne({ [`${typeFood}`]: { $elemMatch: { _id: id } } }, [`${typeFood}`]);
+        function selectType() {
+            if (typeFood === "breakfast") {
+                const arr = food.lunch.map((item) => {
+                    if (item._id.toString() === id) {
+                        item.name = userFood.name
+                        item.nutrition = userFood.nutrition
+                        item.calories = userFood.calories
+                    }
+                    return item;
+                })
+                food.breakfast = [...arr]
+                return arr
+            }
+            if (typeFood === "lunch") {
+                const arr = food.lunch.map((item) => {
+                    if (item._id.toString() === id) {
+                        item.name = userFood.name
+                        item.nutrition = userFood.nutrition
+                        item.calories = userFood.calories
+                    }
+                    return item;
+                })
+                food.lunch = [...arr]
+                return arr
+            }
+            if (typeFood === "dinner") {
+                const arr = food.lunch.map((item) => {
+                    if (item._id.toString() === id) {
+                        item.name = userFood.name
+                        item.nutrition = userFood.nutrition
+                        item.calories = userFood.calories
+                    }
+                    return item;
+                })
+                food.dinner = [...arr]
+                return arr
+            }
+            if (typeFood === "snack") {
+                const arr = food.lunch.map((item) => {
+                    if (item._id.toString() === id) {
+                        item.name = userFood.name
+                        item.nutrition = userFood.nutrition
+                        item.calories = userFood.calories
+                    }
+                    food.snack = [...arr]
+                    return item;
+                })
+                return arr
+            }
+        }
+        selectType()
 
-        const allFood = await ProductIntake.findOne({ owner, todayDate });
+       const result = await food.save()
+      
+
+
+        const allFood = await ProductIntake.findOne({ owner, date: todayDate });
         const { breakfast, dinner, lunch, snack } = allFood;
 
         const total = updateTotalFood(breakfast, dinner, snack, lunch)
-        const updateTotal = await ProductIntake.findOneAndUpdate({ owner, todayDate }, total, { new: true })
+        const updateTotal = await ProductIntake.findOneAndUpdate({ owner, date: todayDate }, total, { new: true })
 
         if (!result && !updateTotal) {
             throw HttpError(404, "Not found");
         }
         res.json(updateTotal);
+
     } catch (error) {
         res.status(500).json({ message: "error" });
     }

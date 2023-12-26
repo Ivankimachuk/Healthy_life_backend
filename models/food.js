@@ -168,6 +168,20 @@ const ProductJoiSchema = Joi.object({
     .required(),
 });
 
+const updateProductJoiSchema = Joi.object({
+  typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
+  userFood: Joi.object({
+    name: Joi.string().required(),
+    calories: Joi.number().required(),
+    nutrition: Joi.object({
+      fat: Joi.number().required(),
+      protein: Joi.number().required(),
+      carbogidrate: Joi.number().required(),
+    }).required(),
+  })
+  
+});
+
 const FoodJoiSchema = Joi.object({
   typeFood: Joi.string().valid('breakfast', 'dinner', 'lunch', 'snack').required(),
   userFood: Joi.object({}).required(),
@@ -179,4 +193,5 @@ module.exports = {
   FoodJoiSchema,
   ProductJoiSchema,
   ProductIntake,
+  updateProductJoiSchema
 };
