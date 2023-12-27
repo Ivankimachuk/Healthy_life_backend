@@ -9,14 +9,8 @@
       "url": "https://opensource.org/licenses/MIT"
     }
   },
-  "consumes": [
-    "application/json",
-    "multipart/form-data"
-  ],
-  "produces": [
-    "application/json",
-    "multipart/form-data"
-  ],
+  "consumes": ["application/json", "multipart/form-data"],
+  "produces": ["application/json", "multipart/form-data"],
   "servers": [
     {
       "url": "http://localhost:3000"
@@ -42,9 +36,7 @@
   "paths": {
     "/api/auth/signup": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User registration",
         "parameters": [],
         "requestBody": {
@@ -83,9 +75,7 @@
     },
     "/api/auth/signin": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Logs user into the system",
         "parameters": [],
         "requestBody": {
@@ -123,9 +113,7 @@
     },
     "/api/auth/forgot-password": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "Sending a new password to the mail",
         "parameters": [],
         "requestBody": {
@@ -152,9 +140,7 @@
     },
     "/api/auth/signout": {
       "post": {
-        "tags": [
-          "Auth"
-        ],
+        "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
         "security": [
@@ -171,9 +157,7 @@
     },
     "/api/user/current": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get information of current user.",
         "description": "Retrieve information about the currently authenticated user.",
         "parameters": [],
@@ -228,9 +212,7 @@
     },
     "/api/user/update": {
       "put": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update user information",
         "security": [
           {
@@ -294,9 +276,7 @@
     },
     "/api/user/goal": {
       "put": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update user's goal",
         "description": "Update the user's goal, which will recalculate daily nutrition based on the new goal",
         "parameters": [],
@@ -306,7 +286,7 @@
           }
         ],
         "requestBody": {
-          "description": "User's new goal object.",
+          "description": "User's new goal. Choose from values: ['Lose Fat', 'Maintain', 'Gain Muscle'].",
           "required": true,
           "content": {
             "application/json": {
@@ -362,9 +342,7 @@
     },
     "/api/user/weight": {
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update user's weigh",
         "description": "Add the user's weight, which will recalculate daily nutrition and update other relevant information.",
         "parameters": [],
@@ -430,9 +408,7 @@
     },
     "/api/user/water-intake": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Create a user's water intake record",
         "parameters": [],
         "security": [
@@ -457,9 +433,7 @@
         }
       },
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Add of water intake",
         "description": "Adds a water intake for an authoriazed user",
         "parameters": [],
@@ -498,9 +472,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Delete of water intake",
         "description": "Deletes of water intake for a registered user",
         "parameters": [],
@@ -529,9 +501,7 @@
     },
     "/api/user/statistics": {
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Get user's statistics.",
         "description": "Get user's statistics from month.",
         "parameters": [
@@ -596,9 +566,7 @@
     },
     "/api/recommended-food": {
       "get": {
-        "tags": [
-          "Recommended Food"
-        ],
+        "tags": ["Recommended Food"],
         "summary": "Get food recommendations",
         "description": "Retrieve a list of recommended food items.",
         "security": [
@@ -639,9 +607,7 @@
     },
     "api/user/food-intake": {
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Add food intake for an authoriazed user",
         "parameters": [],
         "security": [
@@ -714,9 +680,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Delete food intake",
         "description": "Delete food intake for a registered user",
         "parameters": [],
@@ -790,9 +754,7 @@
         }
       },
       "get": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Create a user's food intake  for a  current date",
         "parameters": [],
         "security": [
@@ -836,9 +798,7 @@
     },
     "/api/user/food-intake/:id": {
       "put": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Update food intake for a specific product",
         "parameters": [
           {
@@ -1092,15 +1052,11 @@
       },
       "LoginRequest": {
         "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
             "format": "email"
-            
           },
           "password": {
             "type": "string",
@@ -1192,9 +1148,7 @@
       },
       "ForgotPasswordRequest": {
         "type": "object",
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "properties": {
           "email": {
             "type": "string",
@@ -1323,9 +1277,7 @@
             "example": "Lose Fat"
           }
         },
-        "required": [
-          "goal"
-        ]
+        "required": ["goal"]
       },
       "WeightUpdateRequest": {
         "type": "object",
@@ -1336,9 +1288,7 @@
             "example": 55
           }
         },
-        "required": [
-          "weight"
-        ]
+        "required": ["weight"]
       },
       "WeightUpdateResponses": {
         "type": "object",
@@ -1455,9 +1405,7 @@
       },
       "WaterIntakeDeleteInput": {
         "type": "object",
-        "required": [
-          "_id"
-        ],
+        "required": ["_id"],
         "properties": {
           "_id": {
             "type": "string",
@@ -1998,10 +1946,10 @@
             "type": "string",
             "example": "breakfast"
           },
-            "userFood": {
-              "type": "array",
-              "items": {
-                "type": "object",
+          "userFood": {
+            "type": "array",
+            "items": {
+              "type": "object",
               "properties": {
                 "name": {
                   "type": "string",
@@ -2033,23 +1981,22 @@
           }
         }
       },
-    
+
       "FoodIntakeDeleteInput": {
         "type": "array",
         "items": {
-          
           "properties": {
             "_id": {
               "type": "string",
               "example": "657b338690119f0a27c9426c"
             },
             "typeFood": {
-              "type": "string", 
+              "type": "string",
               "example": "breakfast"
             }
-      }
-    }
-  },
+          }
+        }
+      },
       "RecommendedFoodResponse": {
         "type": "array",
         "items": {
