@@ -28,7 +28,7 @@ const saveFoodIntake = async (req, res, next) => {
     const { _id: owner } = req.user;
 
     const food = await ProductIntake.findOne({ owner, date: todayDate });
-
+    
     const userProducts = await ProductIntake.findOne({
       owner,
       date: todayDate,
@@ -63,7 +63,7 @@ const deleteFoodIntake = async (req, res) => {
     const { typeFood } = req.body;
     const food = await ProductIntake.findOne({ owner, date: todayDate });
     if (food === null || food[typeFood] === null) {
-      res.status(404).json({ message: `Not found food` });
+      res.status(404).json({ message: `Not found any food` });
     }
     food[typeFood] = [];
     const result = await food.save();
@@ -89,7 +89,7 @@ const deleteFoodIntake = async (req, res) => {
 
     res.status(200).json({ message: 'Food deleted success', resultTotal });
   } catch (error) {
-    res.status(500).json({ message: 'error' });
+    res.status(500).json({ message: 'Internal server Error' });
   }
 };
 
@@ -174,7 +174,7 @@ const updateFoodIntake = async (req, res) => {
     }
     res.json(updateTotal);
   } catch (error) {
-    res.status(500).json({ message: 'error' });
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
