@@ -637,11 +637,9 @@
         }
       }
     },
-    "api/user/food-intake": {
+    "/api/user/food-intake": {
       "post": {
-        "tags": [
-          "User"
-        ],
+        "tags": ["User"],
         "summary": "Add food intake for an authoriazed user",
         "parameters": [],
         "security": [
@@ -743,6 +741,7 @@
               "application/json": {
                 "example": {
                   "message": "Food deleted success"
+                  
                 }
               }
             }
@@ -772,7 +771,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "Not found food"
+                  "message": "Not found any food"
                 }
               }
             }
@@ -782,7 +781,7 @@
             "content": {
               "application/json": {
                 "example": {
-                  "message": "Server error."
+                  "message": "Internal server Error"
                 }
               }
             }
@@ -807,10 +806,38 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/FoodIntakeGetResponse"
+                },
+                "example": [{
+                  "_id": "65886929070babe3027cf5c2",
+                  "owner": "6586fe5f3cce842ef95d99d4",
+                  "date": "2023-12-24",
+                  "month": 12,
+                  "totalProteins": 7,
+                  "totalFats": 20,
+                  "totalCarbs": 20,
+                  "totalCalories": 50,
+                  "breakfast": [
+                    {
+                      "name": "english breakfast",
+                      "calories": 50,
+                      "nutrition": {
+                        "carbogidrate": 20,
+                        "protein": 7,
+                        "fat": 20
+                      },
+                      "_id": "65887c3d224f9ebd144b9429"
+                    }
+                  ],
+                  "dinner": [],
+                  "lunch": [],
+                  "snack": [],
+                  "__v": 4
                 }
+              ]
               }
             }
           },
+          
           "401": {
             "description": "Unauthorized.",
             "content": {
@@ -834,7 +861,7 @@
         }
       }
     },
-    "/api/user/food-intake/:id": {
+    "/api/user/food-intake/{id}": {
       "put": {
         "tags": [
           "User"
@@ -859,7 +886,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FoodIntakeInput"
+                "$ref": "#/components/schemas/FoodIntakeUpdateInput"
               }
             }
           }
@@ -1804,10 +1831,10 @@
         }
       },
       "FoodIntakeGetResponse": {
-        "type": "array",
-        "items": {
-          "type": "object",
-          "properties": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
             "_id": {
               "type": "string",
               "example": "657b338690119f0a27c9426c"
@@ -1991,6 +2018,7 @@
           }
         }
       },
+      
       "FoodIntakeInput": {
         "type": "object",
         "properties": {
@@ -1998,10 +2026,10 @@
             "type": "string",
             "example": "breakfast"
           },
-            "userFood": {
-              "type": "array",
-              "items": {
-                "type": "object",
+          "userFood": {
+            "type": "array",
+            "items": {
+              "type": "object",
               "properties": {
                 "name": {
                   "type": "string",
@@ -2033,23 +2061,59 @@
           }
         }
       },
-    
+      "FoodIntakeUpdateInput": {
+        "type": "object",
+        "properties": {
+          "typeFood": {
+            "type": "string",
+            "example": "breakfast"
+          },
+          "userFood": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "apple"
+              },
+              "calories": {
+                "type": "number",
+                "example": "50"
+              },
+              "nutrition": {
+                "type": "object",
+                "properties": {
+                  "carbogidrate": {
+                    "type": "number",
+                    "example": "30"
+                  },
+                  "protein": {
+                    "type": "number",
+                    "example": "15"
+                  },
+                  "fat": {
+                    "type": "number",
+                    "example": "25"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      
       "FoodIntakeDeleteInput": {
-        "type": "array",
-        "items": {
-          
-          "properties": {
-            "_id": {
-              "type": "string",
-              "example": "657b338690119f0a27c9426c"
-            },
+       "type": "object",
+       "properties": {
             "typeFood": {
               "type": "string", 
               "example": "breakfast"
+            },
+            "userFood": {
+              "type": "object"
             }
       }
-    }
-  },
+    },
+
       "RecommendedFoodResponse": {
         "type": "array",
         "items": {
