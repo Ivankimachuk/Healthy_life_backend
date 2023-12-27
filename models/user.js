@@ -139,13 +139,25 @@ const forgotPasswordSchema = Joi.object({
 });
 
 const updateUserSchema = Joi.object({
-  name: Joi.string().required(),
+  name: Joi.string(),
   gender: Joi.string().valid("male", "female"),
-  age: Joi.number().min(0).required(),
-  height: Joi.number().min(0).required(),
-  weight: Joi.number().min(0).required(),
-  activityLevel: Joi.number().valid(1.2, 1.375, 1.55, 1.725, 1.9).required(),
+  age: Joi.number().min(0),
+  height: Joi.number().min(0),
+  weight: Joi.number().min(0),
+  activityLevel: Joi.number().valid(1.2, 1.375, 1.55, 1.725, 1.9),
   avatar: Joi.any().meta({ swaggerType: "file" }).description("Image file"),
+  email: Joi.string().pattern(emailRegexp).empty(false).messages({
+    "string.base": "The email must be a string.",
+    "any.required": "The email field is required.",
+    "string.empty": "The email must not be empty.",
+    "string.pattern.base": "The email must be in the format alex@gmail.com.",
+  }),
+  goal: Joi.string().valid("Lose Fat", "Maintain", "Gain Muscle"),
+  waterRate: Joi.number(),
+  BMRRate: Joi.number(),
+  proteinRate: Joi.number(),
+  carbsRate: Joi.number(),  
+  fatRate: Joi.number(),
 });
 
 const goalUpdateUser = Joi.object({
