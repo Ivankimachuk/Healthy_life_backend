@@ -1,37 +1,44 @@
-const { WaterIntake } = require("../models/waterIntakeSchema");
+const { WaterIntake } = require('../models/waterIntakeSchema');
 
-const currentDate = Date.now();
-const today = new Date(currentDate);
-const todayDate = today.toISOString().slice(0, 10)
+const date = () => {
+  const currentDate = Date.now();
+  const today = new Date(currentDate);
+  return today.toISOString().slice(0, 10);
+};
 
 const getWaterIntake = async (req, res) => {
   try {
+    const todayDate = date();
     const userId = req.user.id;
-    const waterIntakeRecord = await WaterIntake.findOne({ owner: userId, date: todayDate });
-    res.status(200).json({ status: "success", waterIntakeRecord });
+    const waterIntakeRecord = await WaterIntake.findOne({
+      owner: userId,
+      date: todayDate,
+    });
+    res.status(200).json({ status: 'success', waterIntakeRecord });
   } catch (error) {
-    res.status(500).json({ message: "Failed to get water intake for date" });
+    res.status(500).json({ message: 'Failed to get water intake for date' });
   }
 };
 
 const addWaterIntake = async (req, res, next) => {
   try {
-    const { value } = req.body; 
-    const { _id: owner } = req.user;    
-    
-    const water = await WaterIntake.findOne({ owner, date: todayDate });  
+    const todayDate = date();
+    const { value } = req.body;
+    const { _id: owner } = req.user;
+
+    const water = await WaterIntake.findOne({ owner, date: todayDate });
 
     if (!water) {
       const water = await WaterIntake.create({ owner, value });
-      return res.json({ message: "success", water });
+      return res.json({ message: 'success', water });
     }
 
     water.value += Number(value);
     water.save();
-    res.json({ message: "success", water });
+    res.json({ message: 'success', water });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to add water intake" });
+    res.status(500).json({ message: 'Failed to add water intake' });
   }
 };
 
@@ -43,28 +50,29 @@ const deleteByIdWater = async (req, res) => {
     const waterRecord = await WaterIntake.findOne({ _id });
 
     if (!waterRecord) {
-      return res.status(404).json({ message: "No water intake record found" });
+      return res.status(404).json({ message: 'No water intake record found' });
     }
 
     if (String(waterRecord.owner) !== String(ownerId)) {
-      return res.status(403).json({ message: "Unauthorized to delete this record" });
+      return res
+        .status(403)
+        .json({ message: 'Unauthorized to delete this record' });
     }
-  
 
     const result = await WaterIntake.findOneAndDelete({ _id });
 
     if (!result) {
       return res
         .status(404)
-        .json({ message: "No water intake record found for today" });
+        .json({ message: 'No water intake record found for today' });
     }
 
     res
       .status(200)
-      .json({ message: "Water intake record deleted successfully" });
+      .json({ message: 'Water intake record deleted successfully' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Failed to delete water intake" });
+    res.status(500).json({ message: 'Failed to delete water intake' });
   }
 };
 
