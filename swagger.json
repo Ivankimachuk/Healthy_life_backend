@@ -68,7 +68,13 @@
           },
           "409": {
             "description": "Email already in use",
-            "content": {}
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Email already in use"
+                }
+              }
+            }
           }
         }
       }
@@ -106,7 +112,14 @@
             }
           },
           "401": {
-            "description": "Email or password invalid"
+            "description": "Email or password invalid",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Email or password invalid"
+                }
+              }
+            }
           }
         }
       }
@@ -129,11 +142,24 @@
         },
         "responses": {
           "200": {
-            "description": "Password updated successfully. Check your email for the new password"
+            "description": "Password updated successfully. Check your email for the new password",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Password updated successfully. Check your email for the new password"
+                }
+              }
+            }
           },
           "404": {
             "description": "User not found",
-            "content": {}
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "User not found"
+                }
+              }
+            }
           }
         }
       }
@@ -143,14 +169,32 @@
         "tags": ["Auth"],
         "summary": "User logout",
         "parameters": [],
-        "security": [
-          {
-            "Bearer": []
+        "requestBody": {
+          "description": "Registration's object",
+          "security": [
+            {
+              "Bearer": []
+            }
+          ],
+          "required": true,
+          "content": {
+            "application/json": {
+              "example": {
+                "token": "your_access_token_here"
+              }
+            }
           }
-        ],
+        },
         "responses": {
           "204": {
-            "description": "Logout success"
+            "description": "Logout success",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "Logout success"
+                }
+              }
+            }
           }
         }
       }
@@ -709,7 +753,6 @@
               "application/json": {
                 "example": {
                   "message": "Food deleted success"
-                  
                 }
               }
             }
@@ -773,37 +816,38 @@
                 "schema": {
                   "$ref": "#/components/schemas/FoodIntakeGetResponse"
                 },
-                "example": [{
-                  "_id": "65886929070babe3027cf5c2",
-                  "owner": "6586fe5f3cce842ef95d99d4",
-                  "date": "2023-12-24",
-                  "month": 12,
-                  "totalProteins": 7,
-                  "totalFats": 20,
-                  "totalCarbs": 20,
-                  "totalCalories": 50,
-                  "breakfast": [
-                    {
-                      "name": "english breakfast",
-                      "calories": 50,
-                      "nutrition": {
-                        "carbogidrate": 20,
-                        "protein": 7,
-                        "fat": 20
-                      },
-                      "_id": "65887c3d224f9ebd144b9429"
-                    }
-                  ],
-                  "dinner": [],
-                  "lunch": [],
-                  "snack": [],
-                  "__v": 4
-                }
-              ]
+                "example": [
+                  {
+                    "_id": "65886929070babe3027cf5c2",
+                    "owner": "6586fe5f3cce842ef95d99d4",
+                    "date": "2023-12-24",
+                    "month": 12,
+                    "totalProteins": 7,
+                    "totalFats": 20,
+                    "totalCarbs": 20,
+                    "totalCalories": 50,
+                    "breakfast": [
+                      {
+                        "name": "english breakfast",
+                        "calories": 50,
+                        "nutrition": {
+                          "carbogidrate": 20,
+                          "protein": 7,
+                          "fat": 20
+                        },
+                        "_id": "65887c3d224f9ebd144b9429"
+                      }
+                    ],
+                    "dinner": [],
+                    "lunch": [],
+                    "snack": [],
+                    "__v": 4
+                  }
+                ]
               }
             }
           },
-          
+
           "401": {
             "description": "Unauthorized.",
             "content": {
@@ -1001,84 +1045,86 @@
       },
       "RegistrationResponse": {
         "type": "object",
-        "user": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's email",
-              "example": "Alex"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "goal": {
-              "type": "string",
-              "description": "User's goal",
-              "example": "Maintain"
-            },
-            "gender": {
-              "type": "string",
-              "description": "User's gender",
-              "example": "male"
-            },
-            "age": {
-              "type": "integer",
-              "description": "User's age",
-              "example": "18"
-            },
-            "height": {
-              "type": "integer",
-              "description": "User's height",
-              "example": "160"
-            },
-            "weight": {
-              "type": "integer",
-              "description": "User's weight",
-              "example": "60"
-            },
-            "activityLevel": {
-              "type": "number",
-              "description": "User's activityLevel",
-              "example": "1.2"
-            },
-            "avatar": {
-              "type": "string",
-              "description": "User's gravatar",
-              "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
-            },
-            "waterRate": {
-              "type": "integer",
-              "description": "User's waterRate",
-              "example": "2150"
-            },
-            "BMRRate": {
-              "type": "integer",
-              "description": "User's BMRRate",
-              "example": "1451"
-            },
-            "proteinRate": {
-              "type": "integer",
-              "description": "User's proteinRate",
-              "example": "91"
-            },
-            "fatRate": {
-              "type": "integer",
-              "description": "User's fatRate",
-              "example": "32"
-            },
-            "carbsRate": {
-              "type": "integer",
-              "description": "User's carbsRate",
-              "example": "200"
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's email",
+                "example": "Alex"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "goal": {
+                "type": "string",
+                "description": "User's goal",
+                "example": "Maintain"
+              },
+              "gender": {
+                "type": "string",
+                "description": "User's gender",
+                "example": "male"
+              },
+              "age": {
+                "type": "integer",
+                "description": "User's age",
+                "example": "18"
+              },
+              "height": {
+                "type": "integer",
+                "description": "User's height",
+                "example": "160"
+              },
+              "weight": {
+                "type": "integer",
+                "description": "User's weight",
+                "example": "60"
+              },
+              "activityLevel": {
+                "type": "number",
+                "description": "User's activityLevel",
+                "example": "1.2"
+              },
+              "avatar": {
+                "type": "string",
+                "description": "User's gravatar",
+                "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
+              },
+              "waterRate": {
+                "type": "integer",
+                "description": "User's waterRate",
+                "example": "2150"
+              },
+              "BMRRate": {
+                "type": "integer",
+                "description": "User's BMRRate",
+                "example": "1451"
+              },
+              "proteinRate": {
+                "type": "integer",
+                "description": "User's proteinRate",
+                "example": "91"
+              },
+              "fatRate": {
+                "type": "integer",
+                "description": "User's fatRate",
+                "example": "32"
+              },
+              "carbsRate": {
+                "type": "integer",
+                "description": "User's carbsRate",
+                "example": "200"
+              }
             }
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
           }
-        },
-        "token": {
-          "type": "string",
-          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
         }
       },
       "LoginRequest": {
@@ -1097,84 +1143,86 @@
       },
       "LoginResponse": {
         "type": "object",
-        "user": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "User's email",
-              "example": "Alex"
-            },
-            "email": {
-              "type": "string",
-              "description": "User's email",
-              "format": "email"
-            },
-            "goal": {
-              "type": "string",
-              "description": "User's goal",
-              "example": "Maintain"
-            },
-            "gender": {
-              "type": "string",
-              "description": "User's gender",
-              "example": "male"
-            },
-            "age": {
-              "type": "integer",
-              "description": "User's age",
-              "example": "18"
-            },
-            "height": {
-              "type": "integer",
-              "description": "User's height",
-              "example": "160"
-            },
-            "weight": {
-              "type": "integer",
-              "description": "User's weight",
-              "example": "60"
-            },
-            "activityLevel": {
-              "type": "number",
-              "description": "User's activityLevel",
-              "example": "1.2"
-            },
-            "avatar": {
-              "type": "string",
-              "description": "User's gravatar",
-              "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
-            },
-            "waterRate": {
-              "type": "integer",
-              "description": "User's waterRate",
-              "example": "2150"
-            },
-            "BMRRate": {
-              "type": "integer",
-              "description": "User's BMRRate",
-              "example": "1451"
-            },
-            "proteinRate": {
-              "type": "integer",
-              "description": "User's proteinRate",
-              "example": "91"
-            },
-            "fatRate": {
-              "type": "integer",
-              "description": "User's fatRate",
-              "example": "32"
-            },
-            "carbsRate": {
-              "type": "integer",
-              "description": "User's carbsRate",
-              "example": "200"
+        "properties": {
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "User's email",
+                "example": "Alex"
+              },
+              "email": {
+                "type": "string",
+                "description": "User's email",
+                "format": "email"
+              },
+              "goal": {
+                "type": "string",
+                "description": "User's goal",
+                "example": "Maintain"
+              },
+              "gender": {
+                "type": "string",
+                "description": "User's gender",
+                "example": "male"
+              },
+              "age": {
+                "type": "integer",
+                "description": "User's age",
+                "example": "18"
+              },
+              "height": {
+                "type": "integer",
+                "description": "User's height",
+                "example": "160"
+              },
+              "weight": {
+                "type": "integer",
+                "description": "User's weight",
+                "example": "60"
+              },
+              "activityLevel": {
+                "type": "number",
+                "description": "User's activityLevel",
+                "example": "1.2"
+              },
+              "avatar": {
+                "type": "string",
+                "description": "User's gravatar",
+                "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
+              },
+              "waterRate": {
+                "type": "integer",
+                "description": "User's waterRate",
+                "example": "2150"
+              },
+              "BMRRate": {
+                "type": "integer",
+                "description": "User's BMRRate",
+                "example": "1451"
+              },
+              "proteinRate": {
+                "type": "integer",
+                "description": "User's proteinRate",
+                "example": "91"
+              },
+              "fatRate": {
+                "type": "integer",
+                "description": "User's fatRate",
+                "example": "32"
+              },
+              "carbsRate": {
+                "type": "integer",
+                "description": "User's carbsRate",
+                "example": "200"
+              }
             }
+          },
+          "token": {
+            "type": "string",
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
           }
-        },
-        "token": {
-          "type": "string",
-          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ODJiNzNkZGI5MmFjMjA2MTNlN2E4ZiIsImlhdCI6MTcwMzEwMTg0NywiZXhwIjoyMDE4Njc3ODQ3fQ.9H3f58OoT5PmMHzGVsS0cCdMvvu6V5UrJ_hasxNP5FI"
         }
       },
       "ForgotPasswordRequest": {
@@ -1526,7 +1574,7 @@
             "type": "string",
             "description": "User's email",
             "example": "Alice"
-          },          
+          },
           "gender": {
             "type": "string",
             "description": "User's gender",
@@ -1556,7 +1604,7 @@
             "type": "file",
             "format": "binary",
             "description": "User's avatar file"
-          }          
+          }
         }
       },
       "UpdateUserResponse": {
@@ -1823,10 +1871,10 @@
         }
       },
       "FoodIntakeGetResponse": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
             "_id": {
               "type": "string",
               "example": "657b338690119f0a27c9426c"
@@ -2010,7 +2058,7 @@
           }
         }
       },
-      
+
       "FoodIntakeInput": {
         "type": "object",
         "properties": {
@@ -2092,22 +2140,19 @@
           }
         }
       },
-      
+
       "FoodIntakeDeleteInput": {
-       "type": "object",
-       "properties": {
-            "typeFood": {
-              "type": "string",
-              "example": "breakfast"
-            },
-            "userFood": {
-              "type": "object"
-            }
-
-      }
-    },
-
-
+        "type": "object",
+        "properties": {
+          "typeFood": {
+            "type": "string",
+            "example": "breakfast"
+          },
+          "userFood": {
+            "type": "object"
+          }
+        }
+      },
 
       "RecommendedFoodResponse": {
         "type": "array",
