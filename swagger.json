@@ -243,7 +243,7 @@
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserResponse"
+                "$ref": "#/components/schemas/UpdateUserRequest"
               }
             }
           }
@@ -1540,6 +1540,82 @@
           }
         }
       },
+      "UpdateUserRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's email",
+            "example": "Alice"
+          },
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "example": "alice123@gmail.com"
+          },
+          "goal": {
+            "type": "string",
+            "description": "User's goal",
+            "example": "Maintain"
+          },
+          "gender": {
+            "type": "string",
+            "description": "User's gender",
+            "example": "female"
+          },
+          "age": {
+            "type": "integer",
+            "description": "User's age",
+            "example": "18"
+          },
+          "height": {
+            "type": "integer",
+            "description": "User's height",
+            "example": "160"
+          },
+          "weight": {
+            "type": "integer",
+            "description": "User's weight",
+            "example": "60"
+          },
+          "activityLevel": {
+            "type": "number",
+            "description": "User's activityLevel",
+            "example": "1.2"
+          },
+          "avatar": {
+            "type": "file",
+            "format": "binary",
+            "description": "URL to user's avatar",
+            // "example": "https://res.cloudinary.com/dz6wa8p4k/image/upload/v1703670242/pqksukaq19clrfmgapd5.jpg"
+          },
+          "waterRate": {
+            "type": "integer",
+            "description": "User's waterRate",
+            "example": "2150"
+          },
+          "BMRRate": {
+            "type": "integer",
+            "description": "User's BMRRate",
+            "example": "1451"
+          },
+          "proteinRate": {
+            "type": "integer",
+            "description": "User's proteinRate",
+            "example": "91"
+          },
+          "fatRate": {
+            "type": "integer",
+            "description": "User's fatRate",
+            "example": "32"
+          },
+          "carbsRate": {
+            "type": "integer",
+            "description": "User's carbsRate",
+            "example": "200"
+          }
+        }
+      },
       "UpdateUserResponse": {
         "type": "object",
         "properties": {
@@ -1584,9 +1660,7 @@
             "example": "1.2"
           },
           "avatar": {
-            "type": "string",
-            "description": "User's gravatar",
-            "example": "//www.gravatar.com/avatar/6bf1c3e37665abb9a1e0e3f81796c87c?s=2503"
+            "type": "file"
           },
           "waterRate": {
             "type": "integer",
