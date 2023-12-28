@@ -1526,17 +1526,7 @@
             "type": "string",
             "description": "User's email",
             "example": "Alice"
-          },
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "example": "alice123@gmail.com"
-          },
-          "goal": {
-            "type": "string",
-            "description": "User's goal",
-            "example": "Maintain"
-          },
+          },          
           "gender": {
             "type": "string",
             "description": "User's gender",
@@ -1565,34 +1555,8 @@
           "avatar": {
             "type": "file",
             "format": "binary",
-            "description": "URL to user's avatar",
-            // "example": "https://res.cloudinary.com/dz6wa8p4k/image/upload/v1703670242/pqksukaq19clrfmgapd5.jpg"
-          },
-          "waterRate": {
-            "type": "integer",
-            "description": "User's waterRate",
-            "example": "2150"
-          },
-          "BMRRate": {
-            "type": "integer",
-            "description": "User's BMRRate",
-            "example": "1451"
-          },
-          "proteinRate": {
-            "type": "integer",
-            "description": "User's proteinRate",
-            "example": "91"
-          },
-          "fatRate": {
-            "type": "integer",
-            "description": "User's fatRate",
-            "example": "32"
-          },
-          "carbsRate": {
-            "type": "integer",
-            "description": "User's carbsRate",
-            "example": "200"
-          }
+            "description": "User's avatar file"
+          }          
         }
       },
       "UpdateUserResponse": {
@@ -1639,7 +1603,9 @@
             "example": "1.2"
           },
           "avatar": {
-            "type": "file"
+            "type": "string",
+            "description": "URL to the user's avatar",
+            "example": "https://res.cloudinary.com/dz6wa8p4k/image/upload/v1703721230/bq11e1zklrwkiabakxzv.webp"
           },
           "waterRate": {
             "type": "integer",
