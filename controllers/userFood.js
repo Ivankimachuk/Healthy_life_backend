@@ -99,19 +99,21 @@ const updateFoodIntake = async (req, res) => {
 
     const { typeFood, userFood } = req.body;
     const { _id: owner } = req.user;
-
     const food = await ProductIntake.findOne(
       { [`${typeFood}`]: { $elemMatch: { _id: id } } },
       [`${typeFood}`]
     );
+   
+    
     function selectType() {
       if (typeFood === 'breakfast') {
-        const arr = food.lunch.map((item) => {
+        const arr = food.breakfast.map((item) => {
           if (item._id.toString() === id) {
             item.name = userFood.name;
             item.nutrition = userFood.nutrition;
             item.calories = userFood.calories;
           }
+          
           return item;
         });
         food.breakfast = [...arr];
@@ -130,7 +132,7 @@ const updateFoodIntake = async (req, res) => {
         return arr;
       }
       if (typeFood === 'dinner') {
-        const arr = food.lunch.map((item) => {
+        const arr = food.dinner.map((item) => {
           if (item._id.toString() === id) {
             item.name = userFood.name;
             item.nutrition = userFood.nutrition;
@@ -142,22 +144,22 @@ const updateFoodIntake = async (req, res) => {
         return arr;
       }
       if (typeFood === 'snack') {
-        const arr = food.lunch.map((item) => {
+        const arr = food.snack.map((item) => {
           if (item._id.toString() === id) {
             item.name = userFood.name;
             item.nutrition = userFood.nutrition;
             item.calories = userFood.calories;
           }
-          food.snack = [...arr];
           return item;
         });
+        food.snack = [...arr];
         return arr;
       }
     }
     selectType();
+    
 
     const result = await food.save();
-
     const allFood = await ProductIntake.findOne({ owner, date: todayDate });
     const { breakfast, dinner, lunch, snack } = allFood;
 
