@@ -27,7 +27,6 @@ const saveFoodIntake = async (req, res, next) => {
     const { typeFood, userFood } = req.body;
     const { _id: owner } = req.user;
 
-    const food = await ProductIntake.findOne({ owner, date: todayDate });
     
     const userProducts = await ProductIntake.findOne({
       owner,
