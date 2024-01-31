@@ -1,83 +1,94 @@
-const express = require("express");
-const { authenticate, validateBody } = require("../../middlewares");
-const { userUpdateInfo } = require("../../controllers/userUpdateInfo");
-const { upload } = require("../../middlewares/uploadFile");
+const express = require('express');
+const { authenticate, validateBody } = require('../../middlewares');
+const { userUpdateInfo } = require('../../controllers/userUpdateInfo');
+const { upload } = require('../../middlewares/uploadFile');
 
-const ctrlFood = require("../../controllers/userFood");
-const ctrlWater = require("../../controllers/userWater");
-const ctrlStatistics = require("../../controllers/userStatistics");
+const ctrlFood = require('../../controllers/userFood');
+const ctrlWater = require('../../controllers/userWater');
+const ctrlStatistics = require('../../controllers/userStatistics');
 
-const ctrlUserCurrent = require("../../controllers/userCurrent");
-const { schemasWater } = require("../../models/waterIntakeSchema");
-const ctrlUserWeight = require("../../controllers/userWeight");
-const ctrlUserGoal = require("../../controllers/userGoal");
-const { schemas } = require("../../models/user");
+const ctrlUserCurrent = require('../../controllers/userCurrent');
+const { schemasWater } = require('../../models/waterIntakeSchema');
+const ctrlUserWeight = require('../../controllers/userWeight');
+const ctrlUserGoal = require('../../controllers/userGoal');
+const { schemas } = require('../../models/user');
 const router = express.Router();
-const { ProductJoiSchema, FoodJoiSchema, updateProductJoiSchema } = require("../../models/food");
+const {
+  ProductJoiSchema,
+  FoodJoiSchema,
+  updateProductJoiSchema,
+} = require('../../models/food');
 
-router.get("/current", authenticate, ctrlUserCurrent.getCurrentUser);
+router.get('/current', authenticate, ctrlUserCurrent.getCurrentUser);
 
 router.put(
-  "/update",
+  '/update',
   authenticate,
-  upload.single("avatar"),
+  upload.single('avatar'),
   validateBody(schemas.updateUserSchema),
   userUpdateInfo
 );
 
 router.put(
-  "/goal",
+  '/goal',
   authenticate,
   validateBody(schemas.goalUpdateUser),
   ctrlUserGoal.changeGoal
 );
 
 router.post(
-  "/weight",
+  '/weight',
   authenticate,
   validateBody(schemas.weightUpdateUser),
   ctrlUserWeight.updateWeight
 );
 
 router.post(
-  "/food-intake",
+  '/food-intake',
   authenticate,
   validateBody(ProductJoiSchema),
   ctrlFood.saveFoodIntake
 );
 
 router.put(
-  "/food-intake/:id",
+  '/food-intake/:id',
   authenticate,
   validateBody(updateProductJoiSchema),
   ctrlFood.updateFoodIntake
 );
 
-router.get("/food-intake", authenticate, ctrlFood.getAll);
+router.get('/food-intake', authenticate, ctrlFood.getAll);
 
 router.delete(
-  "/food-intake",
+  '/food-intake',
   authenticate,
   validateBody(FoodJoiSchema),
   ctrlFood.deleteFoodIntake
 );
 
-router.get("/water-intake", authenticate, ctrlWater.getWaterIntake);
+router.delete(
+  '/food-intake/:id',
+  authenticate,
+  // validateBody(FoodJoiSchema),
+  ctrlFood.deleteOneProduct
+);
+
+router.get('/water-intake', authenticate, ctrlWater.getWaterIntake);
 
 router.post(
-  "/water-intake",
+  '/water-intake',
   authenticate,
   validateBody(schemasWater.addWater),
   ctrlWater.addWaterIntake
 );
 
 router.delete(
-  "/water-intake",
+  '/water-intake',
   authenticate,
   validateBody(schemasWater.deleteWater),
   ctrlWater.deleteByIdWater
 );
 
-router.get("/statistics", authenticate, ctrlStatistics.getStatistics);
+router.get('/statistics', authenticate, ctrlStatistics.getStatistics);
 
 module.exports = router;

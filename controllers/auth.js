@@ -1,18 +1,18 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const gravatar = require("gravatar");
-const crypto = require("crypto");
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const gravatar = require('gravatar');
+const crypto = require('crypto');
 
-const { User } = require("../models/user");
+const { User } = require('../models/user');
 
 const {
   calculateMacros,
   calculateWaterRate,
   calculateBMR,
-} = require("../helpers/calculations");
+} = require('../helpers/calculations');
 
-const { HttpError, ctrlWrapper } = require("../helpers");
-const sendEmail = require("../helpers/sendEmail");
+const { HttpError, ctrlWrapper } = require('../helpers');
+const sendEmail = require('../helpers/sendEmail');
 
 const { SECRET_KEY } = process.env;
 
@@ -23,7 +23,7 @@ const signup = async (req, res) => {
     password,
     goal,
     gender,
-    age,
+    birthDate,
     height,
     weight,
     activityLevel,
@@ -31,8 +31,10 @@ const signup = async (req, res) => {
 
   const existingUser = await User.findOne({ email });
   if (existingUser) {
-    throw HttpError(409, "Email already in use");
+    throw HttpError(409, 'Email already in use');
   }
+
+  const age = new Date().getFullYear() - birthDate.slice(6);
 
   const BMR = calculateBMR(gender, weight, height, age);
 
@@ -50,7 +52,7 @@ const signup = async (req, res) => {
     password: hashPassword,
     goal,
     gender,
-    age,
+    birthDate,
     height,
     weight,
     activityLevel,
@@ -65,7 +67,7 @@ const signup = async (req, res) => {
   const payload = {
     id: newUser._id,
   };
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '10 years' });
 
   await User.findByIdAndUpdate(newUser._id, { token });
 
@@ -75,7 +77,7 @@ const signup = async (req, res) => {
       email: newUser.email,
       goal: newUser.goal,
       gender: newUser.gender,
-      age: newUser.age,
+      birthDate: newUser.birthDate,
       height: newUser.height,
       weight: newUser.weight,
       activityLevel: newUser.activityLevel,
@@ -94,19 +96,19 @@ const signin = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
-    throw HttpError(401, "Email or password invalid");
+    throw HttpError(401, 'Email or password invalid');
   }
 
   const passwordCompare = await bcrypt.compare(password, user.password);
   if (!passwordCompare) {
-    throw HttpError(401, "Email or password invalid");
+    throw HttpError(401, 'Email or password invalid');
   }
 
   const payload = {
     id: user._id,
   };
 
-  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "10 years" });
+  const token = jwt.sign(payload, SECRET_KEY, { expiresIn: '10 years' });
 
   await User.findByIdAndUpdate(user._id, { token });
 
@@ -116,7 +118,7 @@ const signin = async (req, res) => {
       email: user.email,
       goal: user.goal,
       gender: user.gender,
-      age: user.age,
+      birthDate: user.birthDate,
       height: user.height,
       weight: user.weight,
       activityLevel: user.activityLevel,
@@ -137,17 +139,17 @@ const forgot = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    throw HttpError(404, "User not found");
+    throw HttpError(404, 'User not found');
   }
 
   const { name } = user;
 
-  const newPassword = crypto.randomBytes(8).toString("hex");
+  const newPassword = crypto.randomBytes(8).toString('hex');
   const hashPassword = await bcrypt.hash(newPassword, 10);
 
   const newPasswordEmail = {
     to: email,
-    subject: "Your new password",
+    subject: 'Your new password',
     html: `
         <h1>Hello ${name},</h1>
         <p>Your password has been reset. Here is your new password: <strong>${newPassword}</strong></p>
@@ -164,21 +166,21 @@ const forgot = async (req, res) => {
   );
 
   if (!userUpdate) {
-    throw HttpError(404, "User not found");
+    throw HttpError(404, 'User not found');
   }
 
   res.status(200).json({
     message:
-      "Password updated successfully. Check your email for the new password.",
+      'Password updated successfully. Check your email for the new password.',
   });
 };
 
 const signout = async (req, res) => {
   const { token } = req.user;
-  await User.findOneAndUpdate({ token }, { token: "" });
+  await User.findOneAndUpdate({ token }, { token: '' });
 
   res.json({
-    message: "Logout success",
+    message: 'Logout success',
   });
 };
 

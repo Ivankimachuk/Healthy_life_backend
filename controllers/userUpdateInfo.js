@@ -44,7 +44,9 @@ const userUpdateInfo = async (req, res, next) => {
         }
     });
 
-        const newBMR = calculateBMR(user.gender, user.weight, user.height, user.age);
+        const age = new Date().getFullYear() - formData.birthDate.slice(6);
+
+        const newBMR = calculateBMR(user.gender, user.weight, user.height, age);
         const newWaterRate = calculateWaterRate(user.weight, user.activityLevel);
         const { protein, fat, carbs } = calculateMacros(newBMR, user.goal);
 
@@ -59,7 +61,7 @@ const userUpdateInfo = async (req, res, next) => {
         const updatedUserData = {
           name: user.name,
           gender: user.gender,
-          age: user.age,
+          birthDate: user.birthDate,
           height: user.height,
           weight: user.weight,
           activityLevel: user.activityLevel,
