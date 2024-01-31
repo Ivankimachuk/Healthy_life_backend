@@ -27,7 +27,6 @@ const saveFoodIntake = async (req, res, next) => {
     const { typeFood, userFood } = req.body;
     const { _id: owner } = req.user;
 
-    
     const userProducts = await ProductIntake.findOne({
       owner,
       date: todayDate,
@@ -103,8 +102,6 @@ const updateFoodIntake = async (req, res) => {
       { [`${typeFood}`]: { $elemMatch: { _id: id } } },
       [`${typeFood}`]
     );
-   
-    
     function selectType() {
       if (typeFood === 'breakfast') {
         const arr = food.breakfast.map((item) => {
@@ -113,7 +110,7 @@ const updateFoodIntake = async (req, res) => {
             item.nutrition = userFood.nutrition;
             item.calories = userFood.calories;
           }
-          
+
           return item;
         });
         food.breakfast = [...arr];
@@ -157,7 +154,6 @@ const updateFoodIntake = async (req, res) => {
       }
     }
     selectType();
-    
 
     const result = await food.save();
     const allFood = await ProductIntake.findOne({ owner, date: todayDate });
@@ -179,7 +175,77 @@ const updateFoodIntake = async (req, res) => {
   }
 };
 
+const deleteOneProduct = async (req, res) => {
+  try {
+    const todayDate = date();
+    const { id } = req.params;
+    const { foodType: typeFood } = req.body;
+    const { _id: owner } = req.user;
+
+    const product = await ProductIntake.findOne(
+      { [`${typeFood}`]: { $elemMatch: { _id: id } } },
+      [`${typeFood}`]
+    );
+
+    console.log(product);
+    console.log(id);
+    function selectType() {
+      if (typeFood === 'breakfast') {
+        const filteredProductList = product.breakfast.filter(
+          (elem) => elem._id.toString() !== id
+        );
+
+        product.breakfast = [...filteredProductList];
+        return filteredProductList;
+      }
+      if (typeFood === 'lunch') {
+        const filteredProductList = product.lunch.filter(
+          (elem) => elem._id.toString() !== id
+        );
+
+        product.lunch = [...filteredProductList];
+        return filteredProductList;
+      }
+      if (typeFood === 'dinner') {
+        const filteredProductList = product.dinner.filter(
+          (elem) => elem._id.toString() !== id
+        );
+        product.dinner = [...filteredProductList];
+        return filteredProductList;
+      }
+      if (typeFood === 'snack') {
+        const filteredProductList = product.snack.filter(
+          (elem) => elem._id.toString() !== id
+        );
+
+        product.snack = [...filteredProductList];
+        return filteredProductList;
+      }
+    }
+    selectType();
+
+    const result = await product.save();
+    const allFood = await ProductIntake.findOne({ owner, date: todayDate });
+    const { breakfast, dinner, lunch, snack } = allFood;
+
+    const total = updateTotalFood(breakfast, dinner, snack, lunch);
+    const updateTotal = await ProductIntake.findOneAndUpdate(
+      { owner, date: todayDate },
+      total,
+      { new: true }
+    );
+
+    if (!result && !updateTotal) {
+      throw HttpError(404, 'Not found');
+    }
+    res.json(updateTotal);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
+  deleteOneProduct,
   updateFoodIntake,
   deleteFoodIntake,
   saveFoodIntake,
