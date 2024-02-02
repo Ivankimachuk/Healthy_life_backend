@@ -34,7 +34,7 @@ const signup = async (req, res) => {
     throw HttpError(409, 'Email already in use');
   }
 
-  const age = new Date().getFullYear() - birthDate.slice(6);
+  const age = new Date().getFullYear() - birthDate.slice(0,4);
 
   const BMR = calculateBMR(gender, weight, height, age);
 

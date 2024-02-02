@@ -111,7 +111,6 @@ const signupSchema = Joi.object({
   goal: Joi.string().empty(false),
   gender: Joi.string().empty(false).valid('male', 'female'),
   birthDate: Joi.date()
-    // .format('DD/MM/YYYY')
     .min('01-01-1900')
     .max('now')
     .required()
@@ -148,7 +147,6 @@ const updateUserSchema = Joi.object({
   name: Joi.string(),
   gender: Joi.string().valid('male', 'female'),
   birthDate: Joi.date()
-    // .format('DD.MM.YYYY')
     .min('01-01-1900')
     .max('now')
     .required()
